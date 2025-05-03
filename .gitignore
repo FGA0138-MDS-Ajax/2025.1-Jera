@@ -1,0 +1,28 @@
+# Ambiente virtual Python
+venv/
+.env
+.env.*
+
+# Arquivos de cache e metadados Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+
+# MkDocs (site gerado)
+site/
+
+# VS Code settings (locais do dev)
+.vscode/
+
+# Arquivos temporários e de sistema
+*.log
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
