@@ -3,7 +3,7 @@ site_name: Documentação
 nav:
   - Instruções mkdocs: "index.md"
   - Documento de Visão: "doc-visao/visao-produto.md"
-  - Documento de Arquitetura: "doc-arq/rep-arquitetural"
+  - Documento de Arquitetura: "doc-arq/rep-arquitetural.md"
   - Atas de Reunião:
       - Ata 1: "atas-reuniao/ata-reuniao-1.md"
       - Ata 2: "atas-reuniao/ata-reuniao-2.md"
