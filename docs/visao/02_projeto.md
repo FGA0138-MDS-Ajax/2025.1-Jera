@@ -4,7 +4,8 @@
 
 Será adotado um modelo incremental baseado em SCRUM e XP, com entregas realizadas em sprints semanais. Esse ciclo de vida foi escolhido porque permite o desenvolvimento e evolução contínua do sistema com base no feedback constante dos membros, além de promover alta colaboração da equipe.
 
-Essa escolha se deve principalmente pela possibilidade de maleabilidade do produto conforme nós o construímos, algo importantíssimo considerando nossa inexperiência no desenvolvimento de software em grupo, então esperamos que muitos erros com prazos e features aconteçam no caminho. Por essa razão, precisamos do método mais adaptável, ágil, e que nos possibilite ver um progresso constante dos membros para garantir que as coisas não estão saindo do controle. Então, o método SCRUM era o que mais se encaixava em nosso perfil e contexto.
+Essa escolha se deve principalmente à possibilidade de maleabilidade do produto conforme o construímos. Isso é algo extremamente importante, considerando nossa inexperiência no desenvolvimento de software em grupo. Por esse motivo, esperamos que muitos erros com prazos e funcionalidades aconteçam ao longo do caminho. 
+Por essa razão, precisamos do método mais adaptável e ágil, que nos permita acompanhar o progresso constante dos membros e garantir que as coisas não saiam do controle. Assim, o método SCRUM foi o que mais se encaixou em nosso perfil e contexto.
 
 ## Organização do Projeto
 
