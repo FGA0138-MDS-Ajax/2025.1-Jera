@@ -1,10 +1,16 @@
 site_name: Documentação
 
 nav:
-  - Instruções mkdocs: "index.md"
-  - Documento de Visão:
-      - Perfis: "doc-arq/Perfis.md"
-      - Declaração de Projeto: "backlog/Backlog-do-Produto.md"
+  - Visão do Produto e do Projeto:
+      - visao/index.md
+      - 1. Visão Geral do Produto: visao/01_produto.md
+      - 2. Visão Geral do Projeto: visao/02_projeto.md
+      - 3. Processo de Desenvolvimento de Software: visao/03_processo.md
+      - 4. Declaração de Escopo do Projeto: visao/04_escopo.md
+      - 5. Métricas e Medições: visao/05_metricas.md
+      - 6. Testes de Software: visao/06_testes.md
+      - 7. Referências Bibliográficas: visao/07_referencias.md
+
   - Documento de Arquitetura: "doc-arq/rep-arquitetural.md"
   - Atas de Reunião:
       - Ata 1: "atas-reuniao/ata-reuniao-1.md"
@@ -12,7 +18,7 @@ nav:
       - Ata 3: "atas-reuniao/ata-reuniao-3.md"
       - Ata 4: "atas-reuniao/ata-reuniao-4.md"
       - Ata 5: "atas-reuniao/ata-reuniao-5.md"
-      
+  - Instruções mkdocs: "index.md"
 
 theme:
   name: material
@@ -24,6 +30,9 @@ theme:
   features:
     - navigation.footer
     - navigation.tabs
+    - navigation.expand
+    - navigation.sections
+
   palette:
     # Dark Mode
     - scheme: slate
@@ -42,6 +51,7 @@ theme:
       accent: deep orange
 
 markdown_extensions:
+  - admonition
   - attr_list
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
@@ -52,7 +62,14 @@ markdown_extensions:
       pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - toc:
+      permalink: true
+      toc_depth: 6
 
 extra:
   social:
