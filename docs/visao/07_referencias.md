@@ -5,6 +5,6 @@ CERATTI, M. et al. Comercialização de flores e plantas ornamentais no segmento
 MÉDIO, E. et al. Escola Estadual de Educação Profissional -EEEP Introdução a Floricultura. [s.l: s.n.]. Disponível em:
 <https://www.seduc.ce.gov.br/wp-content/uploads/sites/37/2011/10/Agricultura.pdf>. Acesso em: 20 maio. 2025.
 
-Sistema de Gestão para sua Floricultura. Disponível em: <https://blog.vhsys.com.br/sistema-gestao-floricultura/>.
+Sistema de Gestão para sua Floricultura. Disponível em: <https://blog.vhsys.com.br/sistema-gestao-floricultura/>. Acesso em: 20 maio. 2025.
 
 O controle do estoque da sua empresa tem tudo para ser melhor. Disponível em: <https://www.useawise.com/sistema-controle-estoque/>. Acesso em: 20 maio. 2025.
