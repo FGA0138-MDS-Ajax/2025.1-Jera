@@ -19,17 +19,3 @@
 | 211043807     | Luis Fernando de Sousa Zarbielli     | Banco de Dados                |
 
 ## Histórico de Revisões
-
-Convenção para versão do histórico de revisões:
-
-1. Primeiro dígito: A sprint que estamos
-2. Segundo dígito: Número da mudança da sprint.
-
-| **Data**   | **Versão** | **Descrição**                                                                  | **Autor**                  |
-|------------|------------|--------------------------------------------------------------------------------|----------------------------|
-| 16/04/2025 | 1.0        | Documento de visão 1.1 até 2.1                                                 | João Gabriel               |
-| 23/04/2025 | 2.0        | Começo da tabela de sprints e Organização do projeto formalizada na tabela 2.2 | João Gabriel               |
-| 27/04/2025 | 2.1        | Desenvolvimento da tabela de Backlog do produto                                | Lucas Zanetti e João Pedro |
-| 02/05/2025 | 3.0        | Continuação do desenvolvimento do Backlog do produto (Reunião)                 | Lucas Zanetti e João Pedro |
-| 17/05/2025 | 4.0        | Mudanças no backlog                                                            | João Gabriel               |
-| 20/05/2025 | 5.0        | Inseri o backlog no MKdocs                                                     | Lucas Zanetti              |

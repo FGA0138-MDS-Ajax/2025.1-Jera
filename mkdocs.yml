@@ -20,18 +20,6 @@ nav:
       - Ata 5: "atas-reuniao/ata-reuniao-5.md"
   - Instruções mkdocs: "index.md"
 
-plugins:
-  - search
-  - section-index
-  - enumerate-headings:
-      toc_depth: 6
-      include:
-        - "*"
-      exclude:
-        - visao/index.md
-      restart_increment_after:
-        - visao/01_produto.md
-
 theme:
   name: material
   font:
