@@ -25,7 +25,7 @@
 #### Prioridade: Could (Desejáveis)
 
 
-## Perfis  
+## Perfis
 
 ### Tabela: Perfis de acesso
 
@@ -61,7 +61,6 @@
 
 
 
-
 ## Backlog de Débitos Técnicos
 | Numeração | Sprint | Nome | Tipo | Priorização | Descrição | User Story |
 |------------|--------|------|------|-------------|-----------|------------|
@@ -86,5 +85,3 @@
 | Numeração | Sprint | Nome | Tipo | Priorização | Descrição | User Story |
 |------------|--------|------|------|-------------|-----------|------------|
 | T01 | Todos | Teste de Unidade | Processo (Qualidade) | Must | Verificar cada função individualmente. | Como dev, quero garantir que os módulos funcionem corretamente. |
-
-
