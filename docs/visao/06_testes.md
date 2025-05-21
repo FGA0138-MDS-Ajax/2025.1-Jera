@@ -71,138 +71,18 @@ Para minimizar os riscos no ambiente de teste e preservar a integridade do proje
 
 <b>Pré-condição para testes:</b> fica determinado fazer na ordem dos códigos, assim, tudo estará pronto para o próximo passo.
 
-### Testes Unitários
-TU1.1 – Cadastro das Flores
-
-Descrição: Verifica se o serviço cadastra as flores corretamente.
-<br>Esperado: Cadastrar uma nova flor.
-<br>Definição de Aceito: A flor deve entrar no sistema.
-<br>Registros ao Fazer o Teste:
- <br>(Espaço para preencher)
-<br>Reparos Feitos:
- <br>(Espaço para preencher)
-<br>Status do Teste: A começar.
-
-<br>
-TU1.2 – Exclusão das Flores
-
-Descrição: Verifica se o serviço exclui as flores corretamente.
-<br>Esperado: Excluir uma flor existente.
-<br>Definição de Aceito: A flor deve ser excluída do sistema.
-<br>Registros ao Fazer o Teste:
- <br>(Espaço para preencher)
-<br>Reparos Feitos:
- <br>(Espaço para preencher)
-<br>Status do Teste: A começar.
-
-<br>
-TU2 – Consulta Rápida de Produtos
-
-<br>Descrição: Pesquisar produtos pelo nome, tipo, validade ou quantidade.
-<br>Esperado: Pesquisar e encontrar o produto.
-<br>Definição de Aceito: Receber a busca pela flor corretamente.
-<br>Registros ao Fazer o Teste:
- <br>(Espaço para preencher)
-<br>Reparos Feitos:
- <br>(Espaço para preencher)
-<br>Status do Teste: A começar.
-
 <br>
 
-### Testes Integrados
-TI1.1 – Registro de Entrada no Estoque
-
-<br>Descrição: Registrar entrada no estoque com data, quantidade, motivo e responsável.
-<br>Esperado: Adicionar a flor no estoque.
-<br>Definição de Aceito: A flor deve entrar no estoque.
-<br>Registros ao Fazer o Teste:
- <br>(Espaço para preencher)
-<br>Reparos Feitos:
- <br>(Espaço para preencher)
-<br>Status do Teste: A começar.
-
-<br>
-TI1.2 – Registro de Saída no Estoque
-
-<br>Descrição: Registrar saída no estoque com data, quantidade, motivo e responsável.
-<br>Esperado: Tirar uma flor do estoque.
-<br>Definição de Aceito: A flor deve sair do estoque.
-<br>Registros ao Fazer o Teste:
- <br>(Espaço para preencher)
-<br>Reparos Feitos:
- <br>(Espaço para preencher)
-<br>Status do Teste: A começar.
-
-<br>
-TI2.1 – Controle de Validade e Lote
-
-<br>Descrição: Associar data de validade ao produto e enviar alerta quando próximo do vencimento.
-<br>Esperado: Enviar a notificação.
-<br>Definição de Aceito: Deve haver um sinal de que a notificação foi enviada.
-<br>Registros ao Fazer o Teste:
- <br>(Espaço para preencher)
-<br>Reparos Feitos:
- <br>(Espaço para preencher)
-<br>Status do Teste: A começar.
-
-<br>
-TI2.2 – Notificação de Validade
-
-<br>Descrição: Receber o alerta da data de vencimento quando ativada.
-<br>Esperado: Receber a notificação.
-<br>Definição de Aceito: A notificação deve ser recebida.
-<br>Registros ao Fazer o Teste:
- <br>(Espaço para preencher)
-<br>Reparos Feitos:
- <br>(Espaço para preencher)
-<br>Status do Teste: A começar.
-
-<br>
-TI3 – Estoque Mínimo e Máximo
-
-<br>Descrição: Definir faixas de estoque por item.
-<br>Esperado: Limitar a quantidade de um item.
-<br>Definição de Aceito: Não deixar ultrapassar a quantidade máxima definida para flores.
-<br>Registros ao Fazer o Teste:
- <br>(Espaço para preencher)
-<br>Reparos Feitos:
- <br>(Espaço para preencher)
-<br>Status do Teste: A começar.
-
-<br>
-TI4 – Alerta de Produtos com Baixo Giro
-
-<br>Descrição: Listar produtos parados no estoque por muito tempo.
-<br>Esperado: Identificar os produtos parados.
-<br>Definição de Aceito: Gerar uma lista de produtos com baixo giro.
-<br>Registros ao Fazer o Teste:
- <br>(Espaço para preencher)
-<br>Reparos Feitos:
- <br>(Espaço para preencher)
-<br>Status do Teste: A começar.
-
-<br>
-
-### Testes Manuais
-TM1 – Leitura de QR Code
-
-<br>Descrição: Permitir a leitura de QR Code para identificar produtos e lotes.
-<br>Esperado: O QR Code deve funcionar corretamente.
-<br>Definição de Aceito: O sistema deve direcionar corretamente após a leitura do QR Code.
-<br>Registros ao Fazer o Teste:
- <br>(Espaço para preencher)
-<br>Reparos Feitos:
- <br>(Espaço para preencher)
-<br>Status do Teste: A começar.
-
-<br>
-TM2 – Registros Incompletos
-
-<br>Descrição: Tentar registrar de maneira incompleta uma flor ou um usuário.
-<br>Esperado: O sistema negar o registro.
-<br>Definição de Aceito: Dar erro e voltar uma mensagem de erro de maneira adequada.
-<br>Registros ao Fazer o Teste:
- <br>(Espaço para preencher)
-<br>Reparos Feitos:
- <br>(Espaço para preencher)
-<br>Status do Teste: A começar.
+| ID    | Teste a ser Realizado             | Descrição                                                                          | Esperado                               | Definição de Aceito                                                     | Registros ao Fazer o Teste | Reparos Feitos | Status    |
+| ----- | --------------------------------- | ---------------------------------------------------------------------------------- | -------------------------------------- | ----------------------------------------------------------------------- | -------------------------- | -------------- | --------- |
+| TU1.1 | Cadastro de flores                | Verifica se o serviço cadastra as flores corretamente.                             | Cadastrar uma nova flor.               | A flor deve entrar no sistema.                                          |                            |                | A começar |
+| TU1.2 | Exclusão de flores                | Verifica se o serviço exclui as flores corretamente.                               | Excluir uma flor existente.            | A flor deve ser excluída do sistema.                                    |                            |                | A começar |
+| TU2   | Consulta Rápida de Produtos       | Pesquisar produtos pelo nome, tipo, validade ou quantidade.                        | Pesquisar e encontrar o produto.       | Receber a busca pela flor corretamente.                                 |                            |                | A começar |
+| TI1.1 | Registrar Entradas no Estoque     | Registrar entrada no estoque com data, quantidade, motivo e responsável.           | Adicionar a flor no estoque.           | A flor deve entrar no estoque.                                          |                            |                | A começar |
+| TI1.2 | Registrar Saídas no Estoque       | Registrar saída no estoque com data, quantidade, motivo e responsável.             | Tirar uma flor do estoque.             | A flor deve sair do estoque.                                            |                            |                | A começar |
+| TI2.1 | Controle de Validade e Lote       | Associar data de validade ao produto e enviar alerta quando próximo do vencimento. | Enviar a notificação.                  | Deve haver um sinal de que a notificação foi enviada.                   |                            |                | A começar |
+| TI2.2 | Notificação de Validade           | Receber o alerta da data de vencimento quando ativada.                             | Receber a notificação.                 | A notificação deve ser recebida.                                        |                            |                | A começar |
+| TI3   | Estoque Mínimo e Máximo           | Definir faixas de estoque por item.                                                | Limitar a quantidade de um item.       | Não deixar ultrapassar a quantidade máxima definida para flores.        |                            |                | A começar |
+| TI4   | Alerta de Produtos com Baixo Giro | Listar produtos parados no estoque por muito tempo.                                | Identificar os produtos parados.       | Gerar uma lista de produtos com baixo giro.                             |                            |                | A começar |
+| TM1   | Leitura de QR Code                | Permitir a leitura de QR Code para identificar produtos e lotes.                   | O QR Code deve funcionar corretamente. | O testador deve ser direcionado corretamente após a leitura do QR Code. |                            |                | A começar |
+| TM2   | Registros Incompletos             | Tentar registrar de maneira incompleta uma flor ou um usuário.                     | O sistema negar o registro.            | Dar erro e voltar uma mensagem de erro de maneira adequada.             |                            |                | A começar |
