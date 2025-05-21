@@ -4,6 +4,7 @@ nav:
   - Instruções mkdocs: "index.md"
   - Documento de Visão:
       - Perfis: "doc-arq/Perfis.md"
+      - Backlog do Produto: "backlog/Backlog-do-Produto.md"
   - Documento de Arquitetura: "doc-arq/rep-arquitetural.md"
   - Atas de Reunião:
       - Ata 1: "atas-reuniao/ata-reuniao-1.md"
@@ -11,6 +12,7 @@ nav:
       - Ata 3: "atas-reuniao/ata-reuniao-3.md"
       - Ata 4: "atas-reuniao/ata-reuniao-4.md"
       - Ata 5: "atas-reuniao/ata-reuniao-5.md"
+      
 
 theme:
   name: material
