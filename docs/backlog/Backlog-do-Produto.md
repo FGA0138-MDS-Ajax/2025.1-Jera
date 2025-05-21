@@ -60,3 +60,38 @@
 | Numeração | Sprint | Nome dos Testes de Software | Tipo de Requisito      | Priorização | Descrição sucinta do requisito      | User Story (U.S.) associada                                               |
 |-----------|--------|----------------------------|------------------------|-------------|-------------------------------------|----------------------------------------------------------------------------|
 | T01       | Todos  | Teste de unidade           | Processo (Qualidade)   | Must        | Verificar cada função individualmente | Como dev, quero garantir que os módulos funcionem corretamente.            |
+
+## Justificativas das Prioridades Must
+
+**Justificativa para Requisitos Prioritários (Must)**
+
+| ID   | Justificativa da Prioridade                                                                                  |
+|------|--------------------------------------------------------------------------------------------------------------|
+| 1.1  | O cadastro de flores é a base do sistema — sem isso, não há como registrar, controlar ou consultar produtos.|
+| 1.2  | O controle de movimentações é essencial para manter o estoque atualizado e confiável, evitando erros e perdas.|
+| 1.3  | Como o produto é perecível, o controle de validade é vital para evitar prejuízos com flores vencidas.       |
+| 1.4  | O controle de níveis de estoque evita rupturas e excessos, fundamentais para manter o fluxo de vendas eficiente.|
+| 1.5  | A consulta rápida é essencial no dia a dia da operação da floricultura, otimizando o atendimento e a reposição.|
+| 1.6  | Identificar produtos com baixa saída permite ações rápidas, como promoções, para evitar perdas.             |
+
+## Justificativas das Prioridades Should
+
+**Justificativa para Requisitos Prioritários (Should)**
+
+| ID   | Justificativa da Prioridade                                                                                  |
+|------|--------------------------------------------------------------------------------------------------------------|
+| 1.7  | A leitura de QR Code agiliza processos e reduz erros, mas não é indispensável no início. Pode ser implementada depois. |
+| 1.8  | O cadastro de insumos ajuda na organização geral, mas o foco inicial está nas flores, que são mais críticas. |
+| 1.9  | Um painel de indicadores melhora a visualização estratégica, mas é possível operar com relatórios manuais no começo. |
+| 1.13 | Marcar o estado estético das flores ajuda a evitar perdas, mas pode ser feito manualmente até a funcionalidade ser automatizada. |
+
+## Justificativas das Prioridades Could
+
+**Justificativa para Requisitos Prioritários (Could)**
+
+| ID   | Justificativa da Prioridade                                                                                  |
+|------|--------------------------------------------------------------------------------------------------------------|
+| 1.10 | Exportar relatórios facilita reuniões e tomadas de decisão, mas pode ser feito copiando dados manualmente, se necessário. |
+| 1.11 | Ter o histórico detalhado de movimentações é útil para auditoria, mas não impacta o funcionamento imediato do estoque. |
+| 1.12 | As notificações visuais ajudam na proatividade do time, mas podem ser substituídas temporariamente por boas práticas operacionais. |
+| 1.14 | Relatórios de perdas por motivo são valiosos para análise estratégica, mas não impedem o funcionamento básico do sistema. |
