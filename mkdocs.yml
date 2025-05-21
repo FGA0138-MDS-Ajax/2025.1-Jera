@@ -27,7 +27,7 @@ plugins:
       include:
         - "*"
       restart_increment_after:
-          - visao/produto.md
+          - visao/01_produto.md
 
 theme:
   name: material
