@@ -1,0 +1,36 @@
+name: Deploy docs
+
+on:
+  push:
+    branches:
+      - docs
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    name: Deploy para GitHub Pages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          key: ${{ github.ref }}
+          path: .cache
+      - name: Instalar UV
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+      
+      - name: Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: ".python-version"
+      
+      - name: Instalar dependências
+        run: uv sync --locked --all-extras
+
+      - name: Build e deploy da documentação
+        run: mkdocs gh-deploy --force
