@@ -149,6 +149,7 @@ A tabela de cenários funcionais organiza exemplos práticos de como os usuário
 
 ---
 
+
 ## Justificativas das Prioridades Could
 
 **Justificativa para Requisitos Prioritários (Could)**
