@@ -11,14 +11,27 @@ nav:
       - 6. Testes de Software: visao/06_testes.md
       - 7. Referências Bibliográficas: visao/07_referencias.md
 
-  - Documento de Arquitetura: "doc-arq/rep-arquitetural.md"
+  - Documento de Arquitetura:
+      - 1. Introdução: doc-arq/1_introducao.md
+      - 2. Definições e Justificativas: doc-arq/2_definicoes-justificativa.md
+      - 3. Detalhamento: doc-arq/3_detalhamento.md
+      - 4. Metas e Restrições: doc-arq/4_metas-restricoes.md
+      - 5. Casos de Uso: doc-arq/07_casos_de_uso.md
+      - 6. Visão Lógica: doc-arq/8_visao-logica.md
+      - 7. Visão de Implementação: doc-arq/9_visao-implementacao.md
+      - 8. Visão de Implantação: doc-arq/10_visao-implantacao.md
+      - 9. Restrições Adicionais: doc-arq/11_restricoes_adicionais.md
+      - 10. Referências: doc-arq/12_referencias.md
+      - Diagrama de Casos de Uso: doc-arq/diagrama_casos_uso_flora...
+
   - Atas de Reunião:
-      - Ata 1: "atas-reuniao/ata-reuniao-1.md"
-      - Ata 2: "atas-reuniao/ata-reuniao-2.md"
-      - Ata 3: "atas-reuniao/ata-reuniao-3.md"
-      - Ata 4: "atas-reuniao/ata-reuniao-4.md"
-      - Ata 5: "atas-reuniao/ata-reuniao-5.md"
-  - Instruções mkdocs: "index.md"
+      - Ata 1: atas-reuniao/ata-reuniao-1.md
+      - Ata 2: atas-reuniao/ata-reuniao-2.md
+      - Ata 3: atas-reuniao/ata-reuniao-3.md
+      - Ata 4: atas-reuniao/ata-reuniao-4.md
+      - Ata 5: atas-reuniao/ata-reuniao-5.md
+
+  - Instruções mkdocs: index.md
 
 theme:
   name: material
@@ -34,7 +47,6 @@ theme:
     - navigation.sections
 
   palette:
-    # Dark Mode
     - scheme: slate
       toggle:
         icon: material/weather-sunny
@@ -42,7 +54,6 @@ theme:
       primary: red
       accent: deep purple
 
-    # Light Mode
     - scheme: default
       toggle:
         icon: material/weather-night
