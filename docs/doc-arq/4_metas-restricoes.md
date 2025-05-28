@@ -8,7 +8,7 @@ Como parte das restrições arquitetônicas, a escolha do banco de dados recaiu 
 
 ### Padrões e Tecnologias
 
-Para garantir a consistência e a facilidade de integração, o sistema seguirá o padrão **GraphQL** para APIs. GraphQL é uma linguagem de consulta e manipulação de dados para APIs, e também um ambiente de tempo de execução no servidor para atender a essas consultas com seus dados existentes. Pense nele como uma forma mais eficiente e flexível de pedir informações de um servidor, em comparação com as APIs tradicionais (como REST).
+Para garantir a consistência e a facilidade de integração, o sistema seguirá o padrão **GraphQL Strawberry** para APIs. GraphQL é uma linguagem de consulta e manipulação de dados para APIs, e também um ambiente de tempo de execução no servidor para atender a essas consultas com seus dados existentes. Pense nele como uma forma mais eficiente e flexível de pedir informações de um servidor, em comparação com as APIs tradicionais (como REST).
 
 No backend, feito com **Python (FastAPI)**, uma escolha motivada por sua estrutura altamente modular e suporte a boas práticas arquitetônicas. O Python se destaca por sua sintaxe limpa, legibilidade de código e ampla comunidade, além de oferecer uma vasta gama de bibliotecas que agilizam o desenvolvimento e garantem robustez ao projeto.
 
