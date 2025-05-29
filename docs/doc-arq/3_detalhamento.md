@@ -1,4 +1,15 @@
-![Diagrama da Arquitetura](./Meio_Termo_MDS.drawio.png)
+## Diagrama de componentes
+
+<div align="center">
+
+  <img src="Meio_Termo_MDS.drawio.png" alt="Diagrama de componentes - FloraGest" width="300"/>
+
+  <p><strong>Figura</strong> – Diagrama de componentes – FloraGest<br>
+  <strong>Fonte</strong>: Elaboração Própria (2025)</p>
+
+</div>
+
+---
 
 ## Arquitetura da Aplicação GraphQL com React, FastAPI e MySQL
 
