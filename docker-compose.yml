@@ -1,0 +1,33 @@
+services:
+
+  db:
+    image: mysql
+    env_file:
+      - .env
+    ports:
+      - 3306:3306
+    networks:
+      - jera
+
+  api:
+    env_file:
+      - .env
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "500k"
+        max-file: "20"
+    restart: unless-stopped
+    depends_on:
+      - db
+    networks:
+      - jera
+
+networks:
+  jera:
+    driver: bridge
