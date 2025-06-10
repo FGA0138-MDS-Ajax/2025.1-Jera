@@ -2,7 +2,7 @@ from datetime import datetime
 
 from sqlmodel import Field, Relationship, SQLModel
 
-from app.db.models import ProductType
+from app.db.models.product_type import ProductType
 
 
 class Product(SQLModel, table=True):
