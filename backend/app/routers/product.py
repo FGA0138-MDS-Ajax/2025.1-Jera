@@ -23,8 +23,10 @@ def get_products():
 def create_product(request_body: ProductCreateSchema) -> ProductResponseSchema:
     product = Product(
         nome=request_body.nome,
+        descricao=request_body.descricao,
         estoque_minimo=request_body.estoque_minimo,
         id_tipo_produto=request_body.id_tipo_produto,
+        status=request_body.status
     )
     return ProductService.create_product(product).model_dump()
 
