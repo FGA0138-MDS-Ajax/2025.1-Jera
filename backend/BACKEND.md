@@ -63,28 +63,61 @@ Contém todo o código-fonte da aplicação backend.
 
 ## Como Utilizar
 
-1. **Configuração do Ambiente**
-   - Copie `.env.example` para `.env` e ajuste as variáveis conforme necessário.
-   - Instale as dependências Python com Poetry:
-     ```sh
-     poetry install
-     ```
-   - Suba os serviços com Docker :
-     ```sh
-     docker-compose up
-     ```
+## Como executar o backend
 
-2. **Execução**
-   - Inicie a aplicação:
-     ```sh
-     poetry run python App/main.py
-     ```
+1. **Clone o repositório**
+   ```sh
+   git clone https://github.com/seu-usuario/seu-repo.git
+   cd 2025.1-Jera/backend
+   ```
+
+2. **Configure o ambiente**
+   - Copie `.env.dev` para `.env` e ajuste as variáveis se necessário.
+
+3. **Crie e ative o ambiente virtual**
+   ```sh
+   python -m venv .venv
+   .venv\Scripts\activate  # Windows
+   # ou
+   source .venv/bin/activate  # Linux/Mac
+   ```
+
+4. **Instale as dependências**
+   ```sh
+   poetry install
+   ```
+
+5. **Suba o banco de dados e a API com Docker Compose**
+   ```sh
+   docker-compose up
+   ```
+
+6. **Acesse a API**
+   - Acesse [http://localhost:8000/docs](http://localhost:8000/docs) para a documentação Swagger.
+
+---
 
 3. **Testes**
-   - Execute os testes automatizados:
-     ```sh
-     poetry run pytest
-     ```
+  ---
+
+## Como rodar os testes
+
+1. **Certifique-se de que as dependências estão instaladas**  
+   (veja a seção anterior sobre instalação).
+
+2. **Execute os testes automatizados**  
+   Se estiver usando Poetry:
+   ```sh
+   poetry run pytest
+   ```
+
+3. **Onde ficam os testes?**  
+   Os testes estão localizados na pasta `Tests/` dentro do backend.
+
+4. **Como contribuir com testes**  
+   - Crie novos arquivos de teste seguindo o padrão `test_*.py`.
+   - Utilize o framework [pytest](https://docs.pytest.org/).
+   - Sempre que adicionar uma nova funcionalidade, inclua testes para ela.
 
 ---
 
@@ -99,4 +132,3 @@ Contém todo o código-fonte da aplicação backend.
 ## Contato
 
 Dúvidas ou sugestões? Entre em contato com a equipe de desenvolvimento.
-
