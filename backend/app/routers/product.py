@@ -37,11 +37,10 @@ def create_product(request_body: ProductCreateSchema) -> ProductResponseSchema:
         ProductResponseSchema: Produto criado e validado.
     """
     product = Product(
-        nome=request_body.nome,
-        descricao=request_body.descricao,
+        nome_produto=request_body.nome_produto,
         estoque_minimo=request_body.estoque_minimo,
+        estoque_maximo=request_body.estoque_maximo,
         id_tipo_produto=request_body.id_tipo_produto,
-        status=request_body.status
     )
     return ProductService.create_product(product).model_dump()
 

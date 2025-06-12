@@ -2,9 +2,9 @@ from pydantic import BaseModel
 
 
 class ProductTypeCreateSchema(BaseModel):
-    nome: str
+    nome_tipo_produto: str
 
 
 class ProductTypeResponseSchema(BaseModel):
-    id: int
-    nome: str
+    id_tipo_produto: int
+    nome_tipo_produto: str
