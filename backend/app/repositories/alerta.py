@@ -13,7 +13,7 @@ class AlertaRepository:
 
         Args:
             id_produto (int): ID do produto que será gerado o alerta.
-            tipo_alerta (str): Tipo de alerta a ser gerado (Ex: ESTOQUE_MINIMO)
+            tipo_alerta (int): Tipo de alerta a ser gerado (Ex: '1' para ESTOQUE_MINIMO)
             mensagem (str): Mensagem descritiva do alerta.
             session (Session, opcional):  Sessão do banco de dados injetado automaticamente.
 
@@ -64,7 +64,7 @@ class AlertaRepository:
         Returns:
             list[Alerta]: lista de alertas encontra daquele ID
         """
-        return session.query(Alerta)._filter(Alerta.id_produto == id_produto).all()
+        return session.query(Alerta).filter(Alerta.id_produto == id_produto).all()
     
     @staticmethod
     @with_session
