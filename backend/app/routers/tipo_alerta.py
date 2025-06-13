@@ -32,9 +32,8 @@ def get_alert_type_by_id(alert_id: int) -> TipoAlertaResponseSchema:
 
 @router.put("/alert_type/{alert_id}", status_code=200)
 def update_alert_type(alert_id: int, request_body: TipoAlertaUpdateSchema) -> TipoAlertaResponseSchema:
-    up_alert_type = TipoAlertaService.update_tipo_alerta(
-        alert_id, request_body.model_dump(exclude_unset=True)
-    )
+    tipo_alerta_data = TipoAlerta(id_tipo_alerta=alert_id, **request_body.model_dump(exclude_unset=True))
+    up_alert_type = TipoAlertaService.update_tipo_alerta(tipo_alerta_data)
 
     if not up_alert_type:
         logger.error(f"Failed to update alert type with id {alert_id}.")
@@ -43,6 +42,6 @@ def update_alert_type(alert_id: int, request_body: TipoAlertaUpdateSchema) -> Ti
 
 @router.delete("/alert_type/{alert_id}", status_code=204)
 def deletar_alert_type(alert_id: int) -> None:
-    TipoAlertaService.deletar_alert_type(alert_id)
+    TipoAlertaService.delete_alert_type(alert_id)
     logger.info(f"Alert type with id {alert_id} deleted successfully.")
     return {"message": "Alert type deleted successfully."}

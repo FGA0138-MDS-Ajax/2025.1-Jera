@@ -14,6 +14,6 @@ class TipoAlerta(SQLModel, table=True):
         sa_column_kwargs={"autoincrement": True}
         )
     
-    nome_tipo_alerta: str = Field(min_length=50, nullable=False)
+    nome_tipo_alerta: str = Field(max_length=50, nullable=False)
 
     alertas: list["Alerta"] = Relationship(back_populates="tipo_alerta")
