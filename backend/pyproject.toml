@@ -1,0 +1,36 @@
+[project]
+name = "2025-1-jera" # ADICIONAR NOME DO PROJETO
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+# ATENÇÃO: Este arquivo pyproject.toml é utilizado para gerenciar dependências e configurações do projeto Python.
+# Consulte a documentação do projeto caso surjam dúvidas.
+# NÃO remova este arquivo, ele é essencial para o build.
+dependencies = [
+    "fastapi>=0.115.12",
+    "psycopg[binary,pool]>=3.2.9",
+    "pydantic>=2.11.5",
+    "pydantic-settings>=2.9.1",
+    "pymysql[rsa]>=1.1.1",
+    "ruff>=0.11.12",
+    "sqlalchemy>=2.0.41",
+    "sqlmodel>=0.0.24",
+    "strawberry-graphql[fastapi]>=0.270.5",
+    "uvicorn>=0.34.3",
+]
+
+[dependency-groups]
+# Grupos de dependências para desenvolvimento e documentação.
+dev = [
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
+    "pytest-mock>=3.14.1",
+    "ruff>=0.11.12",
+    "strawberry-graphql[debug-server,fastapi]>=0.270.5",
+]
+docs = [
+    "mkdocs-enumerate-headings-plugin>=0.6.2",
+    "mkdocs-material>=9.6.14",
+    "mkdocs-section-index>=0.3.10",
+]

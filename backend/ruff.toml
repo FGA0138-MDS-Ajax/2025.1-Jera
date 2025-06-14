@@ -1,0 +1,71 @@
+# Exclua uma variedade de diretórios comumente ignorados.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+]
+
+# Igual ao Black (linter)
+line-length = 88
+indent-width = 4
+
+# Assume Python 3.9
+target-version = "py313"
+
+[lint]
+# Habilita todas as regras de linting
+select = ["ALL"]
+ignore = ["D203", "D205", "TC002", "D212", "COM812", "ANN", "D102", "D100", "TRY003", "D104", "D101", "EM102", "G004", "D103"]
+
+# Permite correção para todas as regras habilitadas (quando `--fix` for fornecido).
+fixable = ["ALL"]
+unfixable = []
+
+# Permite variáveis não utilizadas quando prefixadas por sublinhado.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[format]
+# Como o Black, usa aspas duplas para strings.
+quote-style = "double"
+
+# Como o Black, indenta com espaços, em vez de tabs.
+indent-style = "space"
+
+# Como o Black, respeita vírgulas mágicas finais.
+skip-magic-trailing-comma = false
+
+# Como o Black, detecta automaticamente o final de linha apropriado.
+line-ending = "auto"
+
+# Habilita a formatação automática de exemplos de código em docstrings. Markdown,
+# blocos de código/literal reStructuredText e doctests são todos suportados.
+docstring-code-format = false
+
+# Define o limite de comprimento de linha usado ao formatar trechos de código em
+# docstrings.
+#
+# Isso só tem efeito quando a configuração `docstring-code-format` está habilitada.
+docstring-code-line-length = "dynamic"
