@@ -71,6 +71,7 @@ class ProductTypeRepository:
             for key, value in product_type_data.model_dump(exclude_unset=True).items():
                 setattr(existing_product_type, key, value)
             session.add(existing_product_type)
+            session.commit()
             return existing_product_type
         return None
 
