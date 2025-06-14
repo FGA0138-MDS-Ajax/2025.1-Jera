@@ -23,7 +23,7 @@ class AlertaService:
         margem = 0.1
         limite_prev_min = produto.estoque_minimo + int(produto.estoque_minimo * margem)
         limite_prev_max = produto.estoque_maximo - int(produto.estoque_maximo * margem) if produto.estoque_maximo else None
-        # estoque_max é opcional do cliente
+        
         
         if estoque_atual < produto.estoque_minimo:
             mensagem = f"Estoque abaixo do mínimo: {estoque_atual} < {produto.estoque_minimo}"

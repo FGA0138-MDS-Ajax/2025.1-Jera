@@ -5,6 +5,7 @@ from sqlmodel import Field, Relationship, SQLModel
 if TYPE_CHECKING:
     from app.db.models.product_type import ProductType
     from app.db.models.alerta import Alerta
+    from app.db.models.movimentacao_estoque import MovimentacaoEstoque
 
 
 class Product(SQLModel, table=True):
@@ -25,3 +26,4 @@ class Product(SQLModel, table=True):
     )
     tipo_produto: "ProductType" = Relationship(back_populates="produtos")
     alertas: list["Alerta"] = Relationship(back_populates="produto")
+    movimentacoes: list["MovimentacaoEstoque"] = Relationship(back_populates="produto")
