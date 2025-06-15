@@ -60,7 +60,7 @@ export default function ProductScreen() {
         onPress={() => setShowForm(!showForm)}
         style={styles.button}
       >
-        <Text style={styles.buttonText}>+ REGISTRAR FLOR</Text>
+        <Text style={styles.buttonText}>Cadastrar Nova Flor</Text>
       </TouchableOpacity>
 
       {showForm && (
