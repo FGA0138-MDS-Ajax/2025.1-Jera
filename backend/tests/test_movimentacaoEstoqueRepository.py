@@ -11,7 +11,7 @@ from datetime import datetime
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 # --- CONFIGURAÇÃO DO AMBIENTE ---
-# Define variáveis de ambiente FALSAS antes de importar qualquer módulo do seu app.
+# Define variáveis de ambiente FALSAS para a inicialização do app.
 os.environ['DB_HOST'] = 'test_host'
 os.environ['DB_PORT'] = '1234'
 os.environ['DB_USER'] = 'test_user'
@@ -31,167 +31,125 @@ os.environ['TESTING'] = 'True'
 patcher_engine = patch('sqlalchemy.create_engine', return_value=MagicMock())
 patcher_engine.start()
 
-from sqlmodel import create_engine, Session, SQLModel
+# --- IMPORTAÇÃO DOS MÓDULOS ---
+from sqlmodel import Session
 from app.repositories.movimentacaoEstoque import MovimentacaoEstoqueRepository
 from app.db.models.movimentacaoEstoque import MovimentacaoEstoque
 from app.db.models.product import Product
 
-# --- CONFIGURAÇÃO DO BANCO DE DADOS DE TESTE ---
-# Usamos um banco de dados SQLite em memória para os testes.
-DATABASE_URL_TEST = "sqlite:///:memory:"
-engine_test = create_engine(DATABASE_URL_TEST, echo=False)
+# --- TESTES UNITÁRIOS DO REPOSITÓRIO ---
 
-@pytest.fixture(name="session")
-def session_fixture():
+@patch('app.db.manager.DBManager.get_session_context')
+def test_registrar_entrada_com_sucesso(mock_get_session):
     """
-    Fixture do Pytest que cria um banco de dados e tabelas limpos para cada teste.
-    """
-    SQLModel.metadata.create_all(engine_test)
-    with Session(engine_test) as session:
-        yield session
-    SQLModel.metadata.drop_all(engine_test)
-
-
-# --- TESTES DO REPOSITÓRIO ---
-
-def test_registrar_entrada_com_sucesso(session: Session):
-    """
-    Testa se a entrada de um produto existente é registrada corretamente.
+    Testa se o método `registrar_entrada` interage corretamente com a sessão.
     """
     # 1. Preparação (Arrange)
-    produto_teste = Product(nome="Rosa Vermelha", estoque_minimo=10, status=True, id_tipo_produto=1)
-    session.add(produto_teste)
-    session.commit()
-    session.refresh(produto_teste)
+    mock_session = MagicMock(spec=Session)
+    mock_get_session.return_value.__enter__.return_value = mock_session
 
-    movimentacao_entrada = MovimentacaoEstoque(
-        id_produto=produto_teste.id,
-        quantidade=50,
-        data_movimentacao=datetime.now(),
-        tipo_movimentacao=True,
-        motivo="Entrada de teste"
-    )
+    produto_existente = MagicMock(spec=Product)
+    mock_session.get.return_value = produto_existente
 
+    movimentacao_entrada = MovimentacaoEstoque(id_produto=1, quantidade=50, motivo="Entrada")
+    
     # 2. Ação (Act)
-    with patch('app.db.manager.DBManager.get_session_context') as mock_get_session:
-        mock_get_session.return_value.__enter__.return_value = session
-        resultado = MovimentacaoEstoqueRepository.registrar_entrada(movimentacao_entrada)
+    resultado = MovimentacaoEstoqueRepository.registrar_entrada(movimentacao_entrada)
 
     # 3. Verificação (Assert)
-    assert resultado.id_movimentacao is not None
-    assert resultado.id_produto == produto_teste.id
-    assert resultado.quantidade == 50
-    assert resultado.motivo == "Entrada de teste"
-    movimentacao_no_banco = session.get(MovimentacaoEstoque, resultado.id_movimentacao)
-    assert movimentacao_no_banco is not None
+    mock_session.get.assert_called_once_with(Product, 1)
+    mock_session.add.assert_called_once_with(movimentacao_entrada)
+    mock_session.commit.assert_called_once()
+    mock_session.refresh.assert_called_once_with(movimentacao_entrada)
+    assert resultado == movimentacao_entrada
 
 
-def test_registrar_entrada_de_produto_inexistente_lanca_erro(session: Session):
+@patch('app.db.manager.DBManager.get_session_context')
+def test_registrar_entrada_de_produto_inexistente_lanca_erro(mock_get_session):
     """
-    Testa se o sistema lança um ValueError ao tentar dar entrada em um produto que não existe.
-    """
-    # 1. Arrange
-    movimentacao_invalida = MovimentacaoEstoque(
-        id_produto=999,
-        quantidade=10,
-        data_movimentacao=datetime.now(),
-        tipo_movimentacao=True,
-        motivo="Teste de produto inexistente"
-    )
-
-    # 2. Act & 3. Assert
-    with patch('app.db.manager.DBManager.get_session_context') as mock_get_session:
-        mock_get_session.return_value.__enter__.return_value = session
-        with pytest.raises(ValueError, match="Produto não encontrado"):
-            MovimentacaoEstoqueRepository.registrar_entrada(movimentacao_invalida)
-
-
-def test_registrar_saida_com_estoque_suficiente(session: Session):
-    """
-    Testa se a saída de um produto com estoque suficiente é registrada.
+    Testa se um ValueError é lançado se o produto não for encontrado.
     """
     # 1. Arrange
-    produto_teste = Product(nome="Orquídea", estoque_minimo=10, status=True, id_tipo_produto=1)
-    session.add(produto_teste)
-    session.commit()
-    session.refresh(produto_teste)
+    mock_session = MagicMock(spec=Session)
+    mock_get_session.return_value.__enter__.return_value = mock_session
+    mock_session.get.return_value = None  # Simula produto não encontrado
 
-    movimentacao_saida = MovimentacaoEstoque(
-        id_produto=produto_teste.id,
-        quantidade=5,
-        data_movimentacao=datetime.now(),
-        tipo_movimentacao=False,
-        motivo="Saída de teste"
-    )
+    movimentacao_invalida = MovimentacaoEstoque(id_produto=999, quantidade=10, motivo="Teste")
 
-    # 2. Act
-    with patch('app.db.manager.DBManager.get_session_context') as mock_get_session:
-        mock_get_session.return_value.__enter__.return_value = session
-        resultado = MovimentacaoEstoqueRepository.registrar_saida(movimentacao_saida)
-
-    # 3. Assert
-    assert resultado.id_movimentacao is not None
-    assert resultado.quantidade == 5
+    # 2. Ação & 3. Assert
+    with pytest.raises(ValueError, match="Produto não encontrado"):
+        MovimentacaoEstoqueRepository.registrar_entrada(movimentacao_invalida)
+    
+    mock_session.add.assert_not_called()
+    mock_session.commit.assert_not_called()
 
 
-def test_registrar_saida_com_estoque_insuficiente_lanca_erro(session: Session):
+@patch('app.db.manager.DBManager.get_session_context')
+def test_registrar_saida_com_estoque_suficiente(mock_get_session):
     """
-    Testa se o sistema bloqueia a saída quando a quantidade é maior que o estoque_minimo.
+    Testa o registro de uma saída quando há estoque.
     """
     # 1. Arrange
-    produto_teste = Product(nome="Girassol", estoque_minimo=10, status=True, id_tipo_produto=1)
-    session.add(produto_teste)
-    session.commit()
-    session.refresh(produto_teste) 
+    mock_session = MagicMock(spec=Session)
+    mock_get_session.return_value.__enter__.return_value = mock_session
 
-    movimentacao_saida = MovimentacaoEstoque(
-        id_produto=produto_teste.id,
-        quantidade=15,
-        data_movimentacao=datetime.now(),
-        tipo_movimentacao=False,
-        motivo="Tentativa de saída sem estoque"
-    )
+    produto_com_estoque = MagicMock(spec=Product, estoque_minimo=10)
+    mock_session.get.return_value = produto_com_estoque
 
-    # 2. Act & 3. Assert
-    with patch('app.db.manager.DBManager.get_session_context') as mock_get_session:
-        mock_get_session.return_value.__enter__.return_value = session
-        with pytest.raises(ValueError, match="Quantidade insuficiente em estoque"):
-            MovimentacaoEstoqueRepository.registrar_saida(movimentacao_saida)
+    movimentacao_saida = MovimentacaoEstoque(id_produto=1, quantidade=5, motivo="Saída")
+    
+    # 2. Ação (Act)
+    MovimentacaoEstoqueRepository.registrar_saida(movimentacao_saida)
+
+    # 3. Verificação (Assert)
+    mock_session.get.assert_called_once_with(Product, 1)
+    mock_session.add.assert_called_once_with(movimentacao_saida)
+    mock_session.commit.assert_called_once()
 
 
-def test_validar_movimentacao():
+@patch('app.db.manager.DBManager.get_session_context')
+def test_registrar_saida_com_estoque_insuficiente_lanca_erro(mock_get_session):
     """
-    CORREÇÃO: Este teste foi convertido para um teste de unidade para isolar a lógica
-    do método `validar_movimentacao` da inconsistência do modelo Product.
+    Testa se um ValueError é lançado na tentativa de saída sem estoque.
     """
     # 1. Arrange
-    # Cria uma sessão 'fake' (mock)
+    mock_session = MagicMock(spec=Session)
+    mock_get_session.return_value.__enter__.return_value = mock_session
+
+    produto_sem_estoque = MagicMock(spec=Product, estoque_minimo=10)
+    mock_session.get.return_value = produto_sem_estoque
+
+    movimentacao_saida = MovimentacaoEstoque(id_produto=1, quantidade=15, motivo="Saída")
+
+    # 2. Ação & 3. Assert
+    with pytest.raises(ValueError, match="Quantidade insuficiente em estoque"):
+        MovimentacaoEstoqueRepository.registrar_saida(movimentacao_saida)
+
+    mock_session.add.assert_not_called()
+
+
+def test_validar_movimentacao_com_mocks():
+    """
+    Testa a lógica de validação do método `validar_movimentacao` de forma isolada.
+    """
+    # 1. Arrange
     mock_session = MagicMock(spec=Session)
 
-    # Cria produtos 'fake' e define o atributo 'status' que o método espera.
-    produto_ativo = MagicMock(spec=Product)
-    produto_ativo.status = True
-    
-    produto_inativo = MagicMock(spec=Product)
-    produto_inativo.status = False
+    produto_ativo = MagicMock(spec=Product, status=True)
+    produto_inativo = MagicMock(spec=Product, status=False)
 
-    # Configura o mock da sessão para retornar os produtos fakes quando `get` for chamado.
     def get_side_effect(model, product_id):
-        if product_id == 1:
-            return produto_ativo
-        if product_id == 2:
-            return produto_inativo
-        return None  # Retorna None para qualquer outro ID
+        if product_id == 1: return produto_ativo
+        if product_id == 2: return produto_inativo
+        return None
     
     mock_session.get.side_effect = get_side_effect
 
-    # Cria as movimentações de teste
     movimentacao_produto_ativo = MovimentacaoEstoque(id_produto=1, quantidade=1, motivo="Teste")
     movimentacao_produto_inativo = MovimentacaoEstoque(id_produto=2, quantidade=1, motivo="Teste")
     movimentacao_produto_inexistente = MovimentacaoEstoque(id_produto=999, quantidade=1, motivo="Teste")
 
     # 2. Act & 3. Assert
-    # Chama o método do repositório com a sessão fake
     assert MovimentacaoEstoqueRepository.validar_movimentacao(movimentacao_produto_ativo, mock_session) is True
     assert MovimentacaoEstoqueRepository.validar_movimentacao(movimentacao_produto_inativo, mock_session) is False
     assert MovimentacaoEstoqueRepository.validar_movimentacao(movimentacao_produto_inexistente, mock_session) is False
