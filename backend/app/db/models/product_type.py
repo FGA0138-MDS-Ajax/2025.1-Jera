@@ -15,11 +15,11 @@ if TYPE_CHECKING:
 class ProductType(SQLModel, table=True):
     __tablename__ = "tipo_produto"
 
-    id: int | None = Field(
+    id_tipo_produto: int | None = Field(
         default=None,
         primary_key=True,
         nullable=False,
         sa_column_kwargs={"autoincrement": True},
     )
-    nome: str = Field(max_length=100, nullable=False)
+    nome_tipo_produto: str = Field(max_length=50, nullable=False)
     produtos: list["Product"] = Relationship(back_populates="tipo_produto")

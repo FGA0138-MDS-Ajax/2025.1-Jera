@@ -34,7 +34,7 @@ def create_product_type(request_body: ProductTypeCreateSchema) -> ProductTypeRes
     Returns:
         ProductTypeResponseSchema: Tipo de produto criado.
     """
-    product_type = ProductType(nome=request_body.nome)
+    product_type = ProductType(nome_tipo_produto=request_body.nome_tipo_produto)
     return ProductTypeService.create_product_type(product_type).model_dump()
 
 @router.get("/product_type/{id}", status_code=200)
@@ -71,8 +71,8 @@ def update_product_type(id: int, request_body: ProductTypeCreateSchema) -> Produ
 
     Raises:
         ValueError: Se o tipo de produto não for encontrado.
-    """
-    product_type = ProductType(id=id, nome=request_body.nome)
+    """ 
+    product_type = ProductType(id_tipo_produto=id, nome_tipo_produto=request_body.nome_tipo_produto)
     updated_product_type = ProductTypeService.update_product_type(product_type)
     if not updated_product_type:
         logger.error(f"Failed to update product type with id {id}.")

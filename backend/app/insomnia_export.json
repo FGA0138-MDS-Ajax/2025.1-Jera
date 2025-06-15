@@ -1,0 +1,271 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2025-06-14T20:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v2025.1.0",
+  "resources": [
+    {
+      "_id": "wrk_jera2025",
+      "name": "Jera 2025 API",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_base",
+      "parentId": "wrk_jera2025",
+      "modified": 0,
+      "created": 0,
+      "name": "Base Environment",
+      "data": {
+        "base_url": "_.floragest"
+      },
+      "_type": "environment"
+    },
+
+    {
+      "_id": "req_get_product_types",
+      "parentId": "wrk_jera2025",
+      "name": "Listar Tipos de Produto",
+      "method": "GET",
+      "url": "{{ base_url }}/product_type",
+      "_type": "request"
+    },
+    {
+      "_id": "req_create_product_type",
+      "parentId": "wrk_jera2025",
+      "name": "Criar Tipo de Produto",
+      "method": "POST",
+      "url": "{{ base_url }}/product_type",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome_tipo_produto\": \"Flores\"\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_get_product_type_by_id",
+      "parentId": "wrk_jera2025",
+      "name": "Buscar Tipo de Produto por ID",
+      "method": "GET",
+      "url": "{{ base_url }}/product_type/1",
+      "_type": "request"
+    },
+    {
+      "_id": "req_update_product_type",
+      "parentId": "wrk_jera2025",
+      "name": "Atualizar Tipo de Produto",
+      "method": "PUT",
+      "url": "{{ base_url }}/product_type/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome_tipo_produto\": \"Flores Tropicais\"\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "_type": "request"
+    },
+
+    {
+      "_id": "req_get_products",
+      "parentId": "wrk_jera2025",
+      "name": "Listar Produtos",
+      "method": "GET",
+      "url": "{{ base_url }}/product",
+      "_type": "request"
+    },
+    {
+      "_id": "req_create_product",
+      "parentId": "wrk_jera2025",
+      "name": "Criar Produto",
+      "method": "POST",
+      "url": "{{ base_url }}/product",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome_produto\": \"Rosa Vermelha\",\n  \"estoque_minimo\": 10,\n  \"estoque_maximo\": 100,\n  \"id_tipo_produto\": 1\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_get_product_by_id",
+      "parentId": "wrk_jera2025",
+      "name": "Buscar Produto por ID",
+      "method": "GET",
+      "url": "{{ base_url }}/product/1",
+      "_type": "request"
+    },
+    {
+      "_id": "req_update_product",
+      "parentId": "wrk_jera2025",
+      "name": "Atualizar Produto",
+      "method": "PUT",
+      "url": "{{ base_url }}/product/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome_produto\": \"Rosa Branca\",\n  \"estoque_minimo\": 5,\n  \"estoque_maximo\": 80,\n  \"id_tipo_produto\": 1\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_delete_product",
+      "parentId": "wrk_jera2025",
+      "name": "Deletar Produto",
+      "method": "DELETE",
+      "url": "{{ base_url }}/product/1",
+      "_type": "request"
+    },
+
+    {
+      "_id": "req_listar_movimentacoes",
+      "parentId": "wrk_jera2025",
+      "name": "Listar Movimentações",
+      "method": "GET",
+      "url": "{{ base_url }}/movimentacao",
+      "_type": "request"
+    },
+    {
+      "_id": "req_entrada_estoque",
+      "parentId": "wrk_jera2025",
+      "name": "Movimentação Entrada",
+      "method": "POST",
+      "url": "{{ base_url }}/movimentacao/entrada",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_produto\": 1,\n  \"tipo_movimentacao\": true,\n  \"quantidade\": 50,\n  \"motivo\": \"Entrada inicial\"\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_saida_estoque",
+      "parentId": "wrk_jera2025",
+      "name": "Movimentação Saída",
+      "method": "POST",
+      "url": "{{ base_url }}/movimentacao/saida",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_produto\": 1,\n  \"tipo_movimentacao\": false,\n  \"quantidade\": 41,\n  \"motivo\": \"Teste alerta mínimo\"\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_delete_movimentacao",
+      "parentId": "wrk_jera2025",
+      "name": "Deletar Movimentação",
+      "method": "DELETE",
+      "url": "{{ base_url }}/movimentacao/1",
+      "_type": "request"
+    },
+    {
+      "_id": "req_estoque_atual",
+      "parentId": "wrk_jera2025",
+      "name": "Consultar Estoque Atual",
+      "method": "GET",
+      "url": "{{ base_url }}/movimentacao/estoque_atual/1",
+      "_type": "request"
+    },
+    {
+      "_id": "req_listar_movimentacoes_produto",
+      "parentId": "wrk_jera2025",
+      "name": "Listar Movimentações de um Produto",
+      "method": "GET",
+      "url": "{{ base_url }}/movimentacao/produto/1",
+      "_type": "request"
+    },
+
+    {
+      "_id": "req_listar_tipo_alerta",
+      "parentId": "wrk_jera2025",
+      "name": "Listar Tipos de Alerta",
+      "method": "GET",
+      "url": "{{ base_url }}/alert_type",
+      "_type": "request"
+    },
+    {
+      "_id": "req_criar_tipo_alerta",
+      "parentId": "wrk_jera2025",
+      "name": "Criar Tipo de Alerta",
+      "method": "POST",
+      "url": "{{ base_url }}/alert_type",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome_tipo_alerta\": \"Estoque Mínimo\"\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_get_tipo_alerta_by_id",
+      "parentId": "wrk_jera2025",
+      "name": "Buscar Tipo de Alerta por ID",
+      "method": "GET",
+      "url": "{{ base_url }}/alert_type/1",
+      "_type": "request"
+    },
+    {
+      "_id": "req_update_tipo_alerta",
+      "parentId": "wrk_jera2025",
+      "name": "Atualizar Tipo de Alerta",
+      "method": "PUT",
+      "url": "{{ base_url }}/alert_type/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome_tipo_alerta\": \"Estoque Máximo\"\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_delete_tipo_alerta",
+      "parentId": "wrk_jera2025",
+      "name": "Deletar Tipo de Alerta",
+      "method": "DELETE",
+      "url": "{{ base_url }}/alert_type/1",
+      "_type": "request"
+    },
+
+    {
+      "_id": "req_listar_alertas",
+      "parentId": "wrk_jera2025",
+      "name": "Listar Alertas",
+      "method": "GET",
+      "url": "{{ base_url }}/alert",
+      "_type": "request"
+    },
+    {
+      "_id": "req_get_alerta_by_id",
+      "parentId": "wrk_jera2025",
+      "name": "Buscar Alerta por ID",
+      "method": "GET",
+      "url": "{{ base_url }}/alert/1",
+      "_type": "request"
+    },
+    {
+      "_id": "req_delete_alerta",
+      "parentId": "wrk_jera2025",
+      "name": "Deletar Alerta",
+      "method": "DELETE",
+      "url": "{{ base_url }}/alert/1",
+      "_type": "request"
+    }
+  ]
+}  
