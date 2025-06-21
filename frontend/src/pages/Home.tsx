@@ -11,7 +11,7 @@ export default function Home() {
     <div className="home-container">
       <h1>Bem-vindo!</h1>
       <div className="home-buttons">
-        <button onClick={() => navigate("/regiser")}>Cadastrar</button>
+        <button onClick={() => navigate("/register")}>Registrar</button>
         <button onClick={() => navigate("/login")}>Login</button>
       </div>
     </div>
