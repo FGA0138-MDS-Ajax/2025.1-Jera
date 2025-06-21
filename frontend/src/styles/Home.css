@@ -1,0 +1,38 @@
+.home-container {
+  padding: 16px;
+  text-align: center;
+}
+
+.home-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.home-buttons button {
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.home-buttons button:hover {
+  background-color: #0056b3;
+}
+
+/* Para telas maiores, os botões ficam lado a lado */
+@media (min-width: 600px) {
+  .home-buttons {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .home-buttons button {
+    width: 150px;
+  }
+}
