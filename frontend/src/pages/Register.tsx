@@ -13,16 +13,12 @@ const Register = () => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const navigate = useNavigate();
 
-  const isValidEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+  const isValidEmail = (email: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  const isStrongPassword = (pwd: string) => {
-    const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
-    const mediumRegex = /^(?=.*[a-zA-Z])(?=.*\d).{6,}$/;
-    return strongRegex.test(pwd) || mediumRegex.test(pwd);
-  };
+  const isStrongPassword = (pwd: string) =>
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(pwd) ||
+    /^(?=.*[a-zA-Z])(?=.*\d).{6,}$/.test(pwd);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,6 +27,11 @@ const Register = () => {
     if (!userId.trim()) newErrors.userId = "ID do usuário é obrigatório.";
     if (!name.trim()) newErrors.name = "Nome é obrigatório.";
     if (!isValidEmail(email)) newErrors.email = "Email inválido.";
+
+    if (email.toLowerCase() === "teste@gmail.com") {
+      newErrors.email = "Este email já está cadastrado.";
+    }
+
     if (email !== confirmEmail)
       newErrors.confirmEmail = "Os emails não coincidem.";
     if (!isStrongPassword(password))
@@ -49,8 +50,18 @@ const Register = () => {
   return (
     <div className="register-container">
       <form className="register-form" onSubmit={handleSubmit}>
+        <button
+          type="button"
+          className="back-button"
+          onClick={() => navigate("/")}
+        >
+          ←
+        </button>
         <img src={logo} alt="Logo" className="register-logo" />
         <h1>Cadastro</h1>
+        <p className="login-link" onClick={() => navigate("/login")}>
+          Já tem uma conta? Faça login
+        </p>
 
         <label>
           ID do Usuário:

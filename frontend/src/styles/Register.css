@@ -10,7 +10,7 @@
   
   .register-logo {
     display: block;
-    width: 200px;
+    width: 160px;
     height: auto;
     margin: 0 auto 16px auto;
   }
@@ -22,13 +22,35 @@
     width: 100%;
     max-width: 400px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
+  }
+  
+  .back-button {
+    font-size: 22px;
+    padding: 8px 16px;
+    margin-bottom: 12px;
+    margin-left: 0px;
+    background-color: #E2725B;
+    border: 2px solid #E2725B;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
   }
   
   .register-form h1 {
     color: #BA55D3;
     font-size: 24px;
-    margin-bottom: 20px;
+    margin-bottom: 8px;
     text-align: center;
+  }
+  
+  .login-link {
+    text-align: center;
+    font-size: 14px;
+    color: #008000;
+    margin-bottom: 20px;
+    cursor: pointer;
+    text-decoration: underline;
   }
   
   .register-form label {
@@ -46,6 +68,7 @@
     border: 2px solid #BA55D3;
     border-radius: 6px;
     font-size: 16px;
+    box-sizing: border-box;
   }
   
   .register-form input:focus {
@@ -54,7 +77,7 @@
     box-shadow: 0 0 0 2px rgba(186, 85, 211, 0.3);
   }
   
-  .register-form button {
+  .register-form button[type="submit"] {
     background-color: #E2725B;
     color: white;
     padding: 12px;
@@ -66,7 +89,7 @@
     transition: background-color 0.2s ease-in-out;
   }
   
-  .register-form button:hover {
+  .register-form button[type="submit"]:hover {
     background-color: #ba4a3e;
   }
   
@@ -79,5 +102,57 @@
     border-left: 5px solid #E2725B;
     border-radius: 8px;
     font-size: 14px;
+  }
+  
+  /* Responsivo: Mobile (até 480px) */
+  @media (max-width: 480px) {
+    .register-form {
+      padding: 16px;
+    }
+  
+    .register-logo {
+      width: 120px;
+    }
+  
+    .back-button {
+      font-size: 18px;
+      padding: 6px 12px;
+    }
+  
+    .register-form h1 {
+      font-size: 20px;
+    }
+  
+    .register-form input,
+    .register-form button[type="submit"] {
+      font-size: 14px;
+      padding: 10px;
+    }
+  }
+  
+  /* Responsivo: Notebook e Desktop (a partir de 768px) */
+  @media (min-width: 768px) {
+    .register-form {
+      max-width: 480px;
+      padding: 32px;
+    }
+  
+    .register-logo {
+      width: 300px;
+    }
+  
+    .register-form h1 {
+      font-size: 28px;
+    }
+  
+    .register-form input,
+    .register-form button[type="submit"] {
+      font-size: 18px;
+    }
+  
+    .back-button {
+      font-size: 20px;
+      padding: 8px 14px;
+    }
   }
   
