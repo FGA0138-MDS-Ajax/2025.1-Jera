@@ -18,6 +18,8 @@ dependencies = [
     "sqlmodel>=0.0.24",
     "strawberry-graphql[fastapi]>=0.270.5",
     "uvicorn>=0.34.3",
+    "passlib[bcrypt]>=1.7.4",
+    "python-dotenv>=1.0.0",
 ]
 
 [dependency-groups]
