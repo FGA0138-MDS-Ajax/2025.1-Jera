@@ -5,6 +5,7 @@ class UsuarioCreateSchema(BaseModel):
     email: str
     senha: str
     confirme_sua_senha: str
+    perfil: str
 
     @model_validator(mode="after")
     def senhas_iguais(self):

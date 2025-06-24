@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from app.routers.schemas.usuario import UsuarioCreateSchema, UsuarioLoginSchema, UsuarioResponseSchema
-from app.services.usuario import UsuarioService
+from app.services.usuario import UsuarioService, UsuarioRepository
 
 router = APIRouter()
 
@@ -12,9 +12,14 @@ def criar(request: UsuarioCreateSchema):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.post("/login", response_model=UsuarioResponseSchema)
+@router.post("/login")
 def login(request: UsuarioLoginSchema):
-    usuario = UsuarioService.autenticar(request.email, request.senha)
-    if not usuario:
+    result = UsuarioService.autenticar(request.email, request.senha)
+    if not result:
         raise HTTPException(status_code=401, detail="Credenciais inválidas")
-    return usuario
+    usuario = UsuarioRepository.buscar_por_email(request.email)
+    return {
+        "access_token": result["access_token"],
+        "token_type": "bearer",
+        "perfil": usuario.perfil
+    }
