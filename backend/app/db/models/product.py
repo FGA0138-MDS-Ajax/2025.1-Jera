@@ -6,6 +6,7 @@ if TYPE_CHECKING:
     from app.db.models.product_type import ProductType
     from app.db.models.alerta import Alerta
     from app.db.models.movimentacao_estoque import MovimentacaoEstoque
+    from app.db.models.lote import Lote
 
 
 class Product(SQLModel, table=True):
@@ -24,6 +25,9 @@ class Product(SQLModel, table=True):
     id_tipo_produto: int = Field(
         foreign_key="tipo_produto.id_tipo_produto", nullable=False
     )
-    tipo_produto: "ProductType" = Relationship(back_populates="produtos")
+    
+
+    tipo_produto: Optional["ProductType"] = Relationship(back_populates="produtos")
     alertas: list["Alerta"] = Relationship(back_populates="produto")
     movimentacoes: list["MovimentacaoEstoque"] = Relationship(back_populates="produto")
+    lotes: list["Lote"] = Relationship(back_populates="produto")

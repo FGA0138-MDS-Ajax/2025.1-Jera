@@ -3,11 +3,77 @@ from app.db.models.alerta import Alerta
 from app.db.models.product import Product
 from app.utils.session_inject import with_session
 from app.services.tipo_alerta import TipoAlertaService
+from datetime import datetime, timedelta
+from app.db.models.estado_estetico import EstadoEstetico
+from app.db.models.lote import Lote
+from app.db.models.tipo_alerta import TipoAlerta
+#timedelta() representa uma diferença de tempo, podendo ser dias, horas, minutos, etc...
 class AlertaRepository:
 
     @staticmethod
+    def alerta_existe(id_produto: int, id_tipo_alerta: int, mensagem: str, id_lote: int, session) -> bool:
+        return session.query(Alerta).filter_by(
+            id_produto=id_produto,
+            id_tipo_alerta=id_tipo_alerta,
+            mensagem=mensagem,
+            id_lote=id_lote
+        ).first() is not None
+
+
+    @staticmethod
     @with_session
-    def gerar_alerta(id_produto: int, tipo_alerta: str, mensagem: str, session: Session | None = None) -> Alerta:
+    def gerar_alertas_lotes_ruins_7dias(session: Session | None = None) -> list[Alerta]:
+        """
+        Gera um alerta para cada lote no estado 'ruim' há mais de 7 dias.
+        """
+        from app.db.models.lote import Lote  # evitar import circular
+        sete_dias_atras = datetime.now() - timedelta(days=7)
+        estado_ruim = session.query(EstadoEstetico).filter(
+            EstadoEstetico.nome_estado_estetico.ilike("ruim")
+        ).first()
+        if not estado_ruim:
+            return []
+
+        lotes_ruins = session.query(Lote).filter(
+            Lote.id_estado_estetico == estado_ruim.id_estado_estetico,
+            Lote.data_entrada < sete_dias_atras
+        ).all()
+
+        # Garante que o tipo de alerta existe
+        tipo_alerta = session.query(TipoAlerta).filter(TipoAlerta.id_tipo_alerta == 99).first()
+        if not tipo_alerta:
+            tipo_alerta = TipoAlerta(id_tipo_alerta=99, nome_tipo_alerta="Lotes ruins há mais de 7 dias")
+            session.add(tipo_alerta)
+            session.commit()
+            session.refresh(tipo_alerta)
+
+        alertas_gerados = []
+        for lote in lotes_ruins:
+            mensagem = f"Lote {lote.id_lote} está no estado RUIM há mais de 7 dias."
+            if not AlertaRepository.alerta_existe(lote.id_produto, tipo_alerta.id_tipo_alerta, mensagem, lote.id_lote, session):
+                alerta = Alerta(
+                    id_produto=lote.id_produto,
+                    id_tipo_alerta=tipo_alerta.id_tipo_alerta,
+                    id_lote=lote.id_lote,
+                    mensagem=mensagem
+                )
+                session.add(alerta)
+                alertas_gerados.append(alerta)
+        session.commit()
+        return alertas_gerados
+    
+
+    @staticmethod
+    @with_session
+    def listar_alertas_lotes_ruins_7dias(session: Session | None = None) -> list[Alerta]:
+        """
+        Lista os alertas do tipo 'Lotes ruins há mais de 7 dias' (id_tipo_alerta=99).
+        """
+        return session.query(Alerta).filter(Alerta.id_tipo_alerta == 99).all()
+
+    @staticmethod
+    @with_session
+    def gerar_alerta(id_produto: int, id_tipo_alerta: int, mensagem: str, id_lote:int, session: Session | None = None) -> Alerta:
         """
         Crie um alerta de acordo com o ID do produto e o tipo de alerta
         *Só é acionado caso o services/alerta.py função verificarAlerta atender os requisitos*
@@ -21,9 +87,13 @@ class AlertaRepository:
         Returns:
             alerta: alerta gerado
         """
+        if AlertaRepository.alerta_existe(id_produto, id_tipo_alerta, mensagem, id_lote, session):
+            return None  # Não cria alerta duplicado
+        
         alerta = Alerta(
             id_produto=id_produto,
-            id_tipo_alerta=tipo_alerta,
+            id_tipo_alerta=id_tipo_alerta,
+            id_lote=id_lote,
             mensagem=mensagem
         )
         session.add(alerta)
@@ -33,40 +103,40 @@ class AlertaRepository:
     
     @staticmethod
     @with_session
-    def verificar_e_gerar_alerta(produto: Product, estoque_atual: int, session: Session | None = None) -> list[Alerta]:
+    def verificar_e_gerar_alerta(produto: Product, estoque_atual: int, id_lote: int, session: Session | None = None) -> list[Alerta]:
 
         alertas_gerados = []
-
+        
         # IDs dos tipos de alerta (ajuste conforme seu banco)
         tipo_min = TipoAlertaService.get_tipo_alerta_by_id(1)  # Estoque abaixo do mínimo
         tipo_max = TipoAlertaService.get_tipo_alerta_by_id(2)  # Estoque acima do máximo
         tipo_prev_min = TipoAlertaService.get_tipo_alerta_by_id(3)  # Preventivo mínimo
         tipo_prev_max = TipoAlertaService.get_tipo_alerta_by_id(4)  # Preventivo máximo
 
-        # Alerta preventivo: 10% acima do mínimo ou 10% abaixo do máximo
         margem_min = 0.5
         margem_max = 0.1
         limite_prev_min = produto.estoque_minimo + int(produto.estoque_minimo * margem_min)
         limite_prev_max = produto.estoque_maximo - int(produto.estoque_maximo * margem_max) if produto.estoque_maximo else None
         
         
+        
         if estoque_atual < produto.estoque_minimo:
             mensagem = f"Estoque abaixo do mínimo: {estoque_atual} < {produto.estoque_minimo}"
-            alerta = AlertaRepository.gerar_alerta(produto.id_produto, tipo_min.id_tipo_alerta, mensagem)
+            alerta = AlertaRepository.gerar_alerta(produto.id_produto, tipo_min.id_tipo_alerta, mensagem, id_lote, session)
             alertas_gerados.append(alerta)
         elif estoque_atual <= limite_prev_min:
             mensagem = f"Atenção: Estoque próximo do mínimo ({estoque_atual} <= {limite_prev_min})"
-            alerta = AlertaRepository.gerar_alerta(produto.id_produto, tipo_prev_min.id_tipo_alerta, mensagem)
+            alerta = AlertaRepository.gerar_alerta(produto.id_produto, tipo_prev_min.id_tipo_alerta, mensagem, id_lote, session)
             alertas_gerados.append(alerta)
 
         if produto.estoque_maximo:
             if estoque_atual > produto.estoque_maximo:
                 mensagem = f"Estoque acima do máximo: {estoque_atual} > {produto.estoque_maximo}"
-                alerta = AlertaRepository.gerar_alerta(produto.id_produto, tipo_max.id_tipo_alerta, mensagem)
+                alerta = AlertaRepository.gerar_alerta(produto.id_produto, tipo_max.id_tipo_alerta, mensagem, id_lote, session)
                 alertas_gerados.append(alerta)
             elif estoque_atual >= limite_prev_max:
                 mensagem = f"Atenção: Estoque próximo do máximo ({estoque_atual} >= {limite_prev_max})"
-                alerta = AlertaRepository.gerar_alerta(produto.id_produto, tipo_prev_max.id_tipo_alerta, mensagem)
+                alerta = AlertaRepository.gerar_alerta(produto.id_produto, tipo_prev_max.id_tipo_alerta, mensagem, id_lote, session)
                 alertas_gerados.append(alerta)
 
         return alertas_gerados

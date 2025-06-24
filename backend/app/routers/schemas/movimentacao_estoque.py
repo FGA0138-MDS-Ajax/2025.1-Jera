@@ -3,9 +3,10 @@ from datetime import datetime
 
 class MovimentacaoEstoqueBase(BaseModel):
     id_produto: int
-    tipo_movimentacao: str
+    tipo_movimentacao: bool
     quantidade: int
-    motivo: str
+    motivo: str | None = None
+    id_lote: int
 
 class MovimentacaoEstoqueCreate(MovimentacaoEstoqueBase):
     pass

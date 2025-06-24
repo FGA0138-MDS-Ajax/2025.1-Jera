@@ -6,6 +6,14 @@
 # dessa seção. Não seguir essa recomendação corre o risco de
 # quebrar o build do projeto.
 
+# Ignora dependências
+node_modules/
+
+# Ignora arquivos de build do Android
+android/.gradle/
+android/app/build/
+android/build/
+android/.cxx/
 # Exclusões não cobertas pelo template do .gitignore
 .env.*
 *.swp

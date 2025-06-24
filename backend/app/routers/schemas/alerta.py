@@ -5,6 +5,7 @@ class AlertaCreateSchema(BaseModel):
     id_produto: int
     id_tipo_alerta: int
     mensagem: str
+    id_lote: int
 
 class AlertaResponseSchema(BaseModel):
     id_alerta: int
@@ -12,9 +13,11 @@ class AlertaResponseSchema(BaseModel):
     id_tipo_alerta: int
     data_hora_alerta: datetime
     mensagem: str
+    id_lote: int
     
 
 class AlertaUpdateSchema(BaseModel):
     id_produto: int | None = None
     id_tipo_alerta: int | None = None
     mensagem: str | None = None
+    id_lote: int | None = None

@@ -9,8 +9,16 @@ class AlertaService:
     """
 
     @staticmethod
-    def verificar_e_gerar_alerta(produto: Product, estoque_atual: int) -> list[Alerta]:
-        return AlertaRepository.verificar_e_gerar_alerta(produto, estoque_atual)
+    def gerar_alerta_lotes_ruins_7dias():
+        return AlertaRepository.gerar_alertas_lotes_ruins_7dias()
+
+    @staticmethod
+    def listar_lotes_ruins_7dias():
+        return AlertaRepository.listar_alertas_lotes_ruins_7dias()
+    
+    @staticmethod
+    def verificar_e_gerar_alerta(produto: Product, estoque_atual: int, id_lote:int) -> list[Alerta]:
+        return AlertaRepository.verificar_e_gerar_alerta(produto, estoque_atual, id_lote)
 
     @staticmethod
     def get_all_alerta() -> list[Alerta]:

@@ -4,6 +4,114 @@
   "__export_date": "2025-06-14T20:00:00.000Z",
   "__export_source": "insomnia.desktop.app:v2025.1.0",
   "resources": [
+      {
+    "_id": "req_listar_lotes",
+    "parentId": "wrk_jera2025",
+    "name": "Listar Lotes",
+    "method": "GET",
+    "url": "{{ base_url }}/lote",
+    "_type": "request"
+  },
+  {
+    "_id": "req_criar_lote",
+    "parentId": "wrk_jera2025",
+    "name": "Criar Lote",
+    "method": "POST",
+    "url": "{{ base_url }}/lote",
+    "body": {
+      "mimeType": "application/json",
+      "text": "{\n  \"data_entrada\": \"2025-06-16T00:00:00\",\n  \"data_validade\": \"2025-12-31T00:00:00\",\n  \"id_produto\": 1,\n  \"id_estado_estetico\": 1\n}"
+    },
+    "headers": [
+      { "name": "Content-Type", "value": "application/json" }
+    ],
+    "_type": "request"
+  },
+  {
+    "_id": "req_get_lote_by_id",
+    "parentId": "wrk_jera2025",
+    "name": "Buscar Lote por ID",
+    "method": "GET",
+    "url": "{{ base_url }}/lote/1",
+    "_type": "request"
+  },
+  {
+    "_id": "req_update_lote",
+    "parentId": "wrk_jera2025",
+    "name": "Atualizar Lote",
+    "method": "PUT",
+    "url": "{{ base_url }}/lote/1",
+    "body": {
+      "mimeType": "application/json",
+      "text": "{\n  \"data_entrada\": \"2025-06-16T00:00:00\",\n  \"data_validade\": \"2026-01-31T00:00:00\",\n  \"id_produto\": 1,\n  \"id_estado_estetico\": 2\n}"
+    },
+    "headers": [
+      { "name": "Content-Type", "value": "application/json" }
+    ],
+    "_type": "request"
+  },
+  {
+    "_id": "req_delete_lote",
+    "parentId": "wrk_jera2025",
+    "name": "Deletar Lote",
+    "method": "DELETE",
+    "url": "{{ base_url }}/lote/1",
+    "_type": "request"
+  },
+  {
+    "_id": "req_listar_estado_estetico",
+    "parentId": "wrk_jera2025",
+    "name": "Listar Estados Estéticos",
+    "method": "GET",
+    "url": "{{ base_url }}/estado_estetico",
+    "_type": "request"
+  },
+  {
+    "_id": "req_criar_estado_estetico",
+    "parentId": "wrk_jera2025",
+    "name": "Criar Estado Estético",
+    "method": "POST",
+    "url": "{{ base_url }}/estado_estetico",
+    "body": {
+      "mimeType": "application/json",
+      "text": "{\n  \"nome_estado_estetico\": \"Bom\"\n}"
+    },
+    "headers": [
+      { "name": "Content-Type", "value": "application/json" }
+    ],
+    "_type": "request"
+  },
+  {
+    "_id": "req_get_estado_estetico_by_id",
+    "parentId": "wrk_jera2025",
+    "name": "Buscar Estado Estético por ID",
+    "method": "GET",
+    "url": "{{ base_url }}/estado_estetico/1",
+    "_type": "request"
+  },
+  {
+    "_id": "req_update_estado_estetico",
+    "parentId": "wrk_jera2025",
+    "name": "Atualizar Estado Estético",
+    "method": "PUT",
+    "url": "{{ base_url }}/estado_estetico/1",
+    "body": {
+      "mimeType": "application/json",
+      "text": "{\n  \"nome_estado_estetico\": \"Ruim\"\n}"
+    },
+    "headers": [
+      { "name": "Content-Type", "value": "application/json" }
+    ],
+    "_type": "request"
+  },
+  {
+    "_id": "req_delete_estado_estetico",
+    "parentId": "wrk_jera2025",
+    "name": "Deletar Estado Estético",
+    "method": "DELETE",
+    "url": "{{ base_url }}/estado_estetico/1",
+    "_type": "request"
+  },
     {
       "_id": "wrk_jera2025",
       "name": "Jera 2025 API",

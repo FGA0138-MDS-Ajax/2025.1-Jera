@@ -2,21 +2,24 @@ from fastapi import APIRouter, HTTPException
 from app.db.models.movimentacao_estoque import MovimentacaoEstoque
 from app.services.movimentacao_estoque import MovimentacaoEstoqueService
 from app.utils.logger import Logger
+from app.routers.schemas.movimentacao_estoque import MovimentacaoEstoqueResponse
 
 logger = Logger()
 router = APIRouter()
 
-@router.post("/movimentacao/entrada", response_model=MovimentacaoEstoque)
+@router.post("/movimentacao/entrada", response_model=MovimentacaoEstoqueResponse)
 def registrar_entrada(movimentacao: MovimentacaoEstoque):
     try:
-        return MovimentacaoEstoqueService.registrar_entrada(movimentacao)
+        mov = MovimentacaoEstoqueService.registrar_entrada(movimentacao)
+        return mov
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.post("/movimentacao/saida", response_model=MovimentacaoEstoque)
+@router.post("/movimentacao/saida", response_model=MovimentacaoEstoqueResponse)
 def registrar_saida(movimentacao: MovimentacaoEstoque):
     try:
-        return MovimentacaoEstoqueService.registrar_saida(movimentacao)
+        mov = MovimentacaoEstoqueService.registrar_saida(movimentacao)
+        return mov
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     
