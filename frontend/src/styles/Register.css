@@ -1,5 +1,6 @@
+/* ---------- Estrutura geral ---------- */
 .register-container {
-    background-color: #FFFDD0;
+    background-color: #fffdd0;
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -12,11 +13,11 @@
     display: block;
     width: 160px;
     height: auto;
-    margin: 0 auto 16px auto;
+    margin: 0 auto 16px;
   }
   
   .register-form {
-    background-color: #F5F5DC;
+    background-color: #f5f5dc;
     padding: 24px;
     border-radius: 12px;
     width: 100%;
@@ -25,20 +26,21 @@
     box-sizing: border-box;
   }
   
+  /* ---------- Botão de voltar ---------- */
   .back-button {
     font-size: 22px;
     padding: 8px 16px;
     margin-bottom: 12px;
-    margin-left: 0px;
-    background-color: #E2725B;
-    border: 2px solid #E2725B;
+    background-color: #e2725b;
+    border: 2px solid #e2725b;
     border-radius: 6px;
-    color: white;
+    color: #fff;
     cursor: pointer;
   }
   
+  /* ---------- Título e link de login ---------- */
   .register-form h1 {
-    color: #BA55D3;
+    color: #ba55d3;
     font-size: 24px;
     margin-bottom: 8px;
     text-align: center;
@@ -53,6 +55,7 @@
     text-decoration: underline;
   }
   
+  /* ---------- Campos e rótulos ---------- */
   .register-form label {
     display: block;
     margin-bottom: 12px;
@@ -65,7 +68,7 @@
     padding: 10px;
     margin-top: 4px;
     margin-bottom: 16px;
-    border: 2px solid #BA55D3;
+    border: 2px solid #ba55d3;
     border-radius: 6px;
     font-size: 16px;
     box-sizing: border-box;
@@ -77,9 +80,10 @@
     box-shadow: 0 0 0 2px rgba(186, 85, 211, 0.3);
   }
   
+  /* ---------- Botão de envio ---------- */
   .register-form button[type="submit"] {
-    background-color: #E2725B;
-    color: white;
+    background-color: #e2725b;
+    color: #fff;
     padding: 12px;
     width: 100%;
     border: none;
@@ -93,18 +97,25 @@
     background-color: #ba4a3e;
   }
   
+  /* ---------- Foco visível (acessibilidade) ---------- */
+  button:focus-visible {
+    outline: 3px solid #ba55d3;
+    outline-offset: 2px;
+  }
+  
+  /* ---------- Mensagens de erro ---------- */
   .register-error {
     background-color: #fce8e6;
     color: #8b0000;
     margin-top: 10px;
     font-weight: normal;
     padding: 10px 12px;
-    border-left: 5px solid #E2725B;
+    border-left: 5px solid #e2725b;
     border-radius: 8px;
     font-size: 14px;
   }
   
-  /* Responsivo: Mobile (até 480px) */
+  /* ---------- Responsivo: Mobile (≤ 480 px) ---------- */
   @media (max-width: 480px) {
     .register-form {
       padding: 16px;
@@ -130,15 +141,16 @@
     }
   }
   
-  /* Responsivo: Notebook e Desktop (a partir de 768px) */
+  /* ---------- Responsivo: Notebook & Desktop (≥ 768 px) ---------- */
   @media (min-width: 768px) {
     .register-form {
-      max-width: 480px;
-      padding: 32px;
+      max-width: 500px;  /* mais largo */
+      padding: 40px;     /* espaçamento maior */
     }
   
     .register-logo {
-      width: 300px;
+      width: 280px;      /* ajuste equilibrado */
+      margin-bottom: 24px;
     }
   
     .register-form h1 {
@@ -154,5 +166,11 @@
       font-size: 20px;
       padding: 8px 14px;
     }
+    .register-form button[disabled] {
+        background-color: #ccc;
+        cursor: not-allowed;
+        opacity: 0.7;
+      }
+      
   }
   

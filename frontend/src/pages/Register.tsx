@@ -1,45 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Register.css";
 import logo from "../assets/Minimalist_and_moder.png";
 
+/* ------------ Função auxiliar de validação ------------ */
+const validateFields = (
+  name: string,
+  email: string,
+  password: string,
+  confirmPassword: string
+) => {
+  const errors: { [key: string]: string } = {};
+
+  const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const isStrongPassword =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(password) ||
+    /^(?=.*[a-zA-Z])(?=.*\d).{6,}$/.test(password);
+
+  if (!name.trim()) errors.name = "Nome é obrigatório.";
+  if (!isValidEmail) errors.email = "Email inválido.";
+  if (email.toLowerCase() === "teste@gmail.com")
+    errors.email = "Este email já está cadastrado.";
+  if (!isStrongPassword)
+    errors.password =
+      "Senha fraca. Use letras, números e ao menos 6 caracteres.";
+  if (password !== confirmPassword)
+    errors.confirmPassword = "As senhas não coincidem.";
+
+  return errors;
+};
+
 const Register = () => {
-  const [userId, setUserId] = useState("");
+  /* ------------ Estados ------------ */
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [confirmEmail, setConfirmEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [hasSubmitted, setHasSubmitted] = useState(false); // <-- controla 1ª tentativa
+  const [isFormValid, setIsFormValid] = useState(true); // começa habilitado
+
   const navigate = useNavigate();
 
-  const isValidEmail = (email: string) =>
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-  const isStrongPassword = (pwd: string) =>
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(pwd) ||
-    /^(?=.*[a-zA-Z])(?=.*\d).{6,}$/.test(pwd);
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const newErrors: { [key: string]: string } = {};
-
-    if (!userId.trim()) newErrors.userId = "ID do usuário é obrigatório.";
-    if (!name.trim()) newErrors.name = "Nome é obrigatório.";
-    if (!isValidEmail(email)) newErrors.email = "Email inválido.";
-
-    if (email.toLowerCase() === "teste@gmail.com") {
-      newErrors.email = "Este email já está cadastrado.";
+  /* ------------ Validação em tempo real só DEPOIS do submit ------------ */
+  useEffect(() => {
+    if (hasSubmitted) {
+      const newErrors = validateFields(name, email, password, confirmPassword);
+      setErrors(newErrors);
+      setIsFormValid(Object.keys(newErrors).length === 0);
     }
+  }, [name, email, password, confirmPassword, hasSubmitted]);
 
-    if (email !== confirmEmail)
-      newErrors.confirmEmail = "Os emails não coincidem.";
-    if (!isStrongPassword(password))
-      newErrors.password =
-        "Senha fraca. Use letras, números e ao menos 6 caracteres.";
-    if (password !== confirmPassword)
-      newErrors.confirmPassword = "As senhas não coincidem.";
+  /* ------------ Submit ------------ */
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
+    if (!hasSubmitted) setHasSubmitted(true); // marca que houve tentativa
+
+    const newErrors = validateFields(name, email, password, confirmPassword);
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
@@ -57,24 +76,15 @@ const Register = () => {
         >
           ←
         </button>
+
         <img src={logo} alt="Logo" className="register-logo" />
         <h1>Cadastro</h1>
+
         <p className="login-link" onClick={() => navigate("/login")}>
           Já tem uma conta? Faça login
         </p>
 
-        <label>
-          ID do Usuário:
-          <input
-            type="text"
-            value={userId}
-            onChange={(e) => setUserId(e.target.value)}
-            placeholder="Digite o ID"
-            required
-          />
-        </label>
-        {errors.userId && <div className="register-error">{errors.userId}</div>}
-
+        {/* ---------- Nome ---------- */}
         <label>
           Nome do Usuário:
           <input
@@ -85,75 +95,59 @@ const Register = () => {
             required
           />
         </label>
-        {errors.name && <div className="register-error">{errors.name}</div>}
+        {hasSubmitted && errors.name && (
+          <div className="register-error">{errors.name}</div>
+        )}
 
+        {/* ---------- Email ---------- */}
         <label>
           Email:
           <input
             type="email"
             value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              setErrors((prev) => ({ ...prev, email: "" }));
-            }}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Digite seu email"
             required
           />
         </label>
-        {errors.email && <div className="register-error">{errors.email}</div>}
-
-        <label>
-          Confirmar Email:
-          <input
-            type="email"
-            value={confirmEmail}
-            onChange={(e) => {
-              setConfirmEmail(e.target.value);
-              setErrors((prev) => ({ ...prev, confirmEmail: "" }));
-            }}
-            placeholder="Confirme seu email"
-            required
-          />
-        </label>
-        {errors.confirmEmail && (
-          <div className="register-error">{errors.confirmEmail}</div>
+        {hasSubmitted && errors.email && (
+          <div className="register-error">{errors.email}</div>
         )}
 
+        {/* ---------- Senha ---------- */}
         <label>
           Senha:
           <input
             type="password"
             value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              setErrors((prev) => ({ ...prev, password: "" }));
-            }}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="Digite uma senha"
             required
           />
         </label>
-        {errors.password && (
+        {hasSubmitted && errors.password && (
           <div className="register-error">{errors.password}</div>
         )}
 
+        {/* ---------- Confirmar Senha ---------- */}
         <label>
           Confirmar Senha:
           <input
             type="password"
             value={confirmPassword}
-            onChange={(e) => {
-              setConfirmPassword(e.target.value);
-              setErrors((prev) => ({ ...prev, confirmPassword: "" }));
-            }}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="Confirme sua senha"
             required
           />
         </label>
-        {errors.confirmPassword && (
+        {hasSubmitted && errors.confirmPassword && (
           <div className="register-error">{errors.confirmPassword}</div>
         )}
 
-        <button type="submit">Cadastrar</button>
+        {/* ---------- Botão de envio ---------- */}
+        <button type="submit" disabled={hasSubmitted && !isFormValid}>
+          Cadastrar
+        </button>
       </form>
     </div>
   );
