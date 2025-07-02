@@ -8,11 +8,11 @@
   --text-secondary: #666666;
 
   --badge-otimo: #00c853;
-  --badge-bom:   #ffd600;
-  --badge-ruim:  #d32f2f;
+  --badge-bom: #ffd600;
+  --badge-ruim: #d32f2f;
 
-  --badge-in-stock:  #4caf50; /* Com */
-  --badge-out-stock: #d32f2f; /* Sem */
+  --badge-in-stock: #4caf50;
+  --badge-out-stock: #d32f2f;
 }
 
 /* ——— Estrutura geral ——— */
@@ -53,12 +53,14 @@ body {
   border-radius: 0.375rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .add-button:hover {
   background: var(--bg-button-hover);
+  transform: scale(1.05);
 }
+
 
 /* ——— Filtros ——— */
 .filters {
@@ -125,11 +127,22 @@ body {
   white-space: nowrap;
 }
 
-.badge-otimo       { background: var(--badge-otimo); }
-.badge-bom         { background: var(--badge-bom);  color: #000; }
-.badge-ruim        { background: var(--badge-ruim); }
-.badge-stock.in-stock { background: var(--badge-in-stock); }
-.badge-stock.out-stock{ background: var(--badge-out-stock); }
+.badge-otimo {
+  background: var(--badge-otimo);
+}
+.badge-bom {
+  background: var(--badge-bom);
+  color: #000;
+}
+.badge-ruim {
+  background: var(--badge-ruim);
+}
+.badge-stock.in-stock {
+  background: var(--badge-in-stock);
+}
+.badge-stock.out-stock {
+  background: var(--badge-out-stock);
+}
 
 /* ——— Modal ——— */
 .modal-overlay {
@@ -153,16 +166,33 @@ body {
 
 .modal-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 0.75rem;
   padding: 1rem 1.25rem;
   border-bottom: 1px solid #eceff1;
 }
 
-.modal-header h2 {
-  font-size: 1rem;
-  margin: 0;
+.close-x {
+  background: var(--bg-button);
+  color: #fff;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
+
+.close-x:hover {
+  background: var(--bg-button-hover);
+  transform: scale(1.05);
+}
+
 
 .modal-form {
   display: flex;
@@ -195,13 +225,15 @@ body {
   border-radius: 0.375rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
   width: 100%;
 }
 
 .save-button:hover {
   background: var(--bg-button-hover);
+  transform: scale(1.05);
 }
+
 
 /* ——— Responsivo Desktop ——— */
 @media (min-width: 768px) {
