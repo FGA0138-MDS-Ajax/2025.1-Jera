@@ -64,15 +64,43 @@
   
   /* ——— Sidebar lateral ——— */
   .sidebar {
-    position: absolute;
-    top: 3rem;
+    position: fixed;
+    top: 0;
     left: 0;
     width: 220px;
+    height: 100vh;
     background-color: #c45a44;
     color: white;
     padding: 1rem;
     z-index: 100;
     box-shadow: 2px 0 6px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* ——— Botão de fechar com imagem no CSS ——— */
+  .sidebar-close {
+    align-self: flex-start;
+    background-color: transparent;
+    border: none;
+    border-radius: 0.375rem;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    margin-bottom: 1rem;
+  
+    background-image: url("../assets/Seta.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 16px 16px;
+  
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    text-indent: -9999px; /* esconde texto do botão */
+  }
+  
+  .sidebar-close:hover {
+    background-color: var(--bg-button-hover);
+    transform: scale(1.05);
   }
   
   /* ——— Título clicável da sidebar (FloraGest como link) ——— */

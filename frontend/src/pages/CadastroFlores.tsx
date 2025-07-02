@@ -154,11 +154,10 @@ export default function CadastroFlores() {
         <div className="modal-overlay">
           <div className="modal">
             <header className="modal-header">
+              <button className="close-x" onClick={toggleModal}>
+                ×
+              </button>
               <h2>Adicionar Nova Flor</h2>
-              <button
-                className="icon-placeholder close-btn"
-                onClick={toggleModal}
-              />
             </header>
             <form className="modal-form" onSubmit={handleSubmit}>
               <label>

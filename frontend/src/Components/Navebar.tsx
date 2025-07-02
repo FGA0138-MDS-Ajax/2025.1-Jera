@@ -12,7 +12,6 @@ export default function Navbar({ title }: NavbarProps) {
   return (
     <>
       <header className="top-bar">
-        {/* Botão do menu */}
         <button
           className="menu-btn"
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -29,7 +28,11 @@ export default function Navbar({ title }: NavbarProps) {
 
       {sidebarOpen && (
         <aside className="sidebar">
-          {/* Agora é um link para a página inicial */}
+          <button
+            className="sidebar-close"
+            onClick={() => setSidebarOpen(false)}
+            aria-label="Fechar menu"
+          />
           <Link
             to="/inicio"
             className="sidebar-title"
