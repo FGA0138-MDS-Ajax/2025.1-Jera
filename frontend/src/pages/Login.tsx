@@ -68,7 +68,7 @@ const Login = () => {
     ) {
       setLoginError(false);
       setEmailError(false);
-      navigate("/home");
+      navigate("/inicio");
     } else {
       setLoginError(true);
     }
