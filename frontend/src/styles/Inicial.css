@@ -1,0 +1,99 @@
+:root {
+    --color-terra: #E2725B;
+    --color-terra-hover: #C85B46;
+    --color-green: #008000;
+    --color-cream: #FFFDD0;
+  
+    --radius: 0.75rem;
+    --transition: 0.25s ease;
+    --shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* ---- Layout geral ---- */
+  .home-page {
+    background: var(--color-cream);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* ---- Área dos botões ---- */
+  .buttons-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+    gap: 1rem;
+  }
+  
+  /* ---- Caixa verde do título ---- */
+  .funcionalidades-box {
+    background-color: var(--color-green);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 1.5rem;
+  }
+  
+  .funcionalidades-box h2 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  
+  /* ---- Lista de botões ---- */
+  .buttons-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 450px;
+  }
+  
+  /* ---- Estilo dos botões com ícones ---- */
+  .nav-link-btn {
+    background-color: var(--color-terra);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    padding: 1.75rem 1rem 1.75rem 5.25rem; /* ⬅️ botão mais alto e com mais espaço para ícone */
+    font-size: 1.25rem; /* ⬅️ texto maior */
+    font-weight: 600;
+    text-align: left;
+    text-decoration: none;
+    box-shadow: var(--shadow);
+    transition: transform var(--transition), background-color var(--transition);
+    background-repeat: no-repeat;
+    background-position: 1.25rem center;
+    background-size: 52px 52px; /* ⬅️ ÍCONE MAIOR AQUI */
+    display: block;
+  }
+  
+  .nav-link-btn:hover,
+  .nav-link-btn:focus-visible {
+    background-color: var(--color-terra-hover);
+    transform: scale(1.05);
+  }
+  
+  /* ---- Ícones dos botões ---- */
+  .lotes-btn {
+    background-image: url("../assets/Caixa.png");
+  }
+  
+  .cadastro-btn {
+    background-image: url("../assets/Flor.png");
+  }
+  
+  .registro-btn {
+    background-image: url("../assets/Planilha.png");
+  }
+  
+  .dashboard-btn {
+    background-image: url("../assets/Dashboard.png");
+  }
+  
+  .usuarios-btn {
+    background-image: url("../assets/Usuários.png");
+  }
+  

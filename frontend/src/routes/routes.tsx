@@ -4,6 +4,7 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import FlowerCatalog from "../pages/CadastroFlores";
+import Inicial from "../pages/Inicial";
 
 
 function RoutesApp() {
@@ -14,6 +15,8 @@ function RoutesApp() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/Cadastro" element={<FlowerCatalog />} />
+      <Route path = "/Inicio" element={<Inicial />} />
+      
     </Routes>
   );
 }

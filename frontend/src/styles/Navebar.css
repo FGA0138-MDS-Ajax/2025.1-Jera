@@ -75,12 +75,24 @@
     box-shadow: 2px 0 6px rgba(0, 0, 0, 0.2);
   }
   
+  /* ——— Título clicável da sidebar (FloraGest como link) ——— */
   .sidebar-title {
     font-weight: bold;
     font-style: italic;
     margin-bottom: 1rem;
+    font-size: 1.1rem;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    transition: color 0.2s ease;
   }
   
+  .sidebar-title:hover {
+    text-decoration: underline;
+    color: #ffe0d0;
+  }
+  
+  /* ——— Links do menu lateral ——— */
   .sidebar-links {
     display: flex;
     flex-direction: column;
