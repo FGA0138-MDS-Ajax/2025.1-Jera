@@ -8,7 +8,7 @@ class LoteService:
         return LoteRepository.criar_lote(lote)
 
     @staticmethod
-    def listar_lotes() -> list[Lote]:
+    def listar_lotes():
         return LoteRepository.listar_lotes()
     
     @staticmethod

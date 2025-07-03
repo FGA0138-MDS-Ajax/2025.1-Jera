@@ -7,6 +7,7 @@ class MovimentacaoEstoqueBase(BaseModel):
     quantidade: int
     motivo: str | None = None
     id_lote: int
+    id_estado_estetico: int
 
 class MovimentacaoEstoqueCreate(MovimentacaoEstoqueBase):
     pass

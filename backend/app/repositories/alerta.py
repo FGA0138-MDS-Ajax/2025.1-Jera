@@ -5,8 +5,10 @@ from app.utils.session_inject import with_session
 from app.services.tipo_alerta import TipoAlertaService
 from datetime import datetime, timedelta
 from app.db.models.estado_estetico import EstadoEstetico
-from app.db.models.lote import Lote
 from app.db.models.tipo_alerta import TipoAlerta
+from app.repositories.estatistics_moda import calcular_moda_estado_estetico
+from app.repositories.movimentacao_estoque import MovimentacaoEstoqueRepository
+
 #timedelta() representa uma diferença de tempo, podendo ser dias, horas, minutos, etc...
 class AlertaRepository:
 
@@ -24,20 +26,27 @@ class AlertaRepository:
     @with_session
     def gerar_alertas_lotes_ruins_7dias(session: Session | None = None) -> list[Alerta]:
         """
-        Gera um alerta para cada lote no estado 'ruim' há mais de 7 dias.
+        Gera alertas para lotes que estão no estado estético 'ruim' (de acordo com a moda das movimentações)
+        há mais de 7 dias.
+
+        O alerta é criado apenas se ainda não existir para o lote/produto.
+        O tipo de alerta utilizado é "Lotes ruins há mais de 7 dias" (id_tipo_alerta=99).
+        O estado predominante do lote é calculado dinamicamente a partir das movimentações de estoque.
+
+        Parâmetros:
+            session (Session, opcional): Sessão do banco de dados.
+
+        Retorna:
+            list[Alerta]: Lista de alertas gerados nesta execução.
         """
-        from app.db.models.lote import Lote  # evitar import circular
         sete_dias_atras = datetime.now() - timedelta(days=7)
+
+        # Busca o estado estético "ruim"
         estado_ruim = session.query(EstadoEstetico).filter(
             EstadoEstetico.nome_estado_estetico.ilike("ruim")
         ).first()
         if not estado_ruim:
             return []
-
-        lotes_ruins = session.query(Lote).filter(
-            Lote.id_estado_estetico == estado_ruim.id_estado_estetico,
-            Lote.data_entrada < sete_dias_atras
-        ).all()
 
         # Garante que o tipo de alerta existe
         tipo_alerta = session.query(TipoAlerta).filter(TipoAlerta.id_tipo_alerta == 99).first()
@@ -48,17 +57,26 @@ class AlertaRepository:
             session.refresh(tipo_alerta)
 
         alertas_gerados = []
-        for lote in lotes_ruins:
-            mensagem = f"Lote {lote.id_lote} está no estado RUIM há mais de 7 dias."
-            if not AlertaRepository.alerta_existe(lote.id_produto, tipo_alerta.id_tipo_alerta, mensagem, lote.id_lote, session):
-                alerta = Alerta(
-                    id_produto=lote.id_produto,
-                    id_tipo_alerta=tipo_alerta.id_tipo_alerta,
-                    id_lote=lote.id_lote,
-                    mensagem=mensagem
-                )
-                session.add(alerta)
-                alertas_gerados.append(alerta)
+        # Busca todos os lotes com data de entrada há mais de 7 dias
+        from app.db.models.lote import Lote
+        lotes = session.query(Lote).filter(Lote.data_entrada < sete_dias_atras).all()
+        for lote in lotes:
+            # Busca as movimentações do lote
+            movimentacoes = MovimentacaoEstoqueRepository.listar_por_lote(lote.id_lote, session=session)
+            # Calcula a moda do estado estético das movimentações
+            id_moda = calcular_moda_estado_estetico(movimentacoes)
+            # Se a moda for "ruim", gera o alerta (se ainda não existir)
+            if id_moda == estado_ruim.id_estado_estetico:
+                mensagem = f"Lote {lote.id_lote} está no estado RUIM há mais de 7 dias."
+                if not AlertaRepository.alerta_existe(lote.id_produto, tipo_alerta.id_tipo_alerta, mensagem, lote.id_lote, session):
+                    alerta = Alerta(
+                        id_produto=lote.id_produto,
+                        id_tipo_alerta=tipo_alerta.id_tipo_alerta,
+                        id_lote=lote.id_lote,
+                        mensagem=mensagem
+                    )
+                    session.add(alerta)
+                    alertas_gerados.append(alerta)
         session.commit()
         return alertas_gerados
     
