@@ -62,7 +62,7 @@ const Register = () => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      navigate("/home");
+      navigate("/Inicio");
     }
   };
 
