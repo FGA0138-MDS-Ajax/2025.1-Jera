@@ -35,3 +35,10 @@ class MovimentacaoEstoqueService:
         Retorna todas as movimentações de estoque de um produto específico.
         """
         return MovimentacaoEstoqueRepository.listar_por_produto(id_produto)
+    
+    @staticmethod
+    def listar_por_lote(id_lote: int) -> list[MovimentacaoEstoque]:
+        """
+        Retorna todas as movimentações de estoque de um lote específico.
+        """
+        return MovimentacaoEstoqueRepository.listar_por_lote(id_lote)

@@ -32,11 +32,9 @@ class Lote(SQLModel, table=True):
 
     data_entrada: datetime | None = Field(default_factory=datetime.now, nullable=False)
     id_produto: int = Field(foreign_key="produto.id_produto", nullable=False)
-    id_estado_estetico: int = Field(foreign_key="estado_estetico.id_estado_estetico", nullable=False)
     
     concluido: bool = Field(default=False, nullable=False)
 
-    estado_estetico: Optional["EstadoEstetico"] = Relationship(back_populates="lotes")
     alertas: list["Alerta"] = Relationship(back_populates="lote")
     produto: Optional["Product"] = Relationship(back_populates="lotes")
     movimentacoes: list["MovimentacaoEstoque"] = Relationship(back_populates="lote")

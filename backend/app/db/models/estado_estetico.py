@@ -3,6 +3,7 @@ from sqlmodel import Field, SQLModel, Relationship
 
 if TYPE_CHECKING:
     from app.db.models.lote import Lote
+    from app.db.models.movimentacao_estoque import MovimentacaoEstoque
 
 class EstadoEstetico(SQLModel, table=True):
     __tablename__ = "estado_estetico"
@@ -16,4 +17,4 @@ class EstadoEstetico(SQLModel, table=True):
     
     nome_estado_estetico: str = Field(max_length=50, nullable=False)
 
-    lotes: list["Lote"] = Relationship(back_populates="estado_estetico")
+    movimentacoes: list["MovimentacaoEstoque"] = Relationship(back_populates="estado_estetico")

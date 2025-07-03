@@ -1,6 +1,5 @@
 from app.db.models.movimentacao_estoque import MovimentacaoEstoque
 from app.db.models.product import Product
-from app.services.alerta import AlertaService
 from app.utils.session_inject import with_session
 from sqlalchemy.orm import Session
 from app.db.models.lote import Lote
@@ -23,6 +22,16 @@ class MovimentacaoEstoqueRepository:
         """
         return session.query(MovimentacaoEstoque).filter(
             MovimentacaoEstoque.id_produto == id_produto
+        ).all()
+    
+    @staticmethod
+    @with_session
+    def listar_por_lote(id_lote: int, session: Session = None) -> list[MovimentacaoEstoque]:
+        """
+        Retorna todas as movimentações de estoque de um lote específico.
+        """
+        return session.query(MovimentacaoEstoque).filter(
+            MovimentacaoEstoque.id_lote == id_lote
         ).all()
         
     @staticmethod
@@ -54,6 +63,8 @@ class MovimentacaoEstoqueRepository:
             lote.quantidade_atual = estoque_lote
             session.commit()
             session.refresh(lote)
+
+        from app.services.alerta import AlertaService
 
         # Calcule o estoque atual do produto após a movimentação
         estoque_atual = MovimentacaoEstoqueRepository.calcular_estoque(id_produto=produto.id_produto, session=session)
@@ -87,6 +98,8 @@ class MovimentacaoEstoqueRepository:
             lote.quantidade_atual = estoque_lote
             session.commit()
             session.refresh(lote)
+
+        from app.services.alerta import AlertaService
 
         # Calcule o estoque atual do produto após a movimentação
         estoque_atual = MovimentacaoEstoqueRepository.calcular_estoque(id_produto=produto.id_produto, session=session)

@@ -7,6 +7,9 @@ from app.db.models.movimentacao_estoque import MovimentacaoEstoque
 from app.utils.session_inject import with_session
 from app.repositories.alerta import AlertaRepository
 from app.repositories.movimentacao_estoque import MovimentacaoEstoqueRepository
+from app.repositories.movimentacao_estoque import MovimentacaoEstoqueRepository
+from app.repositories.estatistics_moda import calcular_moda_estado_estetico
+from app.repositories.estado_estetico import EstadoEsteticoRepository
 
 
 class LoteRepository:
@@ -30,8 +33,20 @@ class LoteRepository:
     @staticmethod
     @with_session
     def listar_lotes(session: Session = None) -> list[Lote]:
+        """
+        Lista todos os lotes, incluindo o estado_predominante calculado pela moda das movimentações.
+        """
+        lotes = session.query(Lote).all()
+        resultado = []
+        for lote in lotes:
+            movimentacoes = MovimentacaoEstoqueRepository.listar_por_lote(lote.id_lote, session=session)
+            id_moda = calcular_moda_estado_estetico(movimentacoes)
+            estado = EstadoEsteticoRepository.get_estado_by_id(id_moda, session=session) if id_moda else None
+            lote_dict = lote.model_dump() if hasattr(lote, "model_dump") else lote.__dict__.copy()
+            lote_dict["estado_predominante"] = estado.nome_estado_estetico if estado else None
+            resultado.append(lote_dict)
         AlertaRepository.gerar_alertas_lotes_ruins_7dias(session=session)
-        return session.query(Lote).all() 
+        return resultado
     
     @staticmethod
     @with_session
