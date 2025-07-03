@@ -1,0 +1,92 @@
+.adicionar-estoque {
+  background: #f4f4f4;
+  border-radius: 16px;
+  padding: 1.5rem 1rem;
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: #222;
+}
+.nome-flor {
+  color: #a63c1a;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+.campo {
+  margin-bottom: 1.2rem;
+  width: 100%;
+}
+.campo label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.3rem;
+  color: #444;
+}
+.quantidade-box {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+.quantidade-box button {
+  background: #e2e8a6;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.5rem;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #333;
+  transition: background 0.2s;
+}
+.quantidade-box button:hover {
+  background: #c6d36b;
+}
+.estado-box {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+.estado-box button {
+  background: none;
+  border: 2px solid #7a942e;
+  border-radius: 20px;
+  padding: 0.4rem 1.2rem;
+  font-size: 1rem;
+  color: #7a942e;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.estado-box button.ativo, .estado-box button:hover {
+  background: #7a942e;
+  color: #fff;
+}
+.btn-confirmar {
+  width: 100%;
+  background: #5e701f;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 0;
+  margin-top: 1.5rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-confirmar:hover {
+  background: #3d4d13;
+}
+@media (max-width: 600px) {
+  .adicionar-estoque {
+    padding: 1rem 0.5rem;
+    border-radius: 0;
+    box-shadow: none;
+  }
+} 
