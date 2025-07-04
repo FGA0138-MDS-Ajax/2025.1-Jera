@@ -4,11 +4,17 @@
 
 ### Contexto
 
-A gestão de estoque é uma atividade essencial para o bom funcionamento de muitas empresas, especialmente as que lidam com produtos que têm uma vida útil. Isso é uma realidade na agricultura e, mais especificamente, no ramo da floricultura, onde, na manutenção de flores, por conta de sua natureza hiper perecível e da necessidade de manter sua boa aparência, exige-se um controle ainda mais rigoroso de entrada, saída e validade que não seria necessário em outros setores da agricultura.
+A gestão eficiente de estoques é um dos pilares fundamentais para a sustentabilidade econômica de negócios que lidam com produtos perecíveis. No setor agrícola, especialmente na floricultura, esse desafio é ainda mais crítico devido à natureza perecível das flores, que exigem condições específicas de armazenamento, transporte e comercialização para manter sua qualidade e valor de mercado (FAO,2021). Entretanto, a realidade de muitas floriculturas de pequeno e médio porte no Brasil ainda é marcada pelo uso de planilhas manuais e pouco adaptadas, que pode influenciar no desperdício de insumos, ruptura de estoque, ineficiência operacional, dentre outros.
 
-No entanto, muitas floriculturas, principalmente as de pequeno e médio porte, ainda utilizam planilhas ou controles manuais, o que gera desperdícios, rupturas no estoque e dificuldades na reposição, que, devido ao tamanho do empreendimento, se tornam perdas ainda maiores.
+De acordo com estudos realizados pela IBRAFLOR, Instituto Brasileiro de Floricultura, cerca de 30% das flores são perdidas devido a falha no controle de validade e condições inadequadas de armazenamento (IBRAFLOR, 2022). Ainda, a falta de sincronia entre demanda e reposição leva a perdas financeiras e insatisfação do cliente (SEBRAE, 2022) e processos manuais consomem tempo e aumentam a margem de erro, impactando diretamente e negativamente a produtividade (EMBRAPA, 2023).
 
-Neste contexto, o grupo propõe o desenvolvimento de uma plataforma de gestão de estoque especializada para empreendimentos do setor floriculturista, com foco em automação, facilidade de uso, monitoramento em tempo real e gestão de volumes. A iniciativa surgiu após identificar essa lacuna pela análise de soluções de mercado, que justamente falham em cumprir esse nicho empresarial.
+Diante desse cenário, a implementação de uma solução tecnológica especializada surge como uma alternativa viável para otimizar a gestão de estoques nesse segmento. A proposta do projeto, portanto, é desenvolver uma plataforma de gestão integrada, com foco na automação, buscando redução de erros humanos e ganho de eficiência; facilidade de uso e acessibilidade, criando uma interface intuitiva para pequenos e médios produtores; monitoramento em tempo real e gestão de volumes, com o objetivo de buscar o controle preciso de validade e níveis de estoque. 
+
+Este projeto está acordado com a ODS 8.2, estabelecido pela Organização das Nações Unidas (ONU, 2015), que prevê:
+      "Alcançar níveis mais elevados de produtividade econômica por meio da diversificação, modernização tecnológica e inovação, com foco em setores de alto valor         agregado e intensivos em mão de obra.”
+
+Enquanto soluções genéricas de gestão podem não atender às particularidades da floricultura, este projeto busca desenvolver uma plataforma sob medida, que contribui diretamente para o aumento da produtividade, inclusão tecnológica e sustentabilidade ambiental.
+
 
 ### Problema Encontrado
 
