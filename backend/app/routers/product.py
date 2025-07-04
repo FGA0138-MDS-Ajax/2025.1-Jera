@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.routers.schemas.product import (
     ProductResponseSchema,
@@ -8,6 +8,8 @@ from app.routers.schemas.product import (
 from app.services.product import ProductService
 from app.db.models.product import Product
 from app.utils.logger import Logger
+from app.utils.aut_jwt import get_current_user
+from app.utils.dependencies import require_admin
 
 logger = Logger()
 
@@ -25,7 +27,7 @@ def get_products():
     return ProductService.get_all_products()
 
 
-@router.post("/product", status_code=201)
+@router.post("/product", status_code=201, dependencies=[Depends(require_admin)])
 def create_product(request_body: ProductCreateSchema) -> ProductResponseSchema:
     """
     Cria um produto novo.
@@ -90,7 +92,7 @@ def update_product(
     return updated_product.model_dump()
 
 
-@router.delete("/product/{product_id}", status_code=204)
+@router.delete("/product/{product_id}", status_code=204, dependencies=[Depends(require_admin)])
 def delete_product(product_id: int) -> None:
     """
     Deleta um produto pelo seu ID.
