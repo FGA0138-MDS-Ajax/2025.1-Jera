@@ -15,7 +15,7 @@ Para garantir a confiabilidade do sistema AgroStock, serão realizados testes em
 <b>Testes Unitários:</b> serão aplicados diretamente nas funções e componentes isolados, principalmente no backend, como validação de lógica de cálculo de validade de flores, verificação de campos obrigatórios e manipulação de dados. Esses testes asseguram que cada bloco individual de código se comporta conforme esperado.
 
 
-<b>Testes de Integração:</b> serão utilizados para validar o funcionamento conjunto entre diferentes módulos, como a comunicação entre o frontend e o backend durante o cadastro, atualização e visualização de produtos no estoque. O objetivo é garantir que os fluxos de dados entre os componentes estejam corretos.
+<b>Testes de Sistema:</b> serão utilizados para validar o funcionamento conjunto entre diferentes módulos, como a comunicação entre o frontend e o backend durante o cadastro, atualização e visualização de produtos no estoque. O objetivo é garantir que os fluxos de dados entre os componentes estejam corretos. Existem possibilidades de automatização para testes de sistema, que podem ser implementadas conforme a evolução do projeto.
 
 
 <b>Testes Manuais:</b> envolvem a simulação de ações completas feitas por um usuário final, como o cadastro de um novo produto, visualização de alertas de validade, geração de relatórios e navegação pelas telas. Esses testes permitem avaliar o comportamento do sistema como um todo, de ponta a ponta e serão feitos por integrantes do grupo.
@@ -41,7 +41,7 @@ Para garantir segurança, controle e fidelidade ao uso real, os testes serão ex
 
 <b>Ambiente de Desenvolvimento (Local):</b> utilizado para testes unitários e experimentações rápidas durante a codificação. Executado localmente pelos desenvolvedores, com simulação de dados.
 
-<b>Ambiente de Homologação:</b> será configurado para execução dos testes de integração e sistema. Esse ambiente simula as condições reais de uso (com banco de dados, autenticação e APIs funcionando) e é acessível a todos os membros da equipe. Ele permite validar a aplicação sem comprometer o ambiente de produção e será com a ferramenta Postman, com dados fictícios para simulação e validação das operações.
+<b>Ambiente de Homologação:</b> será configurado para execução dos testes de sistema. Esse ambiente simula as condições reais de uso (com banco de dados, autenticação e APIs funcionando) e é acessível a todos os membros da equipe. Ele permite validar a aplicação sem comprometer o ambiente de produção e será com a ferramenta Postman, com dados fictícios para simulação e validação das operações.
 
 <b>Ambiente de Produção:</b> não será utilizado para execução de testes, evitando riscos para os usuários finais e os dados reais do sistema.
 
