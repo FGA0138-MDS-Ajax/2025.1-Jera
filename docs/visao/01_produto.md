@@ -1,7 +1,5 @@
 # Visão Geral do Produto
 
-## Problema
-
 ### Contexto
 
 A gestão eficiente de estoques é um dos pilares fundamentais para a sustentabilidade econômica de negócios que lidam com produtos perecíveis. No setor agrícola, especialmente na floricultura, esse desafio é ainda mais crítico devido à natureza perecível das flores, que exigem condições específicas de armazenamento, transporte e comercialização para manter sua qualidade e valor de mercado (FAO,2021). Entretanto, a realidade de muitas floriculturas de pequeno e médio porte no Brasil ainda é marcada pelo uso de planilhas manuais e pouco adaptadas, que pode influenciar no desperdício de insumos, ruptura de estoque, ineficiência operacional, dentre outros.
@@ -11,21 +9,21 @@ De acordo com estudos realizados pela IBRAFLOR, Instituto Brasileiro de Floricul
 Diante desse cenário, a implementação de uma solução tecnológica especializada surge como uma alternativa viável para otimizar a gestão de estoques nesse segmento. A proposta do projeto, portanto, é desenvolver uma plataforma de gestão integrada, com foco na automação, buscando redução de erros humanos e ganho de eficiência; facilidade de uso e acessibilidade, criando uma interface intuitiva para pequenos e médios produtores; monitoramento em tempo real e gestão de volumes, com o objetivo de buscar o controle preciso de validade e níveis de estoque. 
 
 Este projeto está acordado com a ODS 8.2, estabelecido pela Organização das Nações Unidas (ONU, 2015), que prevê:
-      "Alcançar níveis mais elevados de produtividade econômica por meio da diversificação, modernização tecnológica e inovação, com foco em setores de alto valor         agregado e intensivos em mão de obra.”
+>"Alcançar níveis mais elevados de produtividade econômica por meio da diversificação, modernização tecnológica e inovação, com foco em setores de alto valor    agregado e intensivos em mão de obra.”
 
 Enquanto soluções genéricas de gestão podem não atender às particularidades da floricultura, este projeto busca desenvolver uma plataforma sob medida, que contribui diretamente para o aumento da produtividade, inclusão tecnológica e sustentabilidade ambiental.
 
-
+---
 ### Problema Encontrado
 
 Floriculturistas em fase inicial de operação enfrentam desafios críticos no armazenamento e gestão de flores, aspectos fundamentais para a viabilidade do negócio. Atualmente, o mercado carece de soluções tecnológicas que, principalmente:
-      1. Escalem adequadamente para atender o volume demandado por floriculturas comerciais, e não apenas em níveis domésticos;
-      2. Facilitem o registro organizado de grandes quantidades de flores, mesmo para usuários com pouca familiaridade tecnológica;
-      3. Ofereçam funcionalidades avançadas, como alertas de validade e relatórios estatísticos, para auxiliar a tomada de decisões.
+1. Escalem adequadamente para atender o volume demandado por floriculturas comerciais, e não apenas em níveis domésticos;
+2. Facilitem o registro organizado de grandes quantidades de flores, mesmo para usuários com pouca familiaridade tecnológica;
+3. Ofereçam funcionalidades avançadas, como alertas de validade e relatórios estatísticos, para auxiliar a tomada de decisões.
 
 As alternativas existentes, além de serem de difícil acesso, não atendem às especificidades de empreendedores no setor, levando-os a depender de métodos manuais de gestão, como planilhas físicas ou sistemas genéricos, que muitas vezes são ineficientes, propensos a erros e limitados, considerando as particularidades do setor.
 
-
+---
 ### Solução e Proposta
 
 Desenvolver uma plataforma de gestão de estoque moderna, voltada para pequenos floristas que querem começar seu negócio ou médios empresários com necessidade de manejar melhor sua organização de tamanho já considerável. A ferramenta será acessível, intuitiva e adaptada à realidade desses negócios, permitindo o registro e controle digital de entradas e saídas de produtos, alertas de estoque, análises de desempenho e suporte à tomada de decisão com base em dados.
