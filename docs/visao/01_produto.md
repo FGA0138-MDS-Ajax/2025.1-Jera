@@ -18,9 +18,13 @@ Enquanto soluções genéricas de gestão podem não atender às particularidade
 
 ### Problema Encontrado
 
-Um florista começando seu negócio precisa pensar em como irá fazer o armazenamento e cuidado das flores, sendo essa uma parte chave do empreendimento. Porém, por falta de opções no mercado de aplicações que escalam com altos volumes de maneira organizada de uma floricultura e não apenas níveis domésticos de cuidado; que não facilitam o registro dessas flores para acomodar esse alto volume e para pessoas leigas em tecnologia; que não oferecem estatísticas e avisos com o fim de ajudar na gestão.
+Floriculturistas em fase inicial de operação enfrentam desafios críticos no armazenamento e gestão de flores, aspectos fundamentais para a viabilidade do negócio. Atualmente, o mercado carece de soluções tecnológicas que, principalmente:
+      1. Escalem adequadamente para atender o volume demandado por floriculturas comerciais, e não apenas em níveis domésticos;
+      2. Facilitem o registro organizado de grandes quantidades de flores, mesmo para usuários com pouca familiaridade tecnológica;
+      3. Ofereçam funcionalidades avançadas, como alertas de validade e relatórios estatísticos, para auxiliar a tomada de decisões.
 
-Dessa maneira, não existem alternativas no mercado que fazem o casamento de empresários e floristas que estão começando agora seu negócio e precisam de uma solução de gestão que acomode quaisquer demandas que usuários desse nicho poderiam ter, sem precisar depender de soluções mais ineficientes e com maior margem para erros, como as manuais.
+As alternativas existentes, além de serem de difícil acesso, não atendem às especificidades de empreendedores no setor, levando-os a depender de métodos manuais de gestão, como planilhas físicas ou sistemas genéricos, que muitas vezes são ineficientes, propensos a erros e limitados, considerando as particularidades do setor.
+
 
 ### Solução e Proposta
 
