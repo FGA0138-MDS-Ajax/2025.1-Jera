@@ -1,6 +1,6 @@
 # Visão Geral do Produto
 
-### Contexto
+## Contexto
 
 A gestão eficiente de estoques é um dos pilares fundamentais para a sustentabilidade econômica de negócios que lidam com produtos perecíveis. No setor agrícola, especialmente na floricultura, esse desafio é ainda mais crítico devido à natureza perecível das flores, que exigem condições específicas de armazenamento, transporte e comercialização para manter sua qualidade e valor de mercado (FAO,2021). Entretanto, a realidade de muitas floriculturas de pequeno e médio porte no Brasil ainda é marcada pelo uso de planilhas manuais e pouco adaptadas, que pode influenciar no desperdício de insumos, ruptura de estoque, ineficiência operacional, dentre outros.
 
@@ -14,7 +14,7 @@ Este projeto está acordado com a ODS 8.2, estabelecido pela Organização das N
 Enquanto soluções genéricas de gestão podem não atender às particularidades da floricultura, este projeto busca desenvolver uma plataforma sob medida, que contribui diretamente para o aumento da produtividade, inclusão tecnológica e sustentabilidade ambiental.
 
 ---
-### Problema Encontrado
+## Problematização
 
 Floriculturistas em fase inicial de operação enfrentam desafios críticos no armazenamento e gestão de flores, aspectos fundamentais para a viabilidade do negócio. Atualmente, o mercado carece de soluções tecnológicas que, principalmente:
 1. Escalem adequadamente para atender o volume demandado por floriculturas comerciais, e não apenas em níveis domésticos;
@@ -24,24 +24,46 @@ Floriculturistas em fase inicial de operação enfrentam desafios críticos no a
 As alternativas existentes, além de serem de difícil acesso, não atendem às especificidades de empreendedores no setor, levando-os a depender de métodos manuais de gestão, como planilhas físicas ou sistemas genéricos, que muitas vezes são ineficientes, propensos a erros e limitados, considerando as particularidades do setor.
 
 ---
-### Solução e Proposta
+## Solução e Proposta
 
-Desenvolver uma plataforma de gestão de estoque moderna, voltada para pequenos floristas que querem começar seu negócio ou médios empresários com necessidade de manejar melhor sua organização de tamanho já considerável. A ferramenta será acessível, intuitiva e adaptada à realidade desses negócios, permitindo o registro e controle digital de entradas e saídas de produtos, alertas de estoque, análises de desempenho e suporte à tomada de decisão com base em dados.
+A plataforma de gestão de estoque proposta visa atender às necessidades específicas de floriculturas de pequeno e médio porte, oferecendo uma solução tecnológica acessível e especializada. O sistema pretende resolver os principais problemas identificados no setor, combinando funcionalidades essenciais com uma interface intuitiva.
 
-O projeto será totalmente alinhado aos **Objetivos de Desenvolvimento Sustentável (ODS)** propostos pela ONU, especialmente o de número **8.2**, além de um objetivo secundário de democratizar o uso de tecnologias para a população, que também está previsto em outros objetivos da ODS.
+Dentre as principais funcionalidades, pretende-se implementar:
+1. Cadastro e rastreamento de produtos:
+  - registro detalhado de lotes com informações como tipos de flores, data de entrada, validade;
+  - categorização de produtos.
+2. Controle de estoque inteligente:
+  - sistema de alertas para produtos próximos ao vencimento;
+  - avisos para reposição quando os níveis atingirem quantidades mínimas;
+  - histórico de movimentações com registro de entradas e saídas.
+3. Suporte à tomada de decisões baseadas em dados;
 
-## Declaração de Posição do Produto
+4. Acessibilidade e usabilidade:
+  - interface simplificada desenvolvida para usuários não técnicos;
+  - design responsivo que se adapte a diferentes dispositivos.
 
-- **Para:** Pequenas e médias empresas do setor floriculturista.  
-- **Necessidade:** Modernizar e automatizar a gestão de estoque e produção, reduzindo perdas e aumentando a produtividade.  
-- **O produto:** **FloraGest**  
-- **Que:** Oferece uma interface simples para registrar, monitorar e analisar o estoque e movimentações, com alertas inteligentes e relatórios analíticos, como gráficos.  
-- **Ao contrário:** De ferramentas ineficientes, não escaláveis e geralmente lentas que geram problemas na gestão.  
-- **Nosso produto:** Foca na parte empreendedora do cuidado de flores, com várias ferramentas visuais e facilitadoras auxiliando esse propósito, sendo isso algo não existente em outros aplicativos do mercado voltados a esse setor.
+Além disso, esta proposta de projeto se destaca por três diferenciais competitivos: pela especialização do nicho, sendo uma solução desenvolvida especificamente para as necessidades de floriculturistas, o que considera todas as particularidades do manejo de produtos perecíveis; pela implementação simplificada, que oferece um processo de instalação e configuração otimizado para as capacidades técnicas de pequenos negócios; e pelo custo acessível. Esses fatores combinados podem influenciar em uma adoção mais rápida e eficaz da solução no mercado-alvo.
 
-## Objetivos do Produto
+Dito isso, o projeto busca a criação de uma ferramenta que realmente atenda às demandas do setor, com foco na redução de perdas e na otimização dos processos operacionais, com a finalidade de preencher a lacuna existente no mercado entre sistemas genéricos complexos e planilhas manuais ineficientes.
 
-### Objetivo Principal
+---
+## Posicionamento estratégico do produto
+
+A tabela abaixo sintetiza o posicionamento estratégico do FloraGest no mercado de soluções para gestão floriculturista, destacando seu público-alvo, valores diferenciais e vantagens competitivas frente às alternativas existentes:
+
+
+|      Elemento             	|      Descrição                                                                                                                               	|
+|---------------------------	|----------------------------------------------------------------------------------------------------------------------------------------------	|
+|     Nome   do Produto     	|     FloraGest                                                                                                                                	|
+|     Público-Alvo          	|     Pequenas e médias floriculturas que necessitam de gestão   eficiente de estoque.                                                         	|
+|     Necessidade           	|     Modernização   e automatização do controle de estoque para reduzir perdas e aumentar a   produtividade                                   	|
+|     Principais Ofertas    	|     Interface simples para registrar, monitorar e analisar o   estoque e movimentações, com alertas inteligentes e relatórios analíticos.    	|
+|     Diferenciais          	|     Foco   exclusivo no nicho de floricultura com ferramentas visuais e facilitadoras   para usuários não técnicos e custo acessível.        	|
+
+---
+## Objetivos
+
+### Objetivo principal
 
 Desenvolver uma plataforma digital de gestão de estoque voltada para floriculturas de pequeno e médio porte, com foco em acessibilidade, automação e eficiência, tirando limitações enfrentadas por esses empreendimentos, que muitas vezes recorrem a controles manuais ou planilhas ineficientes, resultando em perdas, rupturas de estoque e baixa previsibilidade.
 
@@ -49,13 +71,13 @@ Isso é ainda mais crítico considerando a natureza altamente perecível das flo
 
 A plataforma proporcionará alertas inteligentes e relatórios analíticos, tudo isso com o objetivo de preencher uma lacuna no mercado, oferecendo uma solução especializada e escalável, adaptada às demandas reais do setor floriculturista, que também se alinha aos Objetivos de Desenvolvimento Sustentável (ODS) da ONU, especialmente o de número **8.2**, promovendo a modernização de processos produtivos.
 
-### Objetivos Secundários
+### Objetivos secundários
 
 - Promover a democratização no uso de ferramentas mais robustas para empreendedores de menor porte.
 - Gerar relatórios e dashboards em tempo real para tomada de decisão.
 - Controlar o estoque de outros recursos típicos de uma floricultura.
 
-## Tecnologias a Serem Utilizadas
+## Tecnologias a serem utilizadas
 
 - **Frontend:** React
 - **Backend:** Python
