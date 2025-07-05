@@ -60,6 +60,8 @@ A tabela abaixo sintetiza o posicionamento estratégico do FloraGest no mercado 
 |     Principais Ofertas    	|     Interface simples para registrar, monitorar e analisar o   estoque e movimentações, com alertas inteligentes e relatórios analíticos.    	|
 |     Diferenciais          	|     Foco   exclusivo no nicho de floricultura com ferramentas visuais e facilitadoras   para usuários não técnicos e custo acessível.        	|
 
+*Tabela 01: Posicionamento estratégico do FloraGest. Fonte: Elaborada pelos autores.* 
+
 ---
 ## Objetivos
 
