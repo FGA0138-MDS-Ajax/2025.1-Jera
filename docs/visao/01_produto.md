@@ -24,7 +24,7 @@ Floriculturistas em fase inicial de operação enfrentam desafios críticos no a
 As alternativas existentes, além de serem de difícil acesso, não atendem às especificidades de empreendedores no setor, levando-os a depender de métodos manuais de gestão, como planilhas físicas ou sistemas genéricos, que muitas vezes são ineficientes, propensos a erros e limitados, considerando as particularidades do setor.
 
 ---
-## Solução e Proposta
+## Proposta de Solução
 
 A plataforma de gestão de estoque proposta visa atender às necessidades específicas de floriculturas de pequeno e médio porte, oferecendo uma solução tecnológica acessível e especializada. O sistema pretende resolver os principais problemas identificados no setor, combinando funcionalidades essenciais com uma interface intuitiva.
 
@@ -67,17 +67,18 @@ A tabela abaixo sintetiza o posicionamento estratégico do FloraGest no mercado 
 
 ### Objetivo principal
 
-Desenvolver uma plataforma digital de gestão de estoque voltada para floriculturas de pequeno e médio porte, com foco em acessibilidade, automação e eficiência, tirando limitações enfrentadas por esses empreendimentos, que muitas vezes recorrem a controles manuais ou planilhas ineficientes, resultando em perdas, rupturas de estoque e baixa previsibilidade.
-
-Isso é ainda mais crítico considerando a natureza altamente perecível das flores e a exigência por manutenção estética constante, dessa forma, precisará de um controle rigoroso de entradas, saídas e validade dos produtos em tempo real.
-
-A plataforma proporcionará alertas inteligentes e relatórios analíticos, tudo isso com o objetivo de preencher uma lacuna no mercado, oferecendo uma solução especializada e escalável, adaptada às demandas reais do setor floriculturista, que também se alinha aos Objetivos de Desenvolvimento Sustentável (ODS) da ONU, especialmente o de número **8.2**, promovendo a modernização de processos produtivos.
+O FloraGest tem como objetivo desenvolver uma plataforma digital especializada para gestão de estoque em floriculturas de pequeno e médio porte, em consonância com a ODS 8.2, resolvendo desafios críticos do setor como por exemplo: a substituição de métodos obsoletos, como planilhas manuais e controles ineficientes; controle de perecíveis, através do monitoramento de entradas/saídas de produtos e alertas de produtos próximos ao vencimento; tomada de decisão estratégicas, com o auxílio de dados de controle e integração com indicadores de sustentabilidade.
 
 ### Objetivos secundários
 
-- Promover a democratização no uso de ferramentas mais robustas para empreendedores de menor porte.
-- Gerar relatórios e dashboards em tempo real para tomada de decisão.
-- Controlar o estoque de outros recursos típicos de uma floricultura.
+- **Democratização tecnológica**
+  - Oferecer uma solução acessível para pequenos e médios empreendedores floriculturistas, através de uma plataforma de baixo custo e interface intuitiva;
+  - Reduzir a barreira de entrada com um suporte especializado;
+- **Gestão de dados estratégicos**
+  - Gerar relatórios e dashboards em tempo real para tomada de decisão, que indiquem a taxa de perda por validade, custo-benefício por lote;
+- **Controle integrado de insumos**
+  - Gerenciamento de recursos complementares à floricultura, como substratos, materiais de embalagem, itens de manutenção.
+
 
 ## Tecnologias a serem utilizadas
 
