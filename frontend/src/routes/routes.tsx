@@ -5,6 +5,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import FlowerCatalog from "../pages/CadastroFlores";
 import Inicial from "../pages/Inicial";
+import GerenciarTiposProduto from "../pages/GerenciadoTipoProduto";
 
 
 function RoutesApp() {
@@ -16,6 +17,7 @@ function RoutesApp() {
       <Route path="/register" element={<Register />} />
       <Route path="/Cadastro" element={<FlowerCatalog />} />
       <Route path = "/Inicio" element={<Inicial />} />
+      <Route path = "/tipo-produto" element={<GerenciarTiposProduto />} />
       
     </Routes>
   );

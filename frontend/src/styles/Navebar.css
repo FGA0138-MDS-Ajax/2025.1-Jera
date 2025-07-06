@@ -142,3 +142,26 @@
     text-decoration: underline;
   }
   
+  .tipo-produto-btn {
+  background: var(--bg-button, #b64c38);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.375rem;
+  padding: 0.5rem 1.2rem;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 2px 6px rgba(182, 76, 56, 0.08);
+}
+
+.tipo-produto-btn:hover,
+.tipo-produto-btn:focus-visible {
+  background: var(--bg-button-hover, #a03e2d);
+  color: #fff;
+  transform: scale(1.05);
+  text-decoration: underline;
+}

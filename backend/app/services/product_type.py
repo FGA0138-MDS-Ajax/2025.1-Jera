@@ -20,6 +20,6 @@ class ProductTypeService:
         return ProductTypeRepository.update_product_type(product_type_data)
 
     @staticmethod
-    def delete_product_type(product_type: ProductType) -> None:
-        ProductTypeRepository.delete_product_type(product_type)
+    def delete_product_type(id_product_type:int) -> bool:
+        ProductTypeRepository.delete_product_type(id_product_type)
 

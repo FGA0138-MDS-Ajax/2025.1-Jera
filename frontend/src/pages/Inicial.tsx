@@ -13,6 +13,9 @@ export default function Inicial() {
         </div>
 
         <div className="buttons-list">
+          <Link to="/tipo-produto" className="nav-link-btn tipo-produto-btn">
+            Gerenciar Tipos de Produto
+          </Link>
           <Link to="/lotes" className="nav-link-btn lotes-btn">
             Lotes
           </Link>

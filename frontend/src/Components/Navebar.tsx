@@ -17,7 +17,7 @@ export default function Navbar({ title }: NavbarProps) {
           onClick={() => setSidebarOpen(!sidebarOpen)}
           aria-label="Abrir menu"
         />
-
+      
         <h2>{title}</h2>
 
         <div className="top-bar-actions">
@@ -25,7 +25,7 @@ export default function Navbar({ title }: NavbarProps) {
           <Link to="/" className="profile-btn" aria-label="Perfil do usuário" />
         </div>
       </header>
-
+      
       {sidebarOpen && (
         <aside className="sidebar">
           <button
