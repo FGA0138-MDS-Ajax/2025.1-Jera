@@ -15,15 +15,11 @@ A partir das principais funcionalidades descritas no escopo — como:
 
 e dos perfis de acesso (**Administrador**, **Gerente** e **Operador**), foi definido o **Diagrama de Casos de Uso** abaixo, que ilustra a interação entre esses atores e as principais funcionalidades.
 
-<div align="center">
+**Figura: Diagrama de Casos de Uso do FloraGest**
 
-  <img src="../imagens/diagrama_casos_uso_floragest_v4.png" alt="Diagrama de Casos de Uso - FloraGest" width="300"/>
+![Casos de Uso](../imagens/diagrama_casos_uso_floragest_v4.png)
 
-  <p><strong>Figura</strong> – Diagrama de Casos de Uso – FloraGest<br>
-  <strong>Fonte</strong>: Elaboração Própria (2025)</p>
-
-</div>
-
+**Fonte:** Elaboração Própria (2025)
 
 ---
 
