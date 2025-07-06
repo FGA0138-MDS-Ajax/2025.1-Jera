@@ -42,7 +42,7 @@ export default function Home() {
           <button onClick={() => navigate("/register")}>
             Experimente grátis
           </button>
-          <button onClick={() => navigate("/cadastro")} className="login-btn">
+          <button onClick={() => navigate("/login")} className="login-btn">
             Já sou cliente
           </button>
         </div>

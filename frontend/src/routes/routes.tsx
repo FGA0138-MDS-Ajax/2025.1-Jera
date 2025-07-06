@@ -6,6 +6,7 @@ import Register from "../pages/Register";
 import FlowerCatalog from "../pages/CadastroFlores";
 import Inicial from "../pages/Inicial";
 import DashboardGerente from "../pages/DashBoardGerente";
+import { Notificacoes } from "../pages/Notificações";
 
 
 
@@ -19,6 +20,7 @@ function RoutesApp() {
       <Route path="/Cadastro" element={<FlowerCatalog />} />
       <Route path="/Inicio" element={<Inicial />} />
       <Route path="/dashboard" element={<DashboardGerente />} />
+      <Route path="/notificacoes" element={<Notificacoes />} />
     </Routes>
   );
 }

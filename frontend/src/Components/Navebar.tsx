@@ -21,7 +21,7 @@ export default function Navbar({ title }: NavbarProps) {
         <h2>{title}</h2>
 
         <div className="top-bar-actions">
-          <Link to="/" className="nav-btn" aria-label="Notificações" />
+          <Link to="/notificacoes" className="nav-btn" aria-label="Notificações" />
           <Link to="/" className="profile-btn" aria-label="Perfil do usuário" />
         </div>
       </header>
