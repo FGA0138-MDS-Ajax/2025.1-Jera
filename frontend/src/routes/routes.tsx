@@ -10,6 +10,7 @@ import { Notificacoes } from "../pages/Notificações";
 import Lotes from "../pages/Lotes";
 import Registro from "../pages/RegistrodeFlores";
 import GerenciamentoUsuarios from "../pages/Usuarios";
+import MinhasInformacoes from "../pages/MinhasInformacoes";
 
 
 
@@ -27,6 +28,7 @@ function RoutesApp() {
       <Route path="/lotes" element={<Lotes />} />
       <Route path="/registro" element={<Registro />} />
       <Route path="/usuarios" element={<GerenciamentoUsuarios />} />
+      <Route path="/minhas-informacoes" element={<MinhasInformacoes />} />
     
     </Routes>
   );

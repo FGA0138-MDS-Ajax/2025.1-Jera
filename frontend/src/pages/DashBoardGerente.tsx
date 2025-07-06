@@ -28,7 +28,6 @@ interface LoteProximo {
 
 /* ---------- Componente ---------- */
 const DashboardGerente: React.FC = () => {
-  /* estado para dados vindos do back‑end */
   const [kpi, setKPI] = useState<KPI | null>(null);
   const [estadoEstetico, setEstadoEstetico] = useState<EstadoEstetico | null>(
     null
@@ -36,11 +35,9 @@ const DashboardGerente: React.FC = () => {
   const [topFlores, setTopFlores] = useState<TopFlor[]>([]);
   const [lotes, setLotes] = useState<LoteProximo[]>([]);
 
-  /* refs dos gráficos */
   const estadoEsteticoRef = useRef<HTMLCanvasElement | null>(null);
   const topFloresRef = useRef<HTMLCanvasElement | null>(null);
 
-  /* refs dos objetos Chart.js para destruir depois */
   const estadoChart = useRef<ChartType>();
   const topFloresChart = useRef<ChartType>();
 
@@ -48,7 +45,6 @@ const DashboardGerente: React.FC = () => {
   useEffect(() => {
     async function fetchDados() {
       try {
-        /* Ajuste as rotas conforme seu back‑end */
         const res = await fetch("/api/dashboard-gerente");
         const data = await res.json();
 
@@ -56,7 +52,6 @@ const DashboardGerente: React.FC = () => {
           lotesAtivos: data.kpi.lotesAtivos,
           itensSemGiro: data.kpi.itensSemGiro,
         });
-
         setEstadoEstetico(data.estadoEstetico);
         setTopFlores(data.topFlores);
         setLotes(data.lotesProximos);
@@ -70,11 +65,8 @@ const DashboardGerente: React.FC = () => {
 
   /* ---------- Desenha/atualiza os gráficos ---------- */
   useEffect(() => {
-    /* Só cria o gráfico quando já temos dados E o canvas existe */
     if (estadoEsteticoRef.current && estadoEstetico) {
-      /* destrói o gráfico anterior */
       estadoChart.current?.destroy();
-
       estadoChart.current = new Chart(estadoEsteticoRef.current, {
         type: "doughnut",
         data: {
@@ -105,7 +97,6 @@ const DashboardGerente: React.FC = () => {
 
     if (topFloresRef.current && topFlores.length) {
       topFloresChart.current?.destroy();
-
       topFloresChart.current = new Chart(topFloresRef.current, {
         type: "bar",
         data: {
@@ -129,7 +120,6 @@ const DashboardGerente: React.FC = () => {
       });
     }
 
-    /* cleanup quando o componente desmontar */
     return () => {
       estadoChart.current?.destroy();
       topFloresChart.current?.destroy();
@@ -138,57 +128,60 @@ const DashboardGerente: React.FC = () => {
 
   /* ---------- Render ---------- */
   return (
-    <div className="dashboard-container">
+    <>
+      {/* Navbar agora fora da caixa do dashboard-container */}
       <Navbar title="Dashboard" />
 
-      {/* KPIs */}
-      <div className="kpi-grid">
-        <div className="kpi-card">
-          <h3>Lotes Ativos</h3>
-          <p>{kpi ? kpi.lotesAtivos : "—"}</p>
+      <div className="dashboard-container">
+        {/* KPIs */}
+        <div className="kpi-grid">
+          <div className="kpi-card">
+            <h3>Lotes Ativos</h3>
+            <p>{kpi ? kpi.lotesAtivos : "—"}</p>
+          </div>
+
+          <div className="kpi-card">
+            <h3>Itens sem Giro</h3>
+            <p className="text-yellow">{kpi ? kpi.itensSemGiro : "—"}</p>
+          </div>
         </div>
 
-        <div className="kpi-card">
-          <h3>Itens sem Giro</h3>
-          <p className="text-yellow">{kpi ? kpi.itensSemGiro : "—"}</p>
+        {/* Gráficos */}
+        <div className="charts-grid">
+          <div className="chart-card">
+            <h3>Estado Estético Geral</h3>
+            <canvas ref={estadoEsteticoRef} />
+          </div>
+
+          <div className="chart-card">
+            <h3>Top 5 Flores (Saídas no Mês)</h3>
+            <canvas ref={topFloresRef} />
+          </div>
+        </div>
+
+        {/* Lotes próximos da validade */}
+        <div className="lotes-list">
+          <h3>Lotes com Validade Próxima</h3>
+          <ul>
+            {lotes.map((lote) => (
+              <li key={lote.id}>
+                <span>
+                  Lote #{lote.id} ({lote.flor})
+                </span>
+                <span
+                  className={
+                    lote.diasRestantes <= 2 ? "vence-red" : "vence-yellow"
+                  }
+                >
+                  Vence em {lote.diasRestantes}{" "}
+                  {lote.diasRestantes === 1 ? "dia" : "dias"}
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
-
-      {/* Gráficos */}
-      <div className="charts-grid">
-        <div className="chart-card">
-          <h3>Estado Estético Geral</h3>
-          <canvas ref={estadoEsteticoRef} />
-        </div>
-
-        <div className="chart-card">
-          <h3>Top 5 Flores (Saídas no Mês)</h3>
-          <canvas ref={topFloresRef} />
-        </div>
-      </div>
-
-      {/* Lotes próximos da validade */}
-      <div className="lotes-list">
-        <h3>Lotes com Validade Próxima</h3>
-        <ul>
-          {lotes.map((lote) => (
-            <li key={lote.id}>
-              <span>
-                Lote #{lote.id} ({lote.flor})
-              </span>
-              <span
-                className={
-                  lote.diasRestantes <= 2 ? "vence-red" : "vence-yellow"
-                }
-              >
-                Vence em {lote.diasRestantes}{" "}
-                {lote.diasRestantes === 1 ? "dia" : "dias"}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
+    </>
   );
 };
 
