@@ -27,7 +27,6 @@ A tabela a seguir detalha cada fase do ciclo de vida do projeto, apresentando as
 | Retrospectiva | Lições aprendidas, melhorias | PO, Equipe | Feedback da Review | Ações de Melhoria | Teams |
 | Refinamento do Backlog | Detalhar requisitos, priorizar backlog | PO, Equipe, Stakeholders | Feedback, Incremento de Software | Backlog Atualizado | Figma, Gestão Contínua do Backlog |
 
----
 **Fonte:** Documento de Visão FloraGest – Elaborado pela equipe Jera (2025).
 
 O **ScrumXP** foi escolhido por oferecer flexibilidade, adaptabilidade e ciclos curtos, fundamentais para equipes em formação, com pouca experiência em projetos colaborativos. O método favorece ajustes rápidos e acompanhamento contínuo do progresso.
@@ -53,7 +52,6 @@ A equipe se organiza em **duplas responsáveis**, conforme a tabela abaixo, gara
 | Modelagem de Banco e Consultas | Criação e hospedagem do banco, consultas SQL | Luis Zarbielli | Luis Zarbielli, Rafaela Andrea |
 | Cliente (Monitor) | Representar o cliente da floricultura | Matheus Rodrigues | Matheus Rodrigues |
 
----
 **Fonte:** Documento de Visão FloraGest – Elaborado pela equipe Jera (2025).
 
 ## Planejamento das Fases e/ou Iterações do Projeto
@@ -78,7 +76,6 @@ As sprints têm duração flexível, ajustadas de acordo com o calendário acad�
 | Sprint 11 | Ajustes finais | 26/06/2025 | 02/07/2025 | Funcionalidades adicionais e docs | Todos | 90% |
 | Sprint 12 | Finalização do sistema | 03/07/2025 | 09/07/2025 | Software pronto e testado | Todos | 100% |
 
----
 **Fonte:** Documento de Visão FloraGest – Elaborado pela equipe Jera (2025).
 
 ## Matriz de Comunicação
@@ -93,7 +90,6 @@ A matriz de comunicação define responsabilidades, periodicidade e produtos ger
 | Organização das sprints | Equipe do Projeto | Semanal | Atas de reunião, relatórios de situação |
 | Avaliação e feedback (Review/Retrospectiva) | Equipe, Monitor | Quinzenal | Atas de reunião, relatórios de situação |
 
----
 **Fonte:** Documento de Visão FloraGest – Elaborado pela equipe Jera (2025).
 
 ## Gerenciamento de Riscos
@@ -113,7 +109,6 @@ O gerenciamento de riscos visa prever problemas e definir ações preventivas e 
 | Falha de usabilidade | Médio | Testes manuais focados na usabilidade | Ajustes de layout e navegação conforme feedback |
 | Sobrecarga/cansaço | Médio | Sprints curtas, cronogramas realistas | Reduzir escopo e priorizar funcionalidades |
 
----
 **Fonte:** Documento de Visão FloraGest – Elaborado pela equipe Jera (2025).
 
 ## Critérios de Replanejamento
@@ -130,5 +125,4 @@ Esta seção define quando o replanejamento das sprints é necessário, com foco
 | Perda de dados na importação | Perda identificada | Refatorar fluxo de importação |
 | Mudança significativa de escopo | Funcionalidade Must em risco | Replanejar Should/Could |
 
----
 **Fonte:** Documento de Visão FloraGest – Elaborado pela equipe Jera (2025).
