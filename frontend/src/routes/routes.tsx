@@ -7,6 +7,7 @@ import FlowerCatalog from "../pages/CadastroFlores";
 import Inicial from "../pages/Inicial";
 import DashboardGerente from "../pages/DashBoardGerente";
 import { Notificacoes } from "../pages/Notificações";
+import Lotes from "../pages/Lotes";
 
 
 
@@ -21,6 +22,7 @@ function RoutesApp() {
       <Route path="/Inicio" element={<Inicial />} />
       <Route path="/dashboard" element={<DashboardGerente />} />
       <Route path="/notificacoes" element={<Notificacoes />} />
+      <Route path="/lotes" element={<Lotes />} />
     </Routes>
   );
 }
