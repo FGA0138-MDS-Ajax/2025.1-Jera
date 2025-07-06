@@ -4,7 +4,7 @@ import "../styles/CadastroFlores.css";
 import Navbar from "../Components/Navebar";
 import { Link } from "react-router-dom";
 import deletarIcon from "../assets/deletar.png";
-import florPadrao from "../assets/florImg.png";
+import florPadrao from "../assets/LogoFloraGest.png";
 
 interface Produto {
   id_produto: number;
