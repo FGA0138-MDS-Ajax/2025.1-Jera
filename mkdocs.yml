@@ -14,6 +14,7 @@ nav:
   - Documento de Arquitetura:
       - 1. Introdução: doc-arq/1_introducao.md
       - 2. Definições e Justificativas: doc-arq/2_definicoes-justificativa.md
+      - 2.5. Matrizes de Rastreabilidade: doc-arq/2.5_matrizes-rastreabilidade.md
       - 3. Detalhamento: doc-arq/3_detalhamento.md
       - 4. Metas e Restrições: doc-arq/4_metas-restricoes.md
       - 5. Casos de Uso: doc-arq/07_casos_de_uso.md

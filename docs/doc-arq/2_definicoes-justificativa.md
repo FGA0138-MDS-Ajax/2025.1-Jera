@@ -19,3 +19,5 @@ Tendo em vista o objetivo da aplicação, é possível assumir que não haverá 
 Além disso, essa arquitetura se apresenta suficiente para abarcar as complexidades do projeto proposto.
 
 A escolha por um *back-end* monolítico visa reduzir ainda mais a complexidade de implementação, e um *front-end* separado permite flexibilidade para caso seja decidido fornecer suporte a dispositivos móveis.
+
+
