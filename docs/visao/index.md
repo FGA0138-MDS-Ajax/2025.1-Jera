@@ -37,4 +37,4 @@
 | 21/05/2025 | 5.4    | Inserir Perfis de Usuários                                                                     | Bernardo Broetto              |
 | 21/05/2025 | 5.5    | Inserir Cenários                                                                               | Robson Junior                 |
 | 21/05/2025 | 5.6    | Inserir Resto da Visão Geral do Projeto e Processo de Desenvolvimento + Ajustes de formatação | João Gabriel                  |
-| 06/07/2025 | 5.7    | Atualização do documento conforme feedbacks recebidos pelo professor e pelo grupo avaliador | Brunno, Rafaela e Luiz Zarbielli |
+| 06/07/2025 | 5.7    | Atualização do documento conforme feedbacks recebidos pelo professor e pelo grupo avaliador | Brunno, Rafaela e Luis Zarbielli |
