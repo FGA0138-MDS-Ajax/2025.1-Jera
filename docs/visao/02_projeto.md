@@ -6,14 +6,13 @@ O ciclo de vida de desenvolvimento adotado para o projeto **FloraGest** é basea
 
 A figura abaixo apresenta o fluxo geral, representando as fases principais: **Planejamento**, **Desenvolvimento**, **Revisão**, **Retrospectiva** e **Refinamento do Backlog**.
 
-<div align="center">
 
 **Figura 1: Fluxo do Ciclo de Vida do FloraGest**
 
-  <img src="../imagens/ciclo_de_vida.png" alt="Fluxo do Ciclo de Vida" width="300">
+![Fluxo do Ciclo de Vida](../imagens/ciclo_de_vida.png)
 
 **Fonte:** Documento de Visão FloraGest – Elaborado pela equipe Jera (2025).
-</div>
+
 
 A tabela a seguir detalha cada fase do ciclo de vida do projeto, apresentando as principais atividades, os papéis envolvidos, as entradas e saídas esperadas, além das ferramentas e métodos utilizados para garantir o andamento do projeto de forma organizada e iterativa.
 
