@@ -1,13 +1,10 @@
 ## Diagrama de Pacotes
 
-<div align="center">
+**Figura: Diagrama de Pacotes**
 
-  <img src="../imagens/diagrama_de_pacotes.png" alt="Diagrama de Pacotes - FloraGest" width="300"/>
+![Diagrama de Pacotes](../imagens/diagrama_de_pacotes.png)
 
-  <p><strong>Figura</strong> – Diagrama de Casos de Uso – FloraGest<br>
-  <strong>Fonte</strong>: Elaboração Própria (2025)</p>
-
-</div>
+**Fonte:** Elaboração Própria (2025)
 
 ---
 
