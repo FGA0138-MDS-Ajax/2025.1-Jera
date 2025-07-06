@@ -2,7 +2,7 @@
 
 <div align="center">
 
-  <img src="Meio_Termo_MDS.drawio.png" alt="Diagrama de componentes - FloraGest" width="300"/>
+  <img src="../imagens/Meio_Termo_MDS.drawio.png" alt="Diagrama de componentes - FloraGest" width="300"/>
 
   <p><strong>Figura</strong> – Diagrama de componentes – FloraGest<br>
   <strong>Fonte</strong>: Elaboração Própria (2025)</p>

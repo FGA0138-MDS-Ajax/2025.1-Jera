@@ -10,7 +10,7 @@ O nosso sistema é subdividido em 5 módulos principais, sendo eles:
 
 O módulo Cadastro de Produtos é responsável por armazenar e organizar as informações dos itens que compõem o estoque da floricultura, como flores, vasos, adubos, embalagens e demais insumos. Ele é a base para os demais módulos operarem corretamente, pois todas as movimentações de estoque (entrada, saída, alerta) dependem dos dados cadastrados aqui.
 
-![Fluxo de Cadastro de Produto - FloraGest - Elaboração Própria (2025)](fluxo_cadastro_produto.png)
+![Fluxo de Cadastro de Produto - FloraGest - Elaboração Própria (2025)](../imagens/fluxo_cadastro_produto.png)
 **Figura:** Fluxo de Cadastro de Produto - FloraGest - Elaboração Própria (2025)
 
 ### Como funciona:
@@ -28,7 +28,7 @@ O módulo Controle de Entradas e Saídas é responsável por registrar todas as 
 - Entradas (compra, recebimento de fornecedor, reposição interna);
 - Saídas (venda, descarte, doação, perda, vencimento).
 
-![Fluxo de Controle de Entrada e Saída - FloraGest - Elaboração Própria (2025)](fluxo_movimentacao_estoque.png)
+![Fluxo de Controle de Entrada e Saída - FloraGest - Elaboração Própria (2025)](../imagens/fluxo_movimentacao_estoque.png)
 **Figura:** Fluxo de Controle de Entrada e Saída - FloraGest - Elaboração Própria (2025)
 
 ### Como funciona:
@@ -50,7 +50,7 @@ O módulo Alertas Inteligentes é responsável por monitorar continuamente o est
 - Produtos próximos da validade (opcional)
 - Redução abrupta de estoque em curto período
 
-![Fluxo de Alerta - FloraGest - Elaboração Própria (2025)](fluxo_alertas_simplificado.png)
+![Fluxo de Alerta - FloraGest - Elaboração Própria (2025)](../imagens/fluxo_alertas_simplificado.png)
 **Figura:** Fluxo de Alerta - FloraGest - Elaboração Própria (2025)
 
 ### Como funciona:
@@ -75,7 +75,7 @@ O módulo Dashboard e Relatórios tem como finalidade apresentar visualmente os 
   - Histórico de movimentações
   - Indicadores de estoque crítico
 
-![Fluxo de Dashboard - FloraGest - Elaboração Própria (2025)](fluxo_dashboard_relatorios.png)
+![Fluxo de Dashboard - FloraGest - Elaboração Própria (2025)](../imagens/fluxo_dashboard_relatorios.png)
 <br>
 **Figura:** Fluxo de Dashboard - FloraGest - Elaboração Própria (2025)
 
@@ -91,7 +91,7 @@ O módulo Dashboard e Relatórios tem como finalidade apresentar visualmente os 
 
 O módulo Controle de Acesso é responsável por gerenciar a autenticação (login) e a autorização (nível de permissão) dos usuários do sistema FloraGest. Ele garante que cada usuário acesse apenas as funcionalidades que são pertinentes à sua função, assegurando a integridade e segurança das operações e dados.
 
-![Fluxo de Controle de Acesso - FloraGest - Elaboração Própria (2025)](fluxo_controle_acesso.png)
+![Fluxo de Controle de Acesso - FloraGest - Elaboração Própria (2025)](../imagens/fluxo_controle_acesso.png)
 **Figura:** Fluxo de Controle de Acesso - FloraGest - Elaboração Própria (2025)
 
 ### Como funciona:
@@ -105,8 +105,8 @@ O módulo Controle de Acesso é responsável por gerenciar a autenticação (log
 
 ## Diagramas Complementares
 
-![Diagrama de Atividades - FloraGest - Elaboração Própria (2025)](diagrama_atividades_floragest.png)
+![Diagrama de Atividades - FloraGest - Elaboração Própria (2025)](../imagens/diagrama_atividades_floragest.png)
 **Figura:** Diagrama de Atividades - FloraGest - Elaboração Própria (2025)
 
-![Diagrama de Classes - FloraGest - Elaboração Própria (2025)](diagrama_classes.png)
+![Diagrama de Classes - FloraGest - Elaboração Própria (2025)](../imagens/diagrama_classes.png)
 **Figura:** Diagrama de Classes - FloraGest - Elaboração Própria (2025)

@@ -2,7 +2,7 @@
 
 <div align="center">
 
-  <img src="diagrama_de_pacotes.png" alt="Diagrama de Pacotes - FloraGest" width="300"/>
+  <img src="../imagens/diagrama_de_pacotes.png" alt="Diagrama de Pacotes - FloraGest" width="300"/>
 
   <p><strong>Figura</strong> – Diagrama de Casos de Uso – FloraGest<br>
   <strong>Fonte</strong>: Elaboração Própria (2025)</p>

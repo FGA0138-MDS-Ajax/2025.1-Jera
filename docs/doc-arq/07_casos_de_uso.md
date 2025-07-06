@@ -17,7 +17,7 @@ e dos perfis de acesso (**Administrador**, **Gerente** e **Operador**), foi defi
 
 <div align="center">
 
-  <img src="diagrama_casos_uso_floragest_v4.png" alt="Diagrama de Casos de Uso - FloraGest" width="300"/>
+  <img src="../imagens/diagrama_casos_uso_floragest_v4.png" alt="Diagrama de Casos de Uso - FloraGest" width="300"/>
 
   <p><strong>Figura</strong> – Diagrama de Casos de Uso – FloraGest<br>
   <strong>Fonte</strong>: Elaboração Própria (2025)</p>
