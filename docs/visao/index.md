@@ -1,4 +1,4 @@
-# Visão do Produto e do Projeto
+# Documento de Visão
 
 ## Integrantes do Grupo
 
