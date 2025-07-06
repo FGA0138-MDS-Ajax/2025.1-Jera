@@ -8,6 +8,7 @@ import Inicial from "../pages/Inicial";
 import DashboardGerente from "../pages/DashBoardGerente";
 import { Notificacoes } from "../pages/Notificações";
 import Lotes from "../pages/Lotes";
+import Registro from "../pages/RegistrodeFlores";
 
 
 
@@ -23,6 +24,8 @@ function RoutesApp() {
       <Route path="/dashboard" element={<DashboardGerente />} />
       <Route path="/notificacoes" element={<Notificacoes />} />
       <Route path="/lotes" element={<Lotes />} />
+      <Route path="/registro" element={<Registro />} />
+    
     </Routes>
   );
 }
