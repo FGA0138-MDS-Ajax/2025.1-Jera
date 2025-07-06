@@ -10,7 +10,7 @@ A figura abaixo apresenta o fluxo geral, representando as fases principais: **Pl
 
 **Figura 1: Fluxo do Ciclo de Vida do FloraGest**
 
-  <img src="../imagens/ciclo_de_vida.png" alt="Fluxo do Ciclo de Vida" width="300">
+  <img src="imagens/ciclo_de_vida.png" alt="Fluxo do Ciclo de Vida" width="300">
 
 **Fonte:** Documento de Visão FloraGest – Elaborado pela equipe Jera (2025).
 </div>
