@@ -6,9 +6,10 @@ import Inicial from "../pages/Inicial";
 import Login from "../pages/Login";
 import { Notificacoes } from "../pages/Notificações";
 import Register from "../pages/Register";
-
 import MinhasInformacoes from "../pages/MinhasInformacoes";
 import GerenciamentoUsuarios from "../pages/Usuario";
+import Lotes from "../pages/Lotes";
+import Registro from "../pages/RegistrodeFlores";
 
 
 
@@ -25,6 +26,8 @@ function RoutesApp() {
       <Route path="/notificacoes" element={<Notificacoes />} />
       <Route path="/usuarios" element={<GerenciamentoUsuarios />} />
       <Route path="/meu-perfil" element={<MinhasInformacoes />} />
+      <Route path="/lotes" element={<Lotes />} />
+      <Route path="/registro" element={<Registro />} />
     </Routes>
   );
 }
