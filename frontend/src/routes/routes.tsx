@@ -6,6 +6,8 @@ import Inicial from "../pages/Inicial";
 import Login from "../pages/Login";
 import { Notificacoes } from "../pages/Notificações";
 import Register from "../pages/Register";
+
+import MinhasInformacoes from "../pages/MinhasInformacoes";
 import GerenciamentoUsuarios from "../pages/Usuario";
 
 
@@ -22,6 +24,7 @@ function RoutesApp() {
       <Route path="/dashboard" element={<DashboardGerente />} />
       <Route path="/notificacoes" element={<Notificacoes />} />
       <Route path="/usuarios" element={<GerenciamentoUsuarios />} />
+      <Route path="/meu-perfil" element={<MinhasInformacoes />} />
     </Routes>
   );
 }

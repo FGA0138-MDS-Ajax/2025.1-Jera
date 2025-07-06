@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/Login.css";
 import logo from "../assets/Minimalist_and_moder.png";
+import "../styles/Login.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
