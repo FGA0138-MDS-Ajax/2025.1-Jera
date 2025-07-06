@@ -9,6 +9,7 @@ import DashboardGerente from "../pages/DashBoardGerente";
 import { Notificacoes } from "../pages/Notificações";
 import Lotes from "../pages/Lotes";
 import Registro from "../pages/RegistrodeFlores";
+import GerenciamentoUsuarios from "../pages/Usuarios";
 
 
 
@@ -25,6 +26,7 @@ function RoutesApp() {
       <Route path="/notificacoes" element={<Notificacoes />} />
       <Route path="/lotes" element={<Lotes />} />
       <Route path="/registro" element={<Registro />} />
+      <Route path="/usuarios" element={<GerenciamentoUsuarios />} />
     
     </Routes>
   );
