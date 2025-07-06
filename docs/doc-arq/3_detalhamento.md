@@ -1,13 +1,10 @@
 ## Diagrama de componentes
 
-<div align="center">
+  **Figura: Diagrama de componentes do FloraGest**
 
-  <img src="../imagens/Meio_Termo_MDS.drawio.png" alt="Diagrama de componentes - FloraGest" width="300"/>
+  ![Diagrama de componentes](../imagens/Meio_Termo_MDS.drawio.png)
 
-  <p><strong>Figura</strong> – Diagrama de componentes – FloraGest<br>
-  <strong>Fonte</strong>: Elaboração Própria (2025)</p>
-
-</div>
+  **Fonte:** Elaboração Própria (2025)
 
 ---
 
