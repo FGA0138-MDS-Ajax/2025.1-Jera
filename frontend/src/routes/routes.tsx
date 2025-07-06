@@ -4,12 +4,13 @@ import DashboardGerente from "../pages/DashBoardGerente";
 import Home from "../pages/Home";
 import Inicial from "../pages/Inicial";
 import Login from "../pages/Login";
+import Lotes from "../pages/Lotes";
+import MinhasInformacoes from "../pages/MinhasInformacoes";
 import { Notificacoes } from "../pages/Notificações";
 import Register from "../pages/Register";
-import MinhasInformacoes from "../pages/MinhasInformacoes";
-import GerenciamentoUsuarios from "../pages/Usuario";
-import Lotes from "../pages/Lotes";
 import Registro from "../pages/RegistrodeFlores";
+import GerenciamentoUsuarios from "../pages/Usuario";
+
 
 
 
