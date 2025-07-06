@@ -1,8 +1,8 @@
 site_name: Documentação
 
 nav:
-  - Visão do Produto e do Projeto:
-      - visao/index.md
+  - Documento de Visão:
+      - Equipe e Histórico de Revisões: visao/index.md
       - 1. Visão Geral do Produto: visao/01_produto.md
       - 2. Visão Geral do Projeto: visao/02_projeto.md
       - 3. Processo de Desenvolvimento de Software: visao/03_processo.md
