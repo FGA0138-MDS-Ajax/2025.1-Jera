@@ -1,0 +1,76 @@
+/* ---------- Estilos para Gerenciamento de Usuários ---------- */
+
+:root {
+  --bg-card: #fff;
+  --bg-table-header: #c45a44;
+  --bg-table-row-alt: #f7f7f7;
+  --text-dark: #3d352f;
+  --btn-excluir: #e2725b;
+  --btn-excluir-hover: #c45a44;
+}
+
+.usuarios-container {
+  max-width: 700px;
+  margin: 40px auto;
+  background: var(--bg-card);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  padding: 32px 24px;
+}
+
+.usuarios-container h1 {
+  text-align: center;
+  color: var(--bg-table-header);
+  margin-bottom: 24px;
+  font-size: 2rem;
+}
+
+.usuarios-tabela {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-card);
+  font-size: 1rem;
+}
+
+.usuarios-tabela th {
+  background: var(--bg-table-header);
+  color: #fff;
+  padding: 12px 8px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.usuarios-tabela td {
+  padding: 10px 8px;
+  border-bottom: 1px solid #ececec;
+  color: var(--text-dark);
+}
+
+.usuarios-tabela tr:nth-child(even) {
+  background: var(--bg-table-row-alt);
+}
+
+.usuarios-tabela select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #cfd8dc;
+  font-size: 1rem;
+  background: #fff;
+  color: var(--text-dark);
+}
+
+.btn-excluir {
+  background: var(--btn-excluir);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn-excluir:hover {
+  background: var(--btn-excluir-hover);
+  transform: scale(1.07);
+}

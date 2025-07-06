@@ -1,12 +1,12 @@
-import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import Home from "../pages/Home";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
+import { Navigate, Route, Routes } from "react-router-dom";
 import FlowerCatalog from "../pages/CadastroFlores";
-import Inicial from "../pages/Inicial";
 import DashboardGerente from "../pages/DashBoardGerente";
+import Home from "../pages/Home";
+import Inicial from "../pages/Inicial";
+import Login from "../pages/Login";
 import { Notificacoes } from "../pages/Notificações";
+import Register from "../pages/Register";
+import GerenciamentoUsuarios from "../pages/Usuario";
 
 
 
@@ -21,6 +21,7 @@ function RoutesApp() {
       <Route path="/Inicio" element={<Inicial />} />
       <Route path="/dashboard" element={<DashboardGerente />} />
       <Route path="/notificacoes" element={<Notificacoes />} />
+      <Route path="/usuarios" element={<GerenciamentoUsuarios />} />
     </Routes>
   );
 }
