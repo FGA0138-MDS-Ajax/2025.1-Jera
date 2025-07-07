@@ -1,4 +1,5 @@
-import { useState, useMemo, FormEvent, ChangeEvent } from "react";
+import { useState, useMemo } from "react";
+import type { ChangeEvent, FormEvent } from "react";
 import "../styles/CadastroFlores.css";
 import Navbar from "../Components/Navebar";
 
