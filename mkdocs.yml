@@ -7,7 +7,10 @@ nav:
       - 2. Visão Geral do Projeto: visao/02_projeto.md
       - 3. Processo de Desenvolvimento de Software: visao/03_processo.md
       - 4. Declaração de Escopo do Projeto: visao/04_escopo.md
-      - 5. Métricas e Medições: visao/05_metricas.md
+      - 5. Métricas e Medições:
+          - Visão Geral: visao/05_metricas.md
+          - GQM - Metricas: visao/metricas/metricas.md
+
       - 6. Testes de Software: visao/06_testes.md
       - 7. Referências Bibliográficas: visao/07_referencias.md
 
