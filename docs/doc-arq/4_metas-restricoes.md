@@ -1,5 +1,3 @@
-## Metas e Restrições Arquiteturais
-
 ### Desempenho e Resposta do Sistema
 
 O desempenho é um aspecto fundamental para garantir a usabilidade e a aceitação de um sistema móvel. Para isso, estabelecemos como meta que o sistema deve responder a **95% das consultas em até 2 segundos** após a solicitação do usuário. Um tempo de resposta rápido é essencial para proporcionar uma experiência de usuário fluida, especialmente em um aplicativo que será utilizado em ambiente fechado, onde o tempo e a eficiência são críticos. Isso não apenas melhora a satisfação dos usuários, mas também incentiva o uso contínuo da plataforma.
