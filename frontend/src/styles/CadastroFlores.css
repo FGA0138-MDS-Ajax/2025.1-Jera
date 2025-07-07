@@ -256,27 +256,3 @@ body {
   }
 }
 
-.back-to-inicio-btn {
-  position: fixed;
-  bottom: 18px;
-  left: 18px;
-  z-index: 1100;
-  background: #b64c38;
-  color: #fff;
-  font-weight: 600;
-  border: none;
-  border-radius: 0.375rem;
-  padding: 0.5rem 1.2rem;
-  font-size: 1rem;
-  text-decoration: none;
-  box-shadow: 0 2px 6px rgba(182, 76, 56, 0.08);
-  transition: background 0.2s, transform 0.2s;
-  display: inline-block;
-}
-.back-to-inicio-btn:hover,
-.back-to-inicio-btn:focus-visible {
-  background: #a03e2d;
-  color: #fff;
-  transform: scale(1.05);
-  text-decoration: underline;
-}

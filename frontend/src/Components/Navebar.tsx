@@ -17,15 +17,23 @@ export default function Navbar({ title }: NavbarProps) {
           onClick={() => setSidebarOpen(!sidebarOpen)}
           aria-label="Abrir menu"
         />
-      
+
         <h2>{title}</h2>
 
         <div className="top-bar-actions">
-          <Link to="/" className="nav-btn" aria-label="Notificações" />
-          <Link to="/" className="profile-btn" aria-label="Perfil do usuário" />
+          <Link
+            to="/notificacoes"
+            className="nav-btn"
+            aria-label="Notificações"
+          />
+          <Link
+            to="/minhas-informacoes"
+            className="profile-btn"
+            aria-label="Perfil do usuário"
+          />
         </div>
       </header>
-      
+
       {sidebarOpen && (
         <aside className="sidebar">
           <button
@@ -34,7 +42,7 @@ export default function Navbar({ title }: NavbarProps) {
             aria-label="Fechar menu"
           />
           <Link
-            to="/inicio"
+            to="/Inicio"
             className="sidebar-title"
             onClick={() => setSidebarOpen(false)}
           >
@@ -44,8 +52,48 @@ export default function Navbar({ title }: NavbarProps) {
           <hr />
 
           <nav className="sidebar-links">
-            <button className="sidebar-link">Gestão de Lotes</button>
-            <button className="sidebar-link">Catálogo</button>
+            <Link
+              to="/tipo-produto"
+              className="sidebar-link"
+              onClick={() => setSidebarOpen(false)}
+            >
+              Tipo Produto
+            </Link>
+            <Link
+              to="/lotes"
+              className="sidebar-link"
+              onClick={() => setSidebarOpen(false)}
+            >
+              Lotes
+            </Link>
+            <Link
+              to="/cadastro"
+              className="sidebar-link"
+              onClick={() => setSidebarOpen(false)}
+            >
+              Cadastro
+            </Link>
+            <Link
+              to="/registro"
+              className="sidebar-link"
+              onClick={() => setSidebarOpen(false)}
+            >
+              Registro
+            </Link>
+            <Link
+              to="/dashboard"
+              className="sidebar-link"
+              onClick={() => setSidebarOpen(false)}
+            >
+              Dashboard
+            </Link>
+            <Link
+              to="/usuarios"
+              className="sidebar-link"
+              onClick={() => setSidebarOpen(false)}
+            >
+              Usuários
+            </Link>
           </nav>
         </aside>
       )}

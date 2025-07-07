@@ -1,0 +1,50 @@
+.perfil-container {
+    max-width: 420px;
+    margin: 40px auto;
+    padding: 2rem 2.5rem;
+    background: #fff;
+    border: 1px solid #E2725B; /* terra cota */
+    border-radius: 16px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .perfil-titulo {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: #000; /* preto */
+    text-align: center;
+  }
+  
+  .perfil-secao {
+    margin-bottom: 2rem;
+  }
+  
+  .perfil-subtitulo {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #000; /* preto */
+    margin-bottom: 1rem;
+  }
+  
+  .perfil-item {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.7rem;
+    align-items: center;
+  }
+  
+  .perfil-label {
+    font-weight: bold;
+    color: #000; /* preto */
+    min-width: 130px;
+  }
+  
+  .perfil-valor {
+    color: #000; /* preto */
+    word-break: break-word;
+  }
+  

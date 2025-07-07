@@ -245,9 +245,6 @@ export default function CadastroFlores() {
 
   return (
     <div className="catalog-root">
-      <Link to="/Inicio" className="back-to-inicio-btn">
-        ← Início
-      </Link>
       <Navbar title="Produtos" />
 
       <main className="catalog-content">
