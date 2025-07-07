@@ -53,6 +53,13 @@ export default function Navbar({ title }: NavbarProps) {
 
           <nav className="sidebar-links">
             <Link
+              to="/tipo-produto"
+              className="sidebar-link"
+              onClick={() => setSidebarOpen(false)}
+            >
+              Tipo Produto
+            </Link>
+            <Link
               to="/lotes"
               className="sidebar-link"
               onClick={() => setSidebarOpen(false)}

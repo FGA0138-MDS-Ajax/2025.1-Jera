@@ -11,6 +11,7 @@ import Lotes from "../pages/Lotes";
 import Registro from "../pages/RegistrodeFlores";
 import GerenciamentoUsuarios from "../pages/Usuarios";
 import MinhasInformacoes from "../pages/MinhasInformacoes";
+import GerenciarTiposProduto from "../pages/GerenciadorTipoProduto";
 
 
 
@@ -29,6 +30,7 @@ function RoutesApp() {
       <Route path="/registro" element={<Registro />} />
       <Route path="/usuarios" element={<GerenciamentoUsuarios />} />
       <Route path="/minhas-informacoes" element={<MinhasInformacoes />} />
+      <Route path="/tipo-produto" element={<GerenciarTiposProduto />} />
     
     </Routes>
   );
