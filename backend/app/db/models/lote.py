@@ -26,6 +26,7 @@ class Lote(SQLModel, table=True):
         default=None,
         sa_column_kwargs={"autoincrement": True}
     )
+    nome_lote: str = Field(max_length=100, nullable=False)
 
     quantidade_inicial: int = Field(nullable=False)
     quantidade_atual: int = Field(nullable=False)

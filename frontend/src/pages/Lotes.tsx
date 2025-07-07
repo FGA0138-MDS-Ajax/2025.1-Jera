@@ -1,483 +1,272 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/Lotes.css";
 import Navbar from "../Components/Navebar";
-
-type EstadoFlor = "Ótimo" | "Regular" | "Ruim";
-type StatusLote = "Ativo" | "Inativo";
-
-interface ContagemEstados {
-  Ótimo: number;
-  Regular: number;
-  Ruim: number;
-}
+import Loading from "../Components/Load_icon";
+import deletarIcon from "../assets/deletar.png";
 
 interface Lote {
-  id: string; // texto digitado pelo usuário
-  flor: string;
-  quantidade: number; // total de flores do lote
-  estados: ContagemEstados; // distribuição das flores
-  status: StatusLote;
+  id_lote: number;
+  id_produto: number;
+  nome_lote: string;
+  quantidade_atual: number;
+  data_entrada: string;
+  concluido: boolean;
+  estado_predominante?: string;
+  produto_nome?: string;
 }
 
-const LOTES_MOCK: Lote[] = [];
-
-function calculaEstadoModa(estados: ContagemEstados): EstadoFlor {
-  const { Ótimo, Regular, Ruim } = estados;
-  const max = Math.max(Ótimo, Regular, Ruim);
-  if (max === 0) return "Regular";
-  if (Ótimo === max) return "Ótimo";
-  if (Regular === max) return "Regular";
-  return "Ruim";
+interface Produto {
+  id_produto: number;
+  nome_produto: string;
 }
 
-/* ─────────── MODAL NOVO LOTE ─────────── */
-interface ModalNovoLoteProps {
-  onClose: () => void;
-  onCriar: (dados: { identificador: string; flor: string }) => void;
-}
-function ModalNovoLote({ onClose, onCriar }: ModalNovoLoteProps) {
-  const [identificador, setIdentificador] = useState("");
-  const [flor, setFlor] = useState("");
-
-  return (
-    <div className="modal-overlay">
-      <div className="modal-card">
-        <div className="modal-header">
-          <h4>Registrar Novo Lote</h4>
-          <button className="modal-close" onClick={onClose}>
-            ×
-          </button>
-        </div>
-
-        <div className="modal-body">
-          <label>Identificador do Lote</label>
-          <input
-            placeholder="Ex: 126"
-            value={identificador}
-            onChange={(e) => setIdentificador(e.target.value)}
-          />
-
-          <label style={{ marginTop: 8 }}>Tipo de Flor para o Lote</label>
-          <input
-            placeholder="Ex: Rosa Vermelha"
-            value={flor}
-            onChange={(e) => setFlor(e.target.value)}
-          />
-
-          <button
-            className="btn-novo-lote"
-            style={{ marginTop: 16 }}
-            onClick={() => {
-              if (identificador.trim() && flor.trim()) {
-                onCriar({ identificador, flor });
-                onClose();
-              }
-            }}
-          >
-            Criar Lote
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ─────────── MODAL ESPECIFICAÇÕES ─────────── */
-interface ModalEspecificacoesProps {
-  lote: Lote;
-  onClose: () => void;
-  onSalvar: (loteAtualizado: Lote) => void;
-  onExcluir: (id: string) => void;
-}
-function ModalEspecificacoes({
-  lote,
-  onClose,
-  onSalvar,
-  onExcluir,
-}: ModalEspecificacoesProps) {
-  const [aba, setAba] = useState<"quantidade" | "estado">("quantidade");
-  const [quantidade, setQuantidade] = useState<number>(lote.quantidade);
-  const [estados, setEstados] = useState<ContagemEstados>({ ...lote.estados });
-  const [erro, setErro] = useState("");
+function Lotes() {
+  const [lotes, setLotes] = useState<Lote[]>([]);
+  const [produtos, setProdutos] = useState<Produto[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [editNomeId, setEditNomeId] = useState<number | null>(null);
+  const [novoNome, setNovoNome] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [form, setForm] = useState({
+    nome_lote: "",
+    id_produto: "",
+  });
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    const soma = estados.Ótimo + estados.Regular + estados.Ruim;
-    if (soma > quantidade) {
-      setErro("Quantidade acima do estoque");
+    fetch("/api/lote")
+      .then((res) => res.json())
+      .then(async (data) => {
+        const lotesComNome = await Promise.all(
+          data.map(async (lote: Lote) => {
+            if (lote.produto_nome) return lote;
+            const res = await fetch(`/api/product/${lote.id_produto}`);
+            const produto = await res.json();
+            return { ...lote, produto_nome: produto.nome_produto };
+          })
+        );
+        setLotes(lotesComNome);
+        setLoading(false);
+      });
+    fetch("/api/product")
+      .then((res) => res.json())
+      .then(setProdutos);
+  }, []);
+
+  const handleDelete = async (id_lote: number) => {
+    if (!window.confirm("Deseja realmente deletar este lote?")) return;
+    const res = await fetch(`/api/lote/${id_lote}`, { method: "DELETE" });
+    if (res.ok) {
+      setLotes((prev) => prev.filter((l) => l.id_lote !== id_lote));
     } else {
-      setErro("");
-    }
-  }, [estados, quantidade]);
-
-  const alterarEstado = (estado: EstadoFlor, delta: number) => {
-    setEstados((prev) => {
-      const novoValor = Math.max(0, prev[estado] + delta);
-      return { ...prev, [estado]: novoValor };
-    });
-  };
-
-  const confirmarExclusao = () => {
-    if (window.confirm(`Deseja realmente excluir o lote #${lote.id}?`)) {
-      onExcluir(lote.id);
-      onClose();
+      alert("Erro ao deletar lote.");
     }
   };
 
-  return (
-    <div className="modal-overlay">
-      <div className="modal-card">
-        <div className="modal-header">
-          <h4>Especificações do Lote</h4>
-          <button className="modal-close" onClick={onClose}>
-            ×
-          </button>
-        </div>
-
-        <div className="modal-subheader">
-          <span style={{ fontWeight: 600 }}>
-            Lote #{lote.id} ‑ {lote.flor}
-          </span>
-        </div>
-
-        <div className="modal-tabs">
-          <button
-            className={aba === "quantidade" ? "tab-active" : ""}
-            onClick={() => setAba("quantidade")}
-          >
-            Ajustar Quantidade
-          </button>
-          <button
-            className={aba === "estado" ? "tab-active" : ""}
-            onClick={() => setAba("estado")}
-          >
-            Atualizar Estados
-          </button>
-        </div>
-
-        <div className="modal-body">
-          {aba === "quantidade" && (
-            <>
-              <label>Quantidade Total</label>
-              <div className="quantidade-ajuste">
-                <button
-                  onClick={() => setQuantidade((q) => Math.max(0, q - 1))}
-                >
-                  -
-                </button>
-                <input type="number" value={quantidade} readOnly />
-                <button onClick={() => setQuantidade((q) => q + 1)}>+</button>
-              </div>
-              <p className="info-text">
-                Distribuição atual:{" "}
-                {estados.Ótimo + estados.Regular + estados.Ruim} / {quantidade}
-              </p>
-            </>
-          )}
-
-          {aba === "estado" && (
-            <>
-              <label>Distribuir Estados das Flores</label>
-              {(["Ótimo", "Regular", "Ruim"] as EstadoFlor[]).map((e) => (
-                <div key={e} className="estado-linha">
-                  <span className="estado-label">{e}</span>
-                  <div className="estado-controles">
-                    <button onClick={() => alterarEstado(e, -1)}>-</button>
-                    <input type="number" value={estados[e]} readOnly />
-                    <button onClick={() => alterarEstado(e, 1)}>+</button>
-                  </div>
-                </div>
-              ))}
-              <p className="info-text">
-                Total distribuído:{" "}
-                {estados.Ótimo + estados.Regular + estados.Ruim} / {quantidade}
-              </p>
-              {erro && <p className="erro-text">{erro}</p>}
-            </>
-          )}
-
-          <button
-            style={{ marginTop: 16 }}
-            className="btn-novo-lote"
-            disabled={!!erro}
-            onClick={() => {
-              onSalvar({ ...lote, quantidade, estados });
-              onClose();
-            }}
-          >
-            Salvar Alterações
-          </button>
-
-          <button
-            style={{
-              marginTop: 8,
-              backgroundColor: "#cc0000",
-              border: "none",
-              color: "#fff",
-              padding: "8px 12px",
-              borderRadius: 4,
-              cursor: "pointer",
-            }}
-            onClick={confirmarExclusao}
-          >
-            Excluir Lote
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ─────────── MODAL DETALHES ─────────── */
-interface ModalDetalhesProps {
-  lote: Lote;
-  onClose: () => void;
-}
-function ModalDetalhes({ lote, onClose }: ModalDetalhesProps) {
-  const { estados } = lote;
-
-  return (
-    <div className="modal-overlay">
-      <div className="modal-card">
-        <div className="modal-header">
-          <h4>Detalhes do Lote</h4>
-          <button className="modal-close" onClick={onClose}>
-            ×
-          </button>
-        </div>
-
-        <div className="modal-subheader">
-          <span style={{ fontWeight: 600 }}>
-            Lote #{lote.id} ‑ {lote.flor}
-          </span>
-        </div>
-
-        <div className="modal-body">
-          <p>
-            <b>Quantidade total:</b> {lote.quantidade}
-          </p>
-          <p>
-            <b>Flores em Ótimo:</b> {estados.Ótimo}
-          </p>
-          <p>
-            <b>Flores em Regular:</b> {estados.Regular}
-          </p>
-          <p>
-            <b>Flores em Ruim:</b> {estados.Ruim}
-          </p>
-
-          <button
-            style={{ marginTop: 16 }}
-            className="btn-detalhes"
-            onClick={onClose}
-          >
-            Fechar
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ─────────── PÁGINA LOTES ─────────── */
-function Lotes() {
-  const [lotes, setLotes] = useState<Lote[]>(LOTES_MOCK);
-
-  const [modalNovo, setModalNovo] = useState(false);
-  const [modalEsp, setModalEsp] = useState<Lote | null>(null);
-  const [modalDet, setModalDet] = useState<Lote | null>(null);
-
-  // filtros
-  const [filtroNome, setFiltroNome] = useState("");
-  const [filtroId, setFiltroId] = useState("");
-  const [filtroEstado, setFiltroEstado] = useState<"Todos" | EstadoFlor>(
-    "Todos"
-  );
-  const [filtroStatus, setFiltroStatus] = useState<"Todos" | StatusLote>(
-    "Todos"
-  );
-
-  const salvarEdicoes = (loteAtualizado: Lote) => {
-    setLotes((prev) =>
-      prev.map((l) =>
-        l.id === loteAtualizado.id
-          ? {
-              ...loteAtualizado,
-              status: loteAtualizado.quantidade === 0 ? "Inativo" : "Ativo",
-            }
-          : l
-      )
-    );
+  const abrirEdicaoNome = (lote: Lote) => {
+    setEditNomeId(lote.id_lote);
+    setNovoNome(lote.nome_lote);
   };
 
-  const excluirLote = (id: string) => {
-    setLotes((prev) => prev.filter((l) => l.id !== id));
-  };
-
-  const lotesFiltrados = useMemo(() => {
-    return lotes.filter((lote) => {
-      const nomeOk = lote.flor.toLowerCase().includes(filtroNome.toLowerCase());
-      const idOk = lote.id.toLowerCase().includes(filtroId.toLowerCase());
-
-      const estadoModa = calculaEstadoModa(lote.estados);
-      const estadoOk = filtroEstado === "Todos" || estadoModa === filtroEstado;
-
-      const statusOk = filtroStatus === "Todos" || lote.status === filtroStatus;
-
-      return nomeOk && idOk && estadoOk && statusOk;
+  const salvarNome = async (lote: Lote) => {
+    if (!novoNome.trim()) return;
+    const res = await fetch(`/api/lote/${lote.id_lote}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nome_lote: novoNome }),
     });
-  }, [lotes, filtroNome, filtroId, filtroEstado, filtroStatus]);
+    if (res.ok) {
+      setLotes((prev) =>
+        prev.map((l) =>
+          l.id_lote === lote.id_lote ? { ...l, nome_lote: novoNome } : l
+        )
+      );
+      setEditNomeId(null);
+    } else {
+      alert("Erro ao editar nome do lote.");
+    }
+  };
+
+  const openModal = () => setShowModal(true);
+  const closeModal = () => {
+    setShowModal(false);
+    setForm({ nome_lote: "", id_produto: "" });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.nome_lote || !form.id_produto) {
+      alert("Preencha todos os campos obrigatórios.");
+      return;
+    }
+    setSaving(true);
+    const res = await fetch("/api/lote", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        nome_lote: form.nome_lote,
+        id_produto: Number(form.id_produto),
+      }),
+    });
+    if (res.ok) {
+      const novoLote = await res.json();
+      const produto = produtos.find(
+        (p) => p.id_produto === Number(form.id_produto)
+      );
+      setLotes((prev) => [
+        {
+          ...novoLote,
+          produto_nome: produto?.nome_produto || `Produto #${form.id_produto}`,
+        },
+        ...prev,
+      ]);
+      closeModal();
+    } else {
+      alert("Erro ao cadastrar lote.");
+    }
+    setSaving(false);
+  };
 
   return (
     <div className="wrapper-lotes">
       <Navbar title="Gestão de Lotes" />
-
       <div className="gestao-lotes-container">
         <main className="main-content">
           <h3 className="titulo">Lotes Registrados</h3>
-
-          <button className="btn-novo-lote" onClick={() => setModalNovo(true)}>
-            + Registrar Novo Lote
+          <button className="btn-novo-lote" onClick={openModal}>
+            + Novo Lote
           </button>
-
-          <section className="filtros">
-            <input
-              placeholder="Nome da flor do lote..."
-              value={filtroNome}
-              onChange={(e) => setFiltroNome(e.target.value)}
-            />
-
-            <input
-              placeholder="Identificador do lote..."
-              value={filtroId}
-              onChange={(e) => setFiltroId(e.target.value)}
-              style={{ marginLeft: 8 }}
-            />
-
-            <select
-              value={filtroEstado}
-              onChange={(e) => setFiltroEstado(e.target.value as any)}
-              style={{ marginLeft: 8 }}
-            >
-              <option value="Todos">Todos</option>
-              <option value="Ótimo">Ótimo</option>
-              <option value="Regular">Regular</option>
-              <option value="Ruim">Ruim</option>
-            </select>
-
-            <select
-              value={filtroStatus}
-              onChange={(e) => setFiltroStatus(e.target.value as any)}
-              style={{ marginLeft: 8 }}
-            >
-              <option value="Todos">Todos</option>
-              <option value="Ativo">Ativo</option>
-              <option value="Inativo">Inativo</option>
-            </select>
-          </section>
-
-          <section className="lista-lotes">
-            {lotesFiltrados.length === 0 ? (
-              <p className="info-text">Nenhum lote cadastrado ainda.</p>
-            ) : (
-              lotesFiltrados.map((lote) => {
-                const estadoModa = calculaEstadoModa(lote.estados);
-                return (
-                  <div
-                    key={lote.id}
-                    className={`card-lote ${
-                      lote.status === "Inativo" ? "inativo" : ""
-                    }`}
-                  >
-                    <div className="lote-header">
-                      <span className="lote-id">Lote #{lote.id}</span>
-                      <span
-                        className={`status ${
-                          lote.status === "Ativo" ? "ativo" : "inativo"
-                        }`}
-                      >
-                        {lote.status}
-                      </span>
-                    </div>
-
-                    <div
-                      className="lote-flor"
-                      style={{
-                        color:
-                          lote.flor === "Rosa Vermelha"
-                            ? "#a0522d"
-                            : lote.flor === "Tulipa Rosa"
-                            ? "#b87333"
-                            : lote.flor === "Girassol"
-                            ? "#b8860b"
-                            : "#888",
-                      }}
+          {loading ? (
+            <Loading />
+          ) : lotes.length === 0 ? (
+            <p className="info-text">Nenhum lote cadastrado ainda.</p>
+          ) : (
+            <section className="lista-lotes">
+              {lotes.map((lote) => (
+                <div key={lote.id_lote} className="card-lote">
+                  {/* Status e botão deletar no topo direito */}
+                  <div className="lote-card-actions">
+                    <span
+                      className={`status ${lote.concluido ? "inativo" : ""}`}
+                      title={lote.concluido ? "Concluído" : "Ativo"}
                     >
-                      {lote.flor}
-                    </div>
-
-                    <div className="lote-info">
-                      <span>
-                        Quantidade: <b>{lote.quantidade} flores</b>
-                      </span>
-                      <span>
-                        Estado Médio:{" "}
-                        <b className={`estado ${estadoModa.toLowerCase()}`}>
-                          {estadoModa}
-                        </b>
-                      </span>
-                    </div>
-
-                    <div className="acoes-lote">
-                      <button
-                        className="btn-detalhes"
-                        onClick={() => setModalEsp(lote)}
-                      >
-                        Especificações
-                      </button>
-                      <button
-                        className="btn-detalhes secundario"
-                        onClick={() => setModalDet(lote)}
-                      >
-                        Detalhes
-                      </button>
-                    </div>
+                      {lote.concluido ? "Concluído" : "Ativo"}
+                    </span>
+                    <button
+                      className="delete-lote-btn"
+                      title="Excluir lote"
+                      onClick={() => handleDelete(lote.id_lote)}
+                    >
+                      <img src={deletarIcon} alt="Deletar" />
+                    </button>
                   </div>
-                );
-              })
-            )}
-          </section>
+
+                  <div className="lote-header">
+                    <span className="lote-id">Lote #{lote.id_lote}</span>
+                  </div>
+                  {/* Badge tipo produto estilo GitHub */}
+                  <div className="lote-produto-badge">
+                    {lote.produto_nome || `Produto #${lote.id_produto}`}
+                  </div>
+                  <div className="lote-info">
+                    <span>
+                      <b>Data de Criação:</b>{" "}
+                      {new Date(lote.data_entrada).toLocaleDateString()}
+                    </span>
+                    <span>
+                      <b>Quantidade Atual:</b> {lote.quantidade_atual}
+                    </span>
+                    <span>
+                      <b>Estado Predominante:</b>{" "}
+                      {lote.estado_predominante || "N/A"}
+                    </span>
+                  </div>
+                  <div className="acoes-lote">
+                    <button
+                      className="btn-detalhes secundario"
+                      onClick={() => abrirEdicaoNome(lote)}
+                    >
+                      Editar Nome
+                    </button>
+                  </div>
+                  {/* Mini-card para editar nome */}
+                  {editNomeId === lote.id_lote && (
+                    <div className="mini-card-editar-nome">
+                      <input
+                        value={novoNome}
+                        onChange={(e) => setNovoNome(e.target.value)}
+                        maxLength={50}
+                        className="input-editar-nome"
+                        autoFocus
+                      />
+                      <button
+                        className="btn-salvar-nome"
+                        onClick={() => salvarNome(lote)}
+                      >
+                        Salvar
+                      </button>
+                      <button
+                        className="btn-cancelar-nome"
+                        onClick={() => setEditNomeId(null)}
+                      >
+                        Cancelar
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </section>
+          )}
         </main>
       </div>
 
-      {modalNovo && (
-        <ModalNovoLote
-          onClose={() => setModalNovo(false)}
-          onCriar={({ identificador, flor }) => {
-            setLotes((prev) => [
-              ...prev,
-              {
-                id: identificador,
-                flor,
-                quantidade: 0,
-                estados: { Ótimo: 0, Regular: 0, Ruim: 0 },
-                status: "Inativo",
-              },
-            ]);
-          }}
-        />
-      )}
-
-      {modalEsp && (
-        <ModalEspecificacoes
-          lote={modalEsp}
-          onClose={() => setModalEsp(null)}
-          onSalvar={salvarEdicoes}
-          onExcluir={excluirLote}
-        />
-      )}
-
-      {modalDet && (
-        <ModalDetalhes lote={modalDet} onClose={() => setModalDet(null)} />
+      {/* Modal de cadastro de lote */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <header className="modal-header">
+              <button className="close-x" onClick={closeModal}>
+                ×
+              </button>
+              <h2>Novo Lote</h2>
+            </header>
+            <form className="modal-form" onSubmit={handleSubmit}>
+              <label>
+                <span>Nome do Lote</span>
+                <input
+                  name="nome_lote"
+                  value={form.nome_lote}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, nome_lote: e.target.value }))
+                  }
+                  required
+                  placeholder="Ex: Lote Primavera"
+                />
+              </label>
+              <label>
+                <span>Produto</span>
+                <select
+                  name="id_produto"
+                  value={form.id_produto}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, id_produto: e.target.value }))
+                  }
+                  required
+                >
+                  <option value="">Selecione...</option>
+                  {produtos.map((p) => (
+                    <option key={p.id_produto} value={p.id_produto}>
+                      {p.nome_produto}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <button type="submit" className="save-button" disabled={saving}>
+                {saving ? "Salvando..." : "Cadastrar Lote"}
+              </button>
+            </form>
+          </div>
+        </div>
       )}
     </div>
   );

@@ -54,13 +54,22 @@ export default function CadastroFlores() {
   // Visual: Stock "Com" ou "Sem" (não enviado ao backend)
   const [stockVisual, setStockVisual] = useState<"Com" | "Sem">("Com");
 
+  // token de verificação
+  const token = localStorage.getItem("token");
+  const perfil = localStorage.getItem("perfil");
+
   // Filtros visuais
   const [searchTerm, setSearchTerm] = useState("");
   const [tipoFilter, setTipoFilter] = useState("Todos");
 
   const handleDeleteProduto = async (id_produto: number) => {
     if (!window.confirm("Tem certeza que deseja deletar este produto?")) return;
-    const res = await fetch(`/api/product/${id_produto}`, { method: "DELETE" });
+    const res = await fetch(`/api/product/${id_produto}`, {
+      method: "DELETE",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+    });
     if (res.ok) {
       setProdutos((prev) => prev.filter((p) => p.id_produto !== id_produto));
     } else {
@@ -119,11 +128,12 @@ export default function CadastroFlores() {
     }));
   };
 
+  // --------- FORM SUBMIT -----------
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!form.nome_produto || !form.estoque_minimo || !form.id_tipo_produto) return;
 
-    // Monta payload para o backend
     const payload = {
       ...form,
       estoque_maximo: form.estoque_maximo === "" ? null : form.estoque_maximo,
@@ -131,7 +141,10 @@ export default function CadastroFlores() {
 
     const res = await fetch("/api/product", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
       body: JSON.stringify(payload),
     });
 
@@ -212,7 +225,10 @@ export default function CadastroFlores() {
 
     const res = await fetch(`/api/product/${editForm.id_produto}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
       body: JSON.stringify(payload),
     });
 
@@ -242,6 +258,9 @@ export default function CadastroFlores() {
     });
   }, [produtos, searchTerm, tipoFilter, tiposProduto]);
 
+  // Permissão: só ADMINISTRADOR pode cadastrar/editar/deletar
+  const isAdmin = perfil === "ADMINISTRADOR";
+
   return (
     <div className="catalog-root">
       <Navbar title="Produtos" />
@@ -249,9 +268,11 @@ export default function CadastroFlores() {
       <main className="catalog-content">
         <h1 className="catalog-title">Catálogo de Produtos</h1>
 
-        <button className="add-button" onClick={toggleModal}>
-          + Adicionar Produto
-        </button>
+        {isAdmin && (
+          <button className="add-button" onClick={toggleModal}>
+            + Adicionar Produto
+          </button>
+        )}
 
         <section className="filters">
           <label>
@@ -281,30 +302,32 @@ export default function CadastroFlores() {
         <section className="cards">
           {produtosFiltrados.map((p) => (
             <article key={p.id_produto} className="flower-card" style={{ position: "relative" }}>
-              <button
-                onClick={() => handleDeleteProduto(p.id_produto)}
-                className="delete-button"
-                title="Deletar produto"
-                style={{
-                  position: "absolute",
-                  top: 8,
-                  right: 8,
-                  background: "transparent",
-                  border: "none",
-                  borderRadius: "50%",
-                  width: 28,
-                  height: 28,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  padding: 0,
-                  zIndex: 2,
-                }}
-              >
-                <img src={deletarIcon} alt="Deletar" style={{ width: 18, height: 18 }} />
-              </button>
-            
+              {isAdmin && (
+                <button
+                  onClick={() => handleDeleteProduto(p.id_produto)}
+                  className="delete-button"
+                  title="Deletar produto"
+                  style={{
+                    position: "absolute",
+                    top: 8,
+                    right: 8,
+                    background: "transparent",
+                    border: "none",
+                    borderRadius: "50%",
+                    width: 28,
+                    height: 28,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                    padding: 0,
+                    zIndex: 2,
+                  }}
+                >
+                  <img src={deletarIcon} alt="Deletar" style={{ width: 18, height: 18 }} />
+                </button>
+              )}
+
               <img
                 src={p.imagem || florPadrao}
                 alt={p.nome_produto}
@@ -319,7 +342,7 @@ export default function CadastroFlores() {
                   marginRight: "auto"
                 }}
               />
-            
+
               <h3 className="flower-name">{p.nome_produto}</h3>
               <p className="flower-category">
                 {tiposProduto.find((t) => t.id_tipo_produto === p.id_tipo_produto)?.nome_tipo_produto ||
@@ -338,13 +361,15 @@ export default function CadastroFlores() {
                   </>
                 )}
               </div>
-              <button
-                onClick={() => openEditModal(p)}
-                className="save-button"
-                style={{ marginTop: 8 }}
-              >
-                Editar
-              </button>
+              {isAdmin && (
+                <button
+                  onClick={() => openEditModal(p)}
+                  className="save-button"
+                  style={{ marginTop: 8 }}
+                >
+                  Editar
+                </button>
+              )}
             </article>
           ))}
         </section>
@@ -357,7 +382,7 @@ export default function CadastroFlores() {
       )}
 
       {/* Modal de cadastro */}
-      {isModalOpen && (
+      {isModalOpen && isAdmin && (
         <div className="modal-overlay">
           <div className="modal">
             <header className="modal-header">
@@ -430,7 +455,7 @@ export default function CadastroFlores() {
       )}
 
       {/* Modal de edição */}
-      {isEditModalOpen && (
+      {isEditModalOpen && isAdmin && (
         <div className="modal-overlay">
           <div className="modal">
             <header className="modal-header">

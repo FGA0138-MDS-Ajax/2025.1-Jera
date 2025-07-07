@@ -78,6 +78,24 @@
   background: #3d4d13;
 }
 
+.btn-movimentacao {
+  background: #e2725b;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 0;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-movimentacao:disabled {
+  background: #e0e0e0;
+  color: #aaa;
+  cursor: not-allowed;
+}
+.btn-movimentacao:hover:not(:disabled) {
+  background: #b64c38;
+}
+
 /* ---------- Modal Overlay ---------- */
 .modal-overlay {
   position: fixed;

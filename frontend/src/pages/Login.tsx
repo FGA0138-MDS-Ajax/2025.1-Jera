@@ -49,25 +49,27 @@ const Login = () => {
   };
 
   /* Submit */
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!hasSubmitted) setHasSubmitted(true);
 
-    if (!validateForm()) {
-      // form inválido, não tenta login ainda
-      return;
-    }
+    if (!validateForm()) return;
 
-    const validEmails = ["admin@email.com"];
-    const validPassword = "123";
+    const res = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, senha: password }),
+    });
 
-    if (
-      validEmails.includes(email.trim().toLowerCase()) &&
-      password === validPassword
-    ) {
-      setLoginError(false);
-      setEmailError(false);
+    if (res.ok) {
+      const data = await res.json();
+      localStorage.setItem("token", data.access_token);
+
+      // Decodifique o token para pegar o perfil (opcional)
+      const payload = JSON.parse(atob(data.access_token.split(".")[1]));
+      localStorage.setItem("perfil", payload.perfil);
+
       navigate("/inicio");
     } else {
       setLoginError(true);

@@ -17,6 +17,7 @@ router = APIRouter()
 @router.post("/lote", response_model=LoteResponseSchema)
 def criar_lote(request_body: LoteCreateSchema):
     lote = Lote(
+        nome_lote=request_body.nome_lote,
         id_produto=request_body.id_produto,
         quantidade_inicial= 0,
         quantidade_atual=0,
@@ -37,6 +38,7 @@ def get_lote_by_id(id_lote: int):
     id_moda = Moda(movimentacoes)
     estado = EstadoEsteticoService.get_estado_by_id(id_moda) if id_moda else None
     return {
+        "nome_lote": lote.nome_lote,
         "id_lote": lote.id_lote,
         "id_produto": lote.id_produto,
         "quantidade_atual": lote.quantidade_atual,
