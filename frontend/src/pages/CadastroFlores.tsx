@@ -2,7 +2,6 @@ import { useState, useEffect, useMemo } from "react";
 import type { FormEvent, ChangeEvent } from "react";
 import "../styles/CadastroFlores.css";
 import Navbar from "../Components/Navebar";
-import { Link } from "react-router-dom";
 import deletarIcon from "../assets/deletar.png";
 import florPadrao from "../assets/LogoFloraGest.png";
 
