@@ -1,5 +1,3 @@
-## Restrições adicionais
-
 Esta seção descreve restrições adicionais ao **FloraGest**, que influenciam seu design e desenvolvimento, complementando as metas e restrições arquiteturais definidas anteriormente. Essas restrições adicionais estão relacionadas a aspectos negociais e características de qualidade de software, importantes para o sucesso do produto e a satisfação do usuário.
 
 O **FloraGest** é projetado para ser uma plataforma de gestão de estoque acessível e intuitiva, voltada para pequenas e médias floriculturas. Isso implica que:
