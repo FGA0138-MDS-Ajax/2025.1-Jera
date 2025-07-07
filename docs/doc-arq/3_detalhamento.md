@@ -1,10 +1,12 @@
 ## Diagrama de componentes
 
-  **Figura: Diagrama de componentes do FloraGest**
+O diagrama de componentes a seguir apresenta uma visão estrutural dos principais módulos e tecnologias envolvidos na arquitetura do FloraGest. Ele ilustra como os elementos da aplicação — frontend, backend, API GraphQL, camada de persistência e banco de dados — se relacionam entre si, compondo uma arquitetura modular e escalável. Essa representação facilita o entendimento da organização geral do sistema e de como os dados fluem entre os diferentes componentes durante a execução das funcionalidades.
 
-  ![Diagrama de componentes](../imagens/Meio_Termo_MDS.drawio.png)
+**Figura: Diagrama de componentes do FloraGest**
 
-  **Fonte:** Elaboração Própria (2025)
+![Diagrama de componentes](../imagens/Meio_Termo_MDS.drawio.png)
+
+**Fonte:** Elaboração Própria (2025)
 
 ---
 
