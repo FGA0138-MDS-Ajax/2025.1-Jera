@@ -41,7 +41,7 @@ class LoteRepository:
             lote_dict = lote.model_dump() if hasattr(lote, "model_dump") else lote.__dict__.copy()
             lote_dict["estado_predominante"] = estado.nome_estado_estetico if estado else None
             resultado.append(lote_dict)
-        AlertaRepository.gerar_alertas_lotes_ruins_7dias(session=session)
+        AlertaRepository.gerar_alertas_lotes_ruins_3dias(session=session)
         return resultado
     
     @staticmethod
@@ -64,10 +64,6 @@ class LoteRepository:
         session.commit()
         session.refresh(lote)
         
-        # Após atualizar, verifica alertas de estoque para o produto
-        if produto:
-            estoque_atual = MovimentacaoEstoqueRepository.calcular_estoque(produto.id_produto)
-            AlertaRepository.verificar_e_gerar_alerta(produto, estoque_atual, lote.id_lote, session=session)
         return lote
 
     @staticmethod

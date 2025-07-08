@@ -8,13 +8,6 @@ class AlertaService:
     Camada de serviço responsável pela lógica de negócios relacionada a alertas.
     """
 
-    @staticmethod
-    def gerar_alerta_lotes_ruins_7dias():
-        return AlertaRepository.gerar_alertas_lotes_ruins_7dias()
-
-    @staticmethod
-    def listar_lotes_ruins_7dias():
-        return AlertaRepository.listar_alertas_lotes_ruins_7dias()
     
     @staticmethod
     def verificar_e_gerar_alerta(produto: Product, estoque_atual: int, id_lote:int) -> list[Alerta]:

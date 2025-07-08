@@ -24,10 +24,10 @@ class AlertaRepository:
 
     @staticmethod
     @with_session
-    def gerar_alertas_lotes_ruins_7dias(session: Session | None = None) -> list[Alerta]:
+    def gerar_alertas_lotes_ruins_3dias(session: Session | None = None) -> list[Alerta]:
         """
         Gera alertas para lotes que estão no estado estético 'ruim' (de acordo com a moda das movimentações)
-        há mais de 7 dias.
+        há mais de 3 dias.
 
         O alerta é criado apenas se ainda não existir para o lote/produto.
         O tipo de alerta utilizado é "Lotes ruins há mais de 7 dias" (id_tipo_alerta=99).
@@ -39,7 +39,7 @@ class AlertaRepository:
         Retorna:
             list[Alerta]: Lista de alertas gerados nesta execução.
         """
-        sete_dias_atras = datetime.now() - timedelta(days=7)
+        sete_dias_atras = datetime.now() - timedelta(days=3)
 
         # Busca o estado estético "ruim"
         estado_ruim = session.query(EstadoEstetico).filter(
@@ -57,7 +57,7 @@ class AlertaRepository:
             session.refresh(tipo_alerta)
 
         alertas_gerados = []
-        # Busca todos os lotes com data de entrada há mais de 7 dias
+        # Busca todos os lotes com data de entrada há mais de 3 dias
         from app.db.models.lote import Lote
         lotes = session.query(Lote).filter(Lote.data_entrada < sete_dias_atras).all()
         for lote in lotes:
@@ -67,7 +67,7 @@ class AlertaRepository:
             id_moda = calcular_moda_estado_estetico(movimentacoes)
             # Se a moda for "ruim", gera o alerta (se ainda não existir)
             if id_moda == estado_ruim.id_estado_estetico:
-                mensagem = f"Lote {lote.id_lote} está no estado RUIM há mais de 7 dias."
+                mensagem = f"Lote {lote.id_lote} está no estado RUIM há mais de 3 dias."
                 if not AlertaRepository.alerta_existe(lote.id_produto, tipo_alerta.id_tipo_alerta, mensagem, lote.id_lote, session):
                     alerta = Alerta(
                         id_produto=lote.id_produto,
@@ -80,14 +80,6 @@ class AlertaRepository:
         session.commit()
         return alertas_gerados
     
-
-    @staticmethod
-    @with_session
-    def listar_alertas_lotes_ruins_7dias(session: Session | None = None) -> list[Alerta]:
-        """
-        Lista os alertas do tipo 'Lotes ruins há mais de 7 dias' (id_tipo_alerta=99).
-        """
-        return session.query(Alerta).filter(Alerta.id_tipo_alerta == 99).all()
 
     @staticmethod
     @with_session
@@ -168,6 +160,8 @@ class AlertaRepository:
                 alerta = AlertaRepository.gerar_alerta(produto.id_produto, tipo_prev_max.id_tipo_alerta, mensagem, id_lote, session)
                 alertas_gerados.append(alerta)
 
+        alertas += AlertaRepository.gerar_alertas_lotes_ruins_3dias(session=session)
+        
         return alertas_gerados
     
 

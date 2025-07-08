@@ -15,16 +15,8 @@ def get_alerts():
     """
     Lista todos os alertas cadastrados.
     """
-
+    
     return AlertaService.get_all_alerta()
-
-@router.get("/alert/lotes", status_code=200, response_model=list[AlertaResponseSchema])
-def get_alerts_lotes_ruins_7dias():
-    """
-    Lista apenas os alertas de lotes ruins há mais de 7 dias.
-    """
-    return AlertaService.listar_lotes_ruins_7dias()
-
 
 @router.get("/alert/{alert_id}", status_code=200, response_model=AlertaResponseSchema)
 def get_alert_by_id(alert_id: int):
