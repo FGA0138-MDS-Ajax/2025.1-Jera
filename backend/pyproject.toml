@@ -2,7 +2,7 @@
 name = "2025-1-jera" # ADICIONAR NOME DO PROJETO
 version = "0.1.0"
 description = "Add your description here"
-readme = "README.md"
+readme = "BACKEND.md"
 requires-python = ">=3.13"
 # ATENÇÃO: Este arquivo pyproject.toml é utilizado para gerenciar dependências e configurações do projeto Python.
 # Consulte a documentação do projeto caso surjam dúvidas.
@@ -23,17 +23,14 @@ dependencies = [
     "pyjwt (>=2.10.1,<3.0.0)",
 ]
 
-[dependency-groups]
-# Grupos de dependências para desenvolvimento e documentação.
-dev = [
-    "pytest>=8.3.5",
-    "pytest-cov>=6.1.1",
-    "pytest-mock>=3.14.1",
-    "ruff>=0.11.12",
-    "strawberry-graphql[debug-server,fastapi]>=0.270.5",
-]
-docs = [
-    "mkdocs-enumerate-headings-plugin>=0.6.2",
-    "mkdocs-material>=9.6.14",
-    "mkdocs-section-index>=0.3.10",
-]
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+pytest-cov = "^6.1.1"
+pytest-mock = "^3.14.1"
+ruff = "^0.11.12"
+strawberry-graphql = {extras = ["debug-server", "fastapi"], version = "^0.270.5"}
+
+[tool.poetry.group.docs.dependencies]
+mkdocs-enumerate-headings-plugin = ">=0.6.2"
+mkdocs-material = ">=9.6.14"
+mkdocs-section-index = ">=0.3.10"

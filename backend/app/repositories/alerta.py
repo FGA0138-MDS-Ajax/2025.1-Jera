@@ -22,6 +22,7 @@ class AlertaRepository:
         ).first() is not None
 
 
+    
     @staticmethod
     @with_session
     def gerar_alertas_lotes_ruins_3dias(session: Session | None = None) -> list[Alerta]:
@@ -39,7 +40,7 @@ class AlertaRepository:
         Retorna:
             list[Alerta]: Lista de alertas gerados nesta execução.
         """
-        sete_dias_atras = datetime.now() - timedelta(days=3)
+        tres_dias_atras = datetime.now() - timedelta(days=3)
 
         # Busca o estado estético "ruim"
         estado_ruim = session.query(EstadoEstetico).filter(
@@ -51,7 +52,7 @@ class AlertaRepository:
         # Garante que o tipo de alerta existe
         tipo_alerta = session.query(TipoAlerta).filter(TipoAlerta.id_tipo_alerta == 99).first()
         if not tipo_alerta:
-            tipo_alerta = TipoAlerta(id_tipo_alerta=99, nome_tipo_alerta="Lotes ruins há mais de 7 dias")
+            tipo_alerta = TipoAlerta(id_tipo_alerta=99, nome_tipo_alerta="Lotes ruins há mais de 3 dias")
             session.add(tipo_alerta)
             session.commit()
             session.refresh(tipo_alerta)
@@ -59,7 +60,7 @@ class AlertaRepository:
         alertas_gerados = []
         # Busca todos os lotes com data de entrada há mais de 3 dias
         from app.db.models.lote import Lote
-        lotes = session.query(Lote).filter(Lote.data_entrada < sete_dias_atras).all()
+        lotes = session.query(Lote).filter(Lote.data_entrada < tres_dias_atras).all()
         for lote in lotes:
             # Busca as movimentações do lote
             movimentacoes = MovimentacaoEstoqueRepository.listar_por_lote(lote.id_lote, session=session)
@@ -160,8 +161,7 @@ class AlertaRepository:
                 alerta = AlertaRepository.gerar_alerta(produto.id_produto, tipo_prev_max.id_tipo_alerta, mensagem, id_lote, session)
                 alertas_gerados.append(alerta)
 
-        alertas += AlertaRepository.gerar_alertas_lotes_ruins_3dias(session=session)
-        
+        alertas_gerados += AlertaRepository.gerar_alertas_lotes_ruins_3dias(session=session)
         return alertas_gerados
     
 

@@ -51,6 +51,7 @@ class ProductRepository:
         return:
             list[Product]: Retorna uma lista de todos os produtos encontrados.
         """
+        
         return session.query(Product).all()
 
     @staticmethod

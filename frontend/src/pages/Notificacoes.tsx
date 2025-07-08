@@ -4,7 +4,7 @@ import Navbar from "../Components/Navebar";
 import deletarIcon from "../assets/deletar.png";
 import { useNotificacao } from "../Components/NotificacaoContext";
 
-type NotificationType = "validade" | "promocao" | "estoque";
+type NotificationType = "validade" | "baixo_giro" | "estoque" | "lote_ruim";
 
 interface Notification {
   id: number;
@@ -17,8 +17,9 @@ interface Notification {
 
 const iconMap: Record<NotificationType, string> = {
   validade: "🕒",
-  promocao: "ℹ️",
+  baixo_giro: "ℹ️",
   estoque: "⚠️",
+  lote_ruim: "❗"
 };
 
 const NotificationCard: React.FC<{
@@ -81,16 +82,27 @@ export const Notificacoes: React.FC = () => {
     fetch("/api/alert")
       .then(res => res.json())
       .then(data => {
-        const mapped: Notification[] = data.map((alert: any) => ({
-          id: alert.id_alerta,
-          type: "estoque", // ajuste conforme o tipo do alerta se houver
-          title: alert.mensagem || "Alerta de Estoque",
-          description: `Produto: ${produtos[alert.id_produto] || `#${alert.id_produto}`} | ${lotes[alert.id_lote] || `#${alert.id_lote}`}`,
-          time: alert.data_hora_alerta
-            ? new Date(alert.data_hora_alerta).toLocaleString()
-            : "",
-          actionText: "Excluir",
-        }));
+        const mapped: Notification[] = data.map((alert: any) => {
+          let type: NotificationType = "estoque";
+          if (alert.tipo_alerta?.toLowerCase().includes("baixo giro")) type = "baixo_giro";
+          else if (alert.tipo_alerta?.toLowerCase().includes("validade")) type = "validade";
+          else if (alert.tipo_alerta?.toLowerCase().includes("ruim")) type = "lote_ruim";
+
+          return {
+            id: alert.id_alerta,
+            type,
+            title: alert.mensagem || "Alerta",
+            description:
+              `Produto: ${produtos[alert.id_produto] || `#${alert.id_produto}`}` +
+              (alert.id_lote != null
+                ? ` | Lote: ${lotes[alert.id_lote] || `#${alert.id_lote}`}`
+                : " | Sem lote"),
+            time: alert.data_hora_alerta
+              ? new Date(alert.data_hora_alerta).toLocaleString()
+              : "",
+            actionText: "Excluir",
+          };
+        });
         setNotifications(mapped);
         setQuantidade(mapped.length); // Atualiza o badge na Navbar
       })

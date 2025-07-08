@@ -21,9 +21,9 @@ export default function HistoricoMovimentacoes() {
   const [loading, setLoading] = useState(true);
 
   const estadosEsteticos: Record<number, string> = {
-    1: "Bom",
+    1: "Ruim",
     2: "Regular",
-    3: "Ruim",
+    3: "Bom",
     };
 
   useEffect(() => {

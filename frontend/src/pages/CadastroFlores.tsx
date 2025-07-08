@@ -77,15 +77,25 @@ export default function CadastroFlores() {
   useEffect(() => {
     fetch("/api/product")
       .then((res) => res.json())
-      .then((data) => {
-        setProdutos(
-          data.map((p: Produto) => ({
-            ...p,
-            stock: "Com",
-          }))
-        );
-      });
-  }, []);
+      .then(async(data) => {
+        // Para cada produto, busca o estoque atual
+      const produtosComEstoque = await Promise.all(
+        data.map(async (p: Produto) => {
+          try {
+            const resEstoque = await fetch(`/api/movimentacao/estoque_atual/${p.id_produto}`);
+            const estoqueData = await resEstoque.json();
+            return {
+              ...p,
+              stock: estoqueData.estoque_atual > 0 ? "Com" : "Sem",
+            };
+          } catch {
+            return { ...p, stock: "Sem" };
+          }
+        })
+      );
+      setProdutos(produtosComEstoque);
+    });
+}, []);
 
   // Buscar tipos de produto do backend
   useEffect(() => {
@@ -115,7 +125,6 @@ export default function CadastroFlores() {
     e.preventDefault();
     if (!form.nome_produto || !form.estoque_minimo || !form.id_tipo_produto) return;
 
-    // Envia apenas JSON, sem imagem
     const res = await fetch("/api/product", {
       method: "POST",
       headers: {
@@ -136,7 +145,7 @@ export default function CadastroFlores() {
         ...prev,
         {
           ...novoProduto,
-          stock: stockVisual,
+          stock: "Sem",
         },
       ]);
       setForm({
