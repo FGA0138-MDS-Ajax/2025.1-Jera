@@ -1,6 +1,7 @@
 import "../styles/Navebar.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNotificacao } from "../Components/NotificacaoContext";
 
 interface NavbarProps {
   title: string;
@@ -8,6 +9,7 @@ interface NavbarProps {
 
 export default function Navbar({ title }: NavbarProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { quantidade } = useNotificacao();
 
   return (
     <>
@@ -23,9 +25,15 @@ export default function Navbar({ title }: NavbarProps) {
         <div className="top-bar-actions">
           <Link
             to="/notificacoes"
-            className="nav-btn"
+            className="nav-btn notificacao-btn"
             aria-label="Notificações"
-          />
+            style={{ position: "relative" }}
+          >
+            {/* Ícone do sino é definido pelo CSS da nav-btn */}
+            {quantidade > 0 && (
+              <span className="notificacao-badge">{quantidade}</span>
+            )}
+          </Link>
           <Link
             to="/minhas-informacoes"
             className="profile-btn"

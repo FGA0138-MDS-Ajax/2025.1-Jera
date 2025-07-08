@@ -5,12 +5,13 @@ import Register from "../pages/Register";
 import FlowerCatalog from "../pages/CadastroFlores";
 import Inicial from "../pages/Inicial";
 import DashboardGerente from "../pages/DashBoardGerente";
-import { Notificacoes } from "../pages/Notificações";
+import { Notificacoes } from "../pages/Notificacoes";
 import Lotes from "../pages/Lotes";
 import Registro from "../pages/RegistrodeFlores";
 import GerenciamentoUsuarios from "../pages/Usuarios";
 import MinhasInformacoes from "../pages/MinhasInformacoes";
 import GerenciarTiposProduto from "../pages/GerenciadorTipoProduto";
+import HistoricoMovimentacoes from "../pages/historicoMovimentacao";
 
 
 
@@ -31,6 +32,8 @@ function RoutesApp() {
       <Route path="/usuarios" element={<GerenciamentoUsuarios />} />
       <Route path="/minhas-informacoes" element={<MinhasInformacoes />} />
       <Route path="/tipo-produto" element={<GerenciarTiposProduto />} />
+      <Route path="/historico-movimentacoes" element={<HistoricoMovimentacoes />} />
+
     
     </Routes>
   );

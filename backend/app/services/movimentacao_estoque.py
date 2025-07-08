@@ -23,11 +23,11 @@ class MovimentacaoEstoqueService:
         return MovimentacaoEstoqueRepository.calcular_estoque(id_produto)
     
     @staticmethod
-    def listar_todas() -> list[MovimentacaoEstoque]:
+    def listar_movimentacoes() -> list[MovimentacaoEstoque]:
         """
         Retorna todas as movimentações de estoque cadastradas.
         """
-        return MovimentacaoEstoqueRepository.listar_todas()
+        return MovimentacaoEstoqueRepository.listar_movimentacoes()
     
     @staticmethod
     def listar_por_produto(id_produto: int) -> list[MovimentacaoEstoque]:

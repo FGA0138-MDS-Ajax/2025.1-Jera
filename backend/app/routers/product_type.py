@@ -82,8 +82,9 @@ def update_product_type(id: int, request_body: ProductTypeCreateSchema) -> Produ
     return updated_product_type.model_dump()
 
 @router.delete("/product_type/{id}", status_code=204)
-def delete_tpo_produto(id: int):
+def delete_tipo_produto(id: int):
     sucesso = ProductTypeService.delete_product_type(id)
     if not sucesso:
         logger.error(f"Failed to delete product type with id {id}.")
         raise HTTPException(status_code=400, detail=f"Não foi possível remover o tipo de produto. Ele pode estar sendo usado por algum produto.")
+    return None

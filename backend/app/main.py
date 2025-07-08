@@ -8,6 +8,7 @@ logger = Logger()
 api = FastAPI()
 logger.info("Aplicação FastAPI inicializada.")
 
+
 api.include_router(graphql.router, prefix="/graphql", tags=["graphql"])
 api.include_router(product_type.router, prefix="/api", tags=["product_type"])
 api.include_router(product.router, prefix="/api", tags=["product"])
@@ -17,3 +18,10 @@ api.include_router(movimentacao_estoque.router, prefix="/api", tags=["movimentac
 api.include_router(lote.router, prefix="/api", tags=["lote"])
 api.include_router(estado_estetico.router, prefix="/api", tags=["estado_estetico"])
 api.include_router(usuario.router, prefix="/api", tags=["usuario"])
+
+if __name__ == "__main__" or True:
+    from app.db import initialize_database
+    from app.db import ensure_estados_esteticos
+    initialize_database()
+    ensure_estados_esteticos()
+    

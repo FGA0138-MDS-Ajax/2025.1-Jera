@@ -53,16 +53,40 @@ const Register = () => {
   }, [name, email, password, confirmPassword, hasSubmitted]);
 
   /* ------------ Submit ------------ */
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!hasSubmitted) setHasSubmitted(true); // marca que houve tentativa
+    if (!hasSubmitted) setHasSubmitted(true);
 
     const newErrors = validateFields(name, email, password, confirmPassword);
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      navigate("/Inicio");
+      // Envie para o backend
+      const res = await fetch("/api/usuario", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nomeUsuario: name,
+          email,
+          senha: password,
+          confirme_sua_senha: confirmPassword,
+          perfil: "ADMINISTRADOR" // ou permita o usuário escolher o perfil
+        }),
+      });
+
+      if (res.ok) {
+
+        localStorage.setItem("nomeUsuario", name);
+        localStorage.setItem("email", email);
+        localStorage.setItem("perfil", "ADMINISTRADOR"); // ou o perfil escolhido
+        
+        // Redirecione para login ou faça login automático
+        navigate("/login");
+      } else {
+        const data = await res.json();
+        setErrors({ api: data.detail || "Erro ao registrar usuário." });
+      }
     }
   };
 

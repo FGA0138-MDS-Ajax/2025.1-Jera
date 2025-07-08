@@ -119,6 +119,17 @@ class AlertaRepository:
         session.refresh(alerta)
         return alerta
     
+
+    @staticmethod
+    def get_or_create_tipo_alerta(id_tipo_alerta: int, nome_tipo_alerta: str, session: Session) -> TipoAlerta:
+        tipo_alerta = session.query(TipoAlerta).filter(TipoAlerta.id_tipo_alerta == id_tipo_alerta).first()
+        if not tipo_alerta:
+            tipo_alerta = TipoAlerta(id_tipo_alerta=id_tipo_alerta, nome_tipo_alerta=nome_tipo_alerta)
+            session.add(tipo_alerta)
+            session.commit()
+            session.refresh(tipo_alerta)
+        return tipo_alerta
+
     @staticmethod
     @with_session
     def verificar_e_gerar_alerta(produto: Product, estoque_atual: int, id_lote: int, session: Session | None = None) -> list[Alerta]:
@@ -126,10 +137,10 @@ class AlertaRepository:
         alertas_gerados = []
         
         # IDs dos tipos de alerta (ajuste conforme seu banco)
-        tipo_min = TipoAlertaService.get_tipo_alerta_by_id(1)  # Estoque abaixo do mínimo
-        tipo_max = TipoAlertaService.get_tipo_alerta_by_id(2)  # Estoque acima do máximo
-        tipo_prev_min = TipoAlertaService.get_tipo_alerta_by_id(3)  # Preventivo mínimo
-        tipo_prev_max = TipoAlertaService.get_tipo_alerta_by_id(4)  # Preventivo máximo
+        tipo_min = AlertaRepository.get_or_create_tipo_alerta(1, "Estoque abaixo do mínimo", session)
+        tipo_max = AlertaRepository.get_or_create_tipo_alerta(2, "Estoque acima do máximo", session)
+        tipo_prev_min = AlertaRepository.get_or_create_tipo_alerta(3, "Preventivo mínimo", session)
+        tipo_prev_max = AlertaRepository.get_or_create_tipo_alerta(4, "Preventivo máximo", session)
 
         margem_min = 0.5
         margem_max = 0.1
@@ -143,7 +154,7 @@ class AlertaRepository:
             alerta = AlertaRepository.gerar_alerta(produto.id_produto, tipo_min.id_tipo_alerta, mensagem, id_lote, session)
             alertas_gerados.append(alerta)
         elif estoque_atual <= limite_prev_min:
-            mensagem = f"Atenção: Estoque próximo do mínimo ({estoque_atual} <= {limite_prev_min})"
+            mensagem = f"Atenção: Estoque próximo do mínimo ({produto.estoque_minimo})"
             alerta = AlertaRepository.gerar_alerta(produto.id_produto, tipo_prev_min.id_tipo_alerta, mensagem, id_lote, session)
             alertas_gerados.append(alerta)
 
@@ -153,7 +164,7 @@ class AlertaRepository:
                 alerta = AlertaRepository.gerar_alerta(produto.id_produto, tipo_max.id_tipo_alerta, mensagem, id_lote, session)
                 alertas_gerados.append(alerta)
             elif estoque_atual >= limite_prev_max:
-                mensagem = f"Atenção: Estoque próximo do máximo ({estoque_atual} >= {limite_prev_max})"
+                mensagem = f"Atenção: Estoque próximo do máximo ({produto.estoque_maximo})"
                 alerta = AlertaRepository.gerar_alerta(produto.id_produto, tipo_prev_max.id_tipo_alerta, mensagem, id_lote, session)
                 alertas_gerados.append(alerta)
 
@@ -198,7 +209,7 @@ class AlertaRepository:
     
     @staticmethod
     @with_session
-    def delete_alerta(id_alerta: int, session: Session | None = None) -> None:
+    def delete_alerta(id_alerta: int, session: Session | None = None) -> bool:
         """
         Remove um alerta pelo seu ID.
 
@@ -213,6 +224,9 @@ class AlertaRepository:
         if alerta:
             session.delete(alerta)
             session.commit()
+            return True
+        else:
+            return False
 
     @staticmethod
     @with_session

@@ -1,0 +1,75 @@
+.historico-container {
+  max-width: 1100px;
+  margin: 2.5rem auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px #0002;
+  padding: 2rem;
+}
+
+.historico-titulo {
+  color: #b64c38;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.historico-loading,
+.historico-vazio {
+  text-align: center;
+  margin: 2rem;
+  font-size: 1.08rem;
+}
+
+.historico-tabela-wrapper {
+  overflow-x: auto;
+}
+
+.historico-tabela {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+
+.historico-tabela thead tr {
+  background: #f4f4f4;
+}
+
+.historico-tabela th {
+  padding: 0.7rem 1rem;
+  text-align: left;
+  color: #b64c38;
+  font-weight: 700;
+  font-size: 1.05rem;
+  border-bottom: 2px solid #e0e0e0;
+  white-space: nowrap;
+}
+
+.historico-tabela td {
+  padding: 0.6rem 1rem;
+  text-align: left;
+  color: #333;
+  font-weight: 500;
+  white-space: nowrap;
+  border-bottom: 1px solid #eee;
+}
+
+.historico-tabela td.entrada {
+  color: #388e3c;
+  font-weight: 600;
+}
+
+.historico-tabela td.saida {
+  color: #b23a3a;
+  font-weight: 600;
+}
+
+.historico-tabela td.quantidade {
+  font-weight: 600;
+}
+
+.historico-acesso-negado {
+  padding: 2rem;
+  text-align: center;
+  color: #b23a3a;
+  font-weight: 600;
+}
