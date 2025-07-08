@@ -21,6 +21,7 @@ ADD ./app /api/app
 ADD pyproject.toml /api/pyproject.toml
 ADD uv.lock /api/uv.lock
 ADD wait-for-it.sh /api/wait-for-it.sh
+RUN find . -type f -name "*.sh" -exec dos2unix {} \;
 RUN chmod +x /api/wait-for-it.sh
 
 RUN --mount=type=cache,target=/root/.cache/uv \
