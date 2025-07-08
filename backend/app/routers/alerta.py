@@ -1,9 +1,7 @@
 from fastapi import APIRouter, HTTPException
 
 from app.routers.schemas.alerta import (
-    AlertaCreateSchema, 
     AlertaResponseSchema, 
-    AlertaUpdateSchema
 )
 from app.services.alerta import AlertaService
 from app.db.models.alerta import Alerta

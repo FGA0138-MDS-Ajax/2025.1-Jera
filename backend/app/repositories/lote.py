@@ -23,10 +23,6 @@ class LoteRepository:
         session.commit()
         session.refresh(lote)
         
-        produto = session.get(Product, lote.id_produto)
-        if produto:
-            estoque_atual = MovimentacaoEstoqueRepository.calcular_estoque(produto.id_produto)
-            AlertaRepository.verificar_e_gerar_alerta(produto, estoque_atual, lote.id_lote, session=session)
         return lote
 
 

@@ -32,6 +32,7 @@ function Lotes() {
     id_produto: "",
   });
   const [saving, setSaving] = useState(false);
+  
 
   useEffect(() => {
     fetch("/api/lote")
@@ -142,29 +143,28 @@ function Lotes() {
             <p className="info-text">Nenhum lote cadastrado ainda.</p>
           ) : (
             <section className="lista-lotes">
-              {lotes.map((lote) => (
+              {lotes.map((lote) => {
+              const isInativo = lote.concluido || lote.quantidade_atual === 0;
+              return (
                 <div key={lote.id_lote} className="card-lote">
-                  {/* Status e botão deletar no topo direito */}
-                  <div className="lote-card-actions">
-                    <span
-                      className={`status ${lote.concluido ? "inativo" : ""}`}
-                      title={lote.concluido ? "Concluído" : "Ativo"}
-                    >
-                      {lote.concluido ? "Concluído" : "Ativo"}
-                    </span>
-                    <button
-                      className="delete-lote-btn"
-                      title="Excluir lote"
-                      onClick={() => handleDelete(lote.id_lote)}
-                    >
-                      <img src={deletarIcon} alt="Deletar" />
-                    </button>
+                  <div className="lote-card-header">
+                    <span className="lote-nome">{lote.nome_lote}</span>
+                    <div className="lote-header-direita">
+                      <span
+                        className={`status ${isInativo ? "inativo" : ""}`}
+                        title={isInativo ? "Inativo" : "Ativo"}
+                      >
+                        {isInativo ? "Inativo" : "Ativo"}
+                      </span>
+                      <button
+                        className="delete-lote-btn"
+                        title="Excluir lote"
+                        onClick={() => handleDelete(lote.id_lote)}
+                      >
+                        <img src={deletarIcon} alt="Deletar" />
+                      </button>
+                    </div>
                   </div>
-
-                  <div className="lote-header">
-                    <span className="lote-id">Lote #{lote.id_lote}</span>
-                  </div>
-                  {/* Badge tipo produto estilo GitHub */}
                   <div className="lote-produto-badge">
                     {lote.produto_nome || `Produto #${lote.id_produto}`}
                   </div>
@@ -189,7 +189,6 @@ function Lotes() {
                       Editar Nome
                     </button>
                   </div>
-                  {/* Mini-card para editar nome */}
                   {editNomeId === lote.id_lote && (
                     <div className="mini-card-editar-nome">
                       <input
@@ -214,7 +213,8 @@ function Lotes() {
                     </div>
                   )}
                 </div>
-              ))}
+                );
+              })}
             </section>
           )}
         </main>

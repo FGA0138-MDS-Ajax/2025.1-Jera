@@ -76,6 +76,11 @@ const Register = () => {
       });
 
       if (res.ok) {
+
+        localStorage.setItem("nomeUsuario", name);
+        localStorage.setItem("email", email);
+        localStorage.setItem("perfil", "ADMINISTRADOR"); // ou o perfil escolhido
+        
         // Redirecione para login ou faça login automático
         navigate("/login");
       } else {

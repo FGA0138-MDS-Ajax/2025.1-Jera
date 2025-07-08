@@ -33,7 +33,7 @@ class AlertaService:
         return AlertaRepository.get_alerta_by_product(id_produto)
 
     @staticmethod
-    def delete_alerta(id_alerta: int) -> None:
+    def delete_alerta(id_alerta: int) -> bool:
         return AlertaRepository.delete_alerta(id_alerta)
 
     @staticmethod

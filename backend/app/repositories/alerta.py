@@ -154,7 +154,7 @@ class AlertaRepository:
             alerta = AlertaRepository.gerar_alerta(produto.id_produto, tipo_min.id_tipo_alerta, mensagem, id_lote, session)
             alertas_gerados.append(alerta)
         elif estoque_atual <= limite_prev_min:
-            mensagem = f"Atenção: Estoque próximo do mínimo ({estoque_atual} <= {limite_prev_min})"
+            mensagem = f"Atenção: Estoque próximo do mínimo ({produto.estoque_minimo})"
             alerta = AlertaRepository.gerar_alerta(produto.id_produto, tipo_prev_min.id_tipo_alerta, mensagem, id_lote, session)
             alertas_gerados.append(alerta)
 
@@ -164,7 +164,7 @@ class AlertaRepository:
                 alerta = AlertaRepository.gerar_alerta(produto.id_produto, tipo_max.id_tipo_alerta, mensagem, id_lote, session)
                 alertas_gerados.append(alerta)
             elif estoque_atual >= limite_prev_max:
-                mensagem = f"Atenção: Estoque próximo do máximo ({estoque_atual} >= {limite_prev_max})"
+                mensagem = f"Atenção: Estoque próximo do máximo ({produto.estoque_maximo})"
                 alerta = AlertaRepository.gerar_alerta(produto.id_produto, tipo_prev_max.id_tipo_alerta, mensagem, id_lote, session)
                 alertas_gerados.append(alerta)
 
@@ -209,7 +209,7 @@ class AlertaRepository:
     
     @staticmethod
     @with_session
-    def delete_alerta(id_alerta: int, session: Session | None = None) -> None:
+    def delete_alerta(id_alerta: int, session: Session | None = None) -> bool:
         """
         Remove um alerta pelo seu ID.
 
@@ -224,6 +224,9 @@ class AlertaRepository:
         if alerta:
             session.delete(alerta)
             session.commit()
+            return True
+        else:
+            return False
 
     @staticmethod
     @with_session

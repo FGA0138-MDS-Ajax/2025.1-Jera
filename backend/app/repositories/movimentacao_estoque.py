@@ -3,16 +3,40 @@ from app.db.models.product import Product
 from app.utils.session_inject import with_session
 from sqlalchemy.orm import Session
 from app.db.models.lote import Lote
+from app.db.models.usuario import Usuario
+from app.db.models.estado_estetico import EstadoEstetico
+
 
 class MovimentacaoEstoqueRepository:
 
+    
     @staticmethod
     @with_session
-    def listar_todas(session: Session = None) -> list[MovimentacaoEstoque]:
-        """
-        Retorna todas as movimentações de estoque cadastradas.
-        """
-        return session.query(MovimentacaoEstoque).all()
+    def listar_movimentacoes(session: Session = None):
+        # JOIN com Usuario e EstadoEstetico
+        query = (
+            session.query(MovimentacaoEstoque, Usuario, EstadoEstetico)
+            .join(Usuario, MovimentacaoEstoque.id_usuario == Usuario.idUsuario)
+            .join(EstadoEstetico, MovimentacaoEstoque.id_estado_estetico == EstadoEstetico.id_estado_estetico)
+            .all()
+        )
+        result = []
+        for mov, usuario, estado in query:
+            result.append({
+                "id_movimentacao": mov.id_movimentacao,
+                "id_produto": mov.id_produto,
+                "nome_produto": mov.produto.nome_produto if mov.produto else None,
+                "id_lote": mov.id_lote,
+                "nome_lote": mov.lote.nome_lote if mov.lote else None,
+                "tipo_movimentacao": mov.tipo_movimentacao,
+                "quantidade": mov.quantidade,
+                "data_movimentacao": mov.data_movimentacao,
+                "id_estado_estetico": mov.id_estado_estetico,
+                "estado_estetico": estado.nome_estado_estetico,
+                "usuario_email": usuario.email,
+                "perfil": usuario.perfil, 
+            })
+        return result
     
     @staticmethod
     @with_session

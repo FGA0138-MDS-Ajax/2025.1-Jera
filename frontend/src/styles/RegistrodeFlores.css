@@ -31,45 +31,131 @@
   font-size: 1rem;
 }
 
-/* ---------- Cartões dos Lotes ---------- */
+/* ---------- Scroll horizontal ---------- */
+.lotes-scroll-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  padding: 1rem 0;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+
+.lotes-carousel {
+  display: flex;
+  gap: 0.7rem;
+  padding: 0.5rem 0.5rem 1rem 0.5rem;
+  scroll-behavior: smooth;
+  min-width: 100%;
+}
+
+/* ---------- Card de Lote ---------- */
 .lote-card {
   background: #f4f4f4;
-  border-radius: 16px;
-  padding: 1.5rem 1rem;
-  width: 100%;
-  max-width: 420px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 1.1rem 1rem 1.2rem 1rem;
+  min-width: 260px;
+  max-width: 270px;
+  flex: 0 0 260px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   color: #222;
-}
-
-.lote-card h2 {
-  color: #a63c1a;
-  font-size: 2rem;
-  font-weight: bold;
+  font-size: 1rem;
   margin-bottom: 0.5rem;
+  scroll-snap-align: center;
+  transition: box-shadow 0.2s;
 }
 
+.lote-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+}
+
+.lote-card.sem-estoque-max .btn-movimentacao {
+  margin-top: 1.7rem; /* ajuste conforme necessário para alinhar */
+}
+
+
+/* Header: nome do lote à esquerda, produto à direita */
+.lote-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.2rem;
+}
+
+.lote-nome {
+  color: #b64c38;
+  font-weight: 700;
+  font-size: 0.98rem;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+
+/* Produto estilo "feature" do GitHub */
+.produto-label {
+  background: #eaf5ff;
+  color: #0969da;
+  font-weight: 700;
+  border-radius: 2em;
+  font-size: 0.78rem;
+  padding: 0.13em 0.9em;
+  letter-spacing: 0.2px;
+  display: inline-block;
+  max-width: 110px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border: 1px solid #b6e3ff;
+  text-align: right;
+  box-sizing: border-box;
+  transition: font-size 0.2s;
+}
+
+.produto-label.long {
+  font-size: 0.68rem;
+  max-width: 80px;
+}
+
+/* Informações do lote: fonte menor e menos espaço */
 .info-row {
   display: flex;
-  gap: 2rem;
-  margin-bottom: 0.5rem;
-  font-size: 1.1rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 0.18rem;
+  margin: 0.15rem 0 0.15rem 0;
+  font-size: 0.85rem;
+  width: 100%;
 }
 
+.info-row span {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.info-row b {
+  color: #444;
+  font-weight: 600;
+}
+
+/* Botão de movimentação */
 .btn-movimentacao {
   width: 100%;
   background: #5e701f;
   color: #fff;
-  font-size: 1.2rem;
+  font-size: 0.95rem;
   font-weight: bold;
   border: none;
-  border-radius: 8px;
-  padding: 0.8rem 0;
-  margin-top: 1.5rem;
+  border-radius: 7px;
+  padding: 0.45rem 0;
+  margin-top: 0.4rem;
   cursor: pointer;
   transition: background 0.2s;
 }
@@ -78,22 +164,19 @@
   background: #3d4d13;
 }
 
-.btn-movimentacao {
-  background: #e2725b;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 0.6rem 0;
-  cursor: pointer;
-  transition: background 0.2s;
-}
 .btn-movimentacao:disabled {
   background: #e0e0e0;
   color: #aaa;
   cursor: not-allowed;
 }
-.btn-movimentacao:hover:not(:disabled) {
-  background: #b64c38;
+
+/* ---------- Scrollbar custom ---------- */
+.lotes-scroll-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+.lotes-scroll-wrapper::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
 }
 
 /* ---------- Modal Overlay ---------- */
@@ -192,7 +275,6 @@
   color: #333;
   transition: background 0.2s;
 }
-
 .quantidade-box button:hover {
   background: #c6d36b;
 }
@@ -260,17 +342,19 @@
   background: #7a1f1f;
 }
 
-/* ---------- Responsivo ---------- */
+/* ---------- Responsivo: Mobile ---------- */
 @media (max-width: 600px) {
   .lote-card,
   .modal-conteudo {
     padding: 1rem;
     border-radius: 0;
     box-shadow: none;
+    min-width: 90vw;
+    max-width: 98vw;
+    font-size: 0.97rem;
   }
-
   .info-row {
-    flex-direction: column;
+    font-size: 0.97rem;
     gap: 0.2rem;
   }
 }

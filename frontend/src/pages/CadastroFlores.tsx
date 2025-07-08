@@ -13,7 +13,6 @@ interface Produto {
   id_tipo_produto: number;
   tipo_produto_nome?: string;
   stock?: "Com" | "Sem";
-  imagem?: string;
 }
 
 interface ProdutoForm {
@@ -21,7 +20,6 @@ interface ProdutoForm {
   estoque_minimo: number;
   estoque_maximo?: number | "";
   id_tipo_produto: number;
-  imagem?: string;
 }
 
 interface TipoProduto {
@@ -38,7 +36,6 @@ export default function CadastroFlores() {
     estoque_minimo: 0,
     estoque_maximo: "",
     id_tipo_produto: 1,
-    imagem: "",
   });
 
   // Modal de edição
@@ -48,7 +45,6 @@ export default function CadastroFlores() {
     estoque_minimo: 0,
     estoque_maximo: "",
     id_tipo_produto: 1,
-    imagem: "",
   });
 
   // Visual: Stock "Com" ou "Sem" (não enviado ao backend)
@@ -103,22 +99,7 @@ export default function CadastroFlores() {
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value, type } = e.target;
-    if (type === "file") {
-      const fileInput = e.target as HTMLInputElement;
-      const file = fileInput.files?.[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          setForm((prev) => ({
-            ...prev,
-            imagem: ev.target?.result as string,
-          }));
-        };
-        reader.readAsDataURL(file);
-      }
-      return;
-    }
+    const { name, value } = e.target;
     setForm((prev) => ({
       ...prev,
       [name]:
@@ -134,18 +115,19 @@ export default function CadastroFlores() {
     e.preventDefault();
     if (!form.nome_produto || !form.estoque_minimo || !form.id_tipo_produto) return;
 
-    const payload = {
-      ...form,
-      estoque_maximo: form.estoque_maximo === "" ? null : form.estoque_maximo,
-    };
-
+    // Envia apenas JSON, sem imagem
     const res = await fetch("/api/product", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify({
+        nome_produto: form.nome_produto,
+        estoque_minimo: form.estoque_minimo,
+        estoque_maximo: form.estoque_maximo === "" ? null : form.estoque_maximo,
+        id_tipo_produto: form.id_tipo_produto,
+      }),
     });
 
     if (res.ok) {
@@ -155,7 +137,6 @@ export default function CadastroFlores() {
         {
           ...novoProduto,
           stock: stockVisual,
-          imagem: form.imagem,
         },
       ]);
       setForm({
@@ -163,7 +144,6 @@ export default function CadastroFlores() {
         estoque_minimo: 0,
         estoque_maximo: "",
         id_tipo_produto: tiposProduto[0]?.id_tipo_produto || 1,
-        imagem: "",
       });
       setStockVisual("Com");
       toggleModal();
@@ -180,28 +160,12 @@ export default function CadastroFlores() {
       estoque_minimo: produto.estoque_minimo,
       estoque_maximo: produto.estoque_maximo ?? "",
       id_tipo_produto: produto.id_tipo_produto,
-      imagem: produto.imagem || "",
     });
     setIsEditModalOpen(true);
   };
 
   const handleEditChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value, type } = e.target;
-    if (type === "file") {
-      const fileInput = e.target as HTMLInputElement;
-      const file = fileInput.files?.[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          setEditForm((prev) => ({
-            ...prev,
-            imagem: ev.target?.result as string,
-          }));
-        };
-        reader.readAsDataURL(file);
-      }
-      return;
-    }
+    const { name, value } = e.target;
     setEditForm((prev) => ({
       ...prev,
       [name]:
@@ -215,21 +179,19 @@ export default function CadastroFlores() {
     e.preventDefault();
     if (!editForm.id_produto) return;
 
-    const payload = {
-      nome_produto: editForm.nome_produto,
-      estoque_minimo: editForm.estoque_minimo,
-      estoque_maximo: editForm.estoque_maximo === "" ? null : editForm.estoque_maximo,
-      id_tipo_produto: editForm.id_tipo_produto,
-      imagem: editForm.imagem,
-    };
-
+    // Envia apenas JSON, sem imagem
     const res = await fetch(`/api/product/${editForm.id_produto}`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify({
+        nome_produto: editForm.nome_produto,
+        estoque_minimo: editForm.estoque_minimo,
+        estoque_maximo: editForm.estoque_maximo === "" ? null : editForm.estoque_maximo,
+        id_tipo_produto: editForm.id_tipo_produto,
+      }),
     });
 
     if (res.ok) {
@@ -237,7 +199,7 @@ export default function CadastroFlores() {
       setProdutos((prev) =>
         prev.map((p) =>
           p.id_produto === produtoAtualizado.id_produto
-            ? { ...produtoAtualizado, stock: p.stock, imagem: editForm.imagem }
+            ? { ...produtoAtualizado, stock: p.stock }
             : p
         )
       );
@@ -274,6 +236,7 @@ export default function CadastroFlores() {
           </button>
         )}
 
+        {/* Filtros de pesquisa */}
         <section className="filters">
           <label>
             <span>Pesquisar Produto</span>
@@ -329,7 +292,7 @@ export default function CadastroFlores() {
               )}
 
               <img
-                src={p.imagem || florPadrao}
+                src={florPadrao}
                 alt={p.nome_produto}
                 style={{
                   width: 40,
@@ -438,14 +401,6 @@ export default function CadastroFlores() {
                   ))}
                 </select>
               </label>
-              <label>
-                <span>Imagem do Produto</span>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleChange}
-                />
-              </label>
               <button type="submit" className="save-button" disabled={tiposProduto.length === 0}>
                 Salvar Produto
               </button>
@@ -510,46 +465,6 @@ export default function CadastroFlores() {
                     </option>
                   ))}
                 </select>
-              </label>
-              <label>
-                <span>Imagem do Produto</span>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleEditChange}
-                />
-                {editForm.imagem && (
-                  <div style={{ marginTop: 8, textAlign: "center" }}>
-                    <img
-                      src={editForm.imagem}
-                      alt="Imagem atual"
-                      style={{
-                        width: 60,
-                        height: 60,
-                        objectFit: "cover",
-                        borderRadius: 8,
-                        display: "block",
-                        margin: "0 auto 8px auto"
-                      }}
-                    />
-                    <button
-                      type="button"
-                      className="remove-image-btn"
-                      style={{
-                        background: "#eee",
-                        color: "#b64c38",
-                        border: "none",
-                        borderRadius: 4,
-                        padding: "0.3rem 0.7rem",
-                        cursor: "pointer",
-                        fontSize: "0.9rem"
-                      }}
-                      onClick={() => setEditForm((prev) => ({ ...prev, imagem: "" }))}
-                    >
-                      Remover imagem
-                    </button>
-                  </div>
-                )}
               </label>
               <button type="submit" className="save-button">
                 Salvar Alterações

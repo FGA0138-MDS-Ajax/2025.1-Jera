@@ -69,6 +69,7 @@ const Login = () => {
       // Decodifique o token para pegar o perfil (opcional)
       const payload = JSON.parse(atob(data.access_token.split(".")[1]));
       localStorage.setItem("perfil", payload.perfil);
+      localStorage.setItem("idUsuario", payload.idUsuario);
 
       navigate("/inicio");
     } else {

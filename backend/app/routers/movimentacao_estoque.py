@@ -46,7 +46,7 @@ def deletar_movimentacao(id_movimentacao: int):
 def listar_movimentacoes():
     
     logger.info("Listando todas as movimentações de estoque")
-    resultado = MovimentacaoEstoqueService.listar_todas()
+    resultado = MovimentacaoEstoqueService.listar_movimentacoes()
     logger.info(f"{len(resultado)} movimentações encontradas")
     return resultado
 

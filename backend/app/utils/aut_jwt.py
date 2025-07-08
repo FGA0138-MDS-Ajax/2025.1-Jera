@@ -13,6 +13,7 @@ def criar_token_jwt(usuario):
     payload = {
         "sub": usuario.email,
         "perfil": usuario.perfil,
+        "idUsuario": usuario.idUsuario,
         "exp": datetime.utcnow() + timedelta(minutes=EXPIRE_MINUTES)
     }
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)

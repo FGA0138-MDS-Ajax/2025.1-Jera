@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "../styles/RegistrodeFlores.css";
 import Navbar from "../Components/Navebar";
+import { useNotificacao } from "../Components/NotificacaoContext";
+import { useNavigate } from "react-router-dom";
 
 interface Lote {
   id_lote: number;
@@ -29,13 +31,21 @@ export default function Registro() {
   const [searchTerm, setSearchTerm] = useState("");
   const [movimentando, setMovimentando] = useState(false);
 
-  // Buscar lotes reais do backend
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [erroSaida, setErroSaida] = useState<string | null>(null);
+
+  const {atualizarQuantidade} = useNotificacao();
+
+  const navigate = useNavigate();
+  const perfil = localStorage.getItem("perfil");
+
+
   useEffect(() => {
     setLoading(true);
     fetch("/api/lote")
       .then((res) => res.json())
       .then(async (data) => {
-        // Buscar nome do produto e estoque min/max para cada lote
         const lotesComProduto = await Promise.all(
           data.map(async (lote: any) => {
             let produto_nome = "";
@@ -59,7 +69,7 @@ export default function Registro() {
         setLotes(lotesComProduto);
         setLoading(false);
       });
-    // Buscar estados estéticos
+
     fetch("/api/estado_estetico")
       .then((res) => res.json())
       .then(setEstados)
@@ -70,6 +80,17 @@ export default function Registro() {
     l.nome_lote.toLowerCase().includes(searchTerm.trim().toLowerCase())
   );
 
+  useEffect(() => {
+    if (lotesFiltrados.length === 1 && cardRefs.current[0]) {
+      const card = cardRefs.current[0];
+      const carousel = carouselRef.current;
+      if (card && carousel) {
+        const offset = card.offsetLeft - carousel.offsetWidth / 2 + card.offsetWidth / 2;
+        carousel.scrollTo({ left: offset, behavior: "smooth" });
+      }
+    }
+  }, [lotesFiltrados]);
+
   const abrirModal = (lote: Lote) => {
     setLoteSelecionado(lote);
     setQuantidade(1);
@@ -78,9 +99,14 @@ export default function Registro() {
 
   const fecharModal = () => setLoteSelecionado(null);
 
+  const idUsuario = Number(localStorage.getItem("idUsuario"));
+  
+
   const movimentar = async (tipo: "entrada" | "saida") => {
     if (!loteSelecionado || !estado) return;
     setMovimentando(true);
+    setErroSaida(null); // Limpa erro ao tentar novamente
+
     const payload = {
       id_produto: loteSelecionado.id_produto,
       tipo_movimentacao: tipo === "entrada",
@@ -88,11 +114,18 @@ export default function Registro() {
       motivo: "Movimentação manual",
       id_lote: loteSelecionado.id_lote,
       id_estado_estetico: estado,
+      id_usuario: idUsuario,
+
     };
-    const endpoint =
-      tipo === "entrada"
-        ? "/api/movimentacao/entrada"
-        : "/api/movimentacao/saida";
+    
+    if (tipo === "saida" && quantidade > (loteSelecionado.quantidade_atual ?? 0)) {
+      setErroSaida("Quantidade de saída maior que o estoque atual!");
+      return;
+    }
+
+    setMovimentando(true);
+    
+    const endpoint = tipo === "entrada" ? "/api/movimentacao/entrada" : "/api/movimentacao/saida";
     const res = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -102,7 +135,6 @@ export default function Registro() {
     if (res.ok) {
       alert("Movimentação registrada com sucesso!");
       fecharModal();
-      // Atualiza lotes
       setLoading(true);
       fetch("/api/lote")
         .then((res) => res.json())
@@ -130,6 +162,7 @@ export default function Registro() {
           setLotes(lotesComProduto);
           setLoading(false);
         });
+        await atualizarQuantidade();
     } else {
       const data = await res.json();
       alert(data.detail || "Erro ao registrar movimentação.");
@@ -139,7 +172,6 @@ export default function Registro() {
   return (
     <>
       <Navbar title="Movimentação de Estoque" />
-
       <div className="registro-container">
         <section className="filtros">
           <label>
@@ -155,72 +187,73 @@ export default function Registro() {
         {loading ? (
           <div style={{ textAlign: "center", margin: "2rem" }}>Carregando...</div>
         ) : lotesFiltrados.length === 0 ? (
-          <div style={{ textAlign: "center", margin: "2rem" }}>
-            Nenhum lote encontrado.
-          </div>
+          <div style={{ textAlign: "center", margin: "2rem" }}>Nenhum lote encontrado.</div>
         ) : (
-          lotesFiltrados.map((lote) => (
-            <div key={lote.id_lote} className="lote-card">
-              <div className="lote-info">
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-                  <span
-                    style={{
-                      background: "#e2725b",
-                      color: "#fff",
-                      fontWeight: 700,
-                      borderRadius: 8,
-                      fontSize: "0.98rem",
-                      padding: "0.13rem 0.7rem",
-                      letterSpacing: 0.5,
-                      display: "inline-block"
-                    }}
-                  >
-                    {lote.produto_nome}
-                  </span>
-                  <h2 style={{ margin: 0, marginLeft: 6, color: "#b64c38", fontWeight: 700, fontSize: "1.08rem" }}>
-                    {lote.nome_lote}
-                  </h2>
-                </div>
-                <div className="info-row">
-                  <span>
-                    <b>Data de Criação:</b>{" "}
-                    {new Date(lote.data_entrada).toLocaleDateString()}
-                  </span>
-                </div>
-                <div className="info-row">
-                  <span>
-                    <b>Qtd. Atual:</b> {lote.quantidade_atual}
-                  </span>
-                  <span>
-                    <b>Estoque Mínimo:</b> {lote.estoque_minimo}
-                  </span>
-                  {lote.estoque_maximo !== null && (
-                    <span>
-                      <b>Estoque Máximo:</b> {lote.estoque_maximo}
-                    </span>
-                  )}
-                </div>
-                <div className="info-row">
-                  <span>
-                    <b>Estado Predominante:</b>{" "}
-                    {lote.estado_predominante || "N/A"}
-                  </span>
-                </div>
-                <button
-                  className="btn-movimentacao"
-                  onClick={() => estados.length > 0 && abrirModal(lote)}
-                  disabled={estados.length === 0}
+          <div className="lotes-scroll-wrapper">
+            <div className="lotes-carousel" ref={carouselRef}>
+              {lotesFiltrados.map((lote, index) => (
+                <div
+                  key={lote.id_lote}
+                  className={`lote-card${lote.estoque_maximo === null ? " sem-estoque-max" : ""}`}
+                  ref={el => { cardRefs.current[index] = el; }}
                 >
-                  Movimentar Estoque
-                </button>
-              </div>
+                  <div className="lote-header">
+                    <span className="lote-nome" title={lote.nome_lote}>{lote.nome_lote}</span>
+                    <span
+                      className={
+                        "produto-label" +
+                        (lote.produto_nome && lote.produto_nome.length > 16 ? " long" : "")
+                      }
+                      title={lote.produto_nome}
+                    >
+                      {lote.produto_nome}
+                    </span>
+                  </div>
+                  <div className="info-row">
+                    <span><b>Data:</b> {new Date(lote.data_entrada).toLocaleDateString()}</span>
+                    <span><b>Qtd.:</b> {lote.quantidade_atual}</span>
+                    <span><b>Mín.:</b> {lote.estoque_minimo}</span>
+                    {lote.estoque_maximo !== null && (
+                      <span><b>Máx.:</b> {lote.estoque_maximo}</span>
+                    )}
+                    <span><b>Estado:</b> {lote.estado_predominante || "N/A"}</span>
+                  </div>
+                  <button
+                    className="btn-movimentacao"
+                    onClick={() => estados.length > 0 && abrirModal(lote)}
+                    disabled={estados.length === 0}
+                  >
+                    Movimentar Estoque
+                  </button>
+                </div>
+              ))}
             </div>
-          ))
+          </div>
+        )}
+        {perfil === "ADMINISTRADOR" && (
+          <div style={{ width: "100%", maxWidth: 420, margin: "2rem auto 0", display: "flex", justifyContent: "center" }}>
+            <button
+              className="btn-historico-mov"
+              style={{
+                background: "#b64c38",
+                color: "#fff",
+                border: "none",
+                borderRadius: 8,
+                padding: "0.7rem 1.5rem",
+                fontWeight: 600,
+                fontSize: "1.08rem",
+                cursor: "pointer",
+                boxShadow: "0 2px 8px #0001",
+                transition: "background 0.2s",
+              }}
+              onClick={() => navigate("/historico-movimentacoes")}
+            >
+              Ver Histórico de Movimentações
+            </button>
+          </div>
         )}
 
-
-
-          {loteSelecionado && (
+        {loteSelecionado && (
           <div className="modal-overlay" onClick={fecharModal}>
             <div
               className="modal-conteudo movimentacao-modal"
@@ -347,6 +380,11 @@ export default function Registro() {
                     - Saída
                   </button>
                 </div>
+                {erroSaida && (
+                  <div style={{ color: "#c0392b", marginTop: 8, fontSize: "0.98rem", textAlign: "center"}}>
+                    {erroSaida}
+                  </div>
+                )}
               </form>
             </div>
           </div>
