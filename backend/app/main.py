@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from app.routers import graphql, product, product_type, alerta, tipo_alerta, movimentacao_estoque, lote, estado_estetico, usuario
+from app.routers import graphql, product, product_type, alerta, tipo_alerta, movimentacao_estoque, lote, estado_estetico, dashboard, usuario
 from app.utils.logger import Logger
 
 logger = Logger()
@@ -18,6 +18,7 @@ api.include_router(movimentacao_estoque.router, prefix="/api", tags=["movimentac
 api.include_router(lote.router, prefix="/api", tags=["lote"])
 api.include_router(estado_estetico.router, prefix="/api", tags=["estado_estetico"])
 api.include_router(usuario.router, prefix="/api", tags=["usuario"])
+api.include_router(dashboard.router, prefix="/api", tags=["dashboard"])
 
 if __name__ == "__main__" or True:
     from app.db import initialize_database

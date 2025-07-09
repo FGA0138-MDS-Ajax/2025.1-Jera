@@ -281,6 +281,7 @@ export default function Registro() {
                   flexDirection: "column",
                   alignItems: "center",
                   gap: "0.5rem",
+                  marginTop: "0.5rem",
                 }}
               >
                 <div style={{ fontWeight: 600, fontSize: "1.15rem" }}>
@@ -288,6 +289,9 @@ export default function Registro() {
                 </div>
                 <div>
                   Produto: <span style={{ fontWeight: 500 }}>{loteSelecionado.produto_nome}</span>
+                </div>
+                <div style={{fontSize:"0.9rem"}}>
+                  Estoque atual: <span style={{ fontWeight: 500 }}>{loteSelecionado.quantidade_atual}</span>
                 </div>
               </div>
 
@@ -310,12 +314,14 @@ export default function Registro() {
                       -
                     </button>
                     <input
-                      type="number"
-                      min={1}
-                      value={quantidade}
+                      type="text"
+                      value={quantidade === 0 ? "" : quantidade}
                       onChange={e => {
-                        const val = Number(e.target.value);
-                        setQuantidade(isNaN(val) || val < 1 ? 1 : val);
+                        const val = e.target.value.replace(/\D/g, "");
+                        setQuantidade(val === "" ? 0 : Number(val));
+                      }}
+                      onBlur={e => {
+                        if (e.target.value === "") setQuantidade(0)
                       }}
                       className="quantidade-num"
                       style={{

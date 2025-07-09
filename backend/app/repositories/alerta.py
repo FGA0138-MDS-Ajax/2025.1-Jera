@@ -2,14 +2,12 @@ from sqlalchemy.orm import Session
 from app.db.models.alerta import Alerta
 from app.db.models.product import Product
 from app.utils.session_inject import with_session
-from app.services.tipo_alerta import TipoAlertaService
 from datetime import datetime, timedelta
 from app.db.models.estado_estetico import EstadoEstetico
 from app.db.models.tipo_alerta import TipoAlerta
 from app.repositories.estatistics_moda import calcular_moda_estado_estetico
 from app.repositories.movimentacao_estoque import MovimentacaoEstoqueRepository
 
-#timedelta() representa uma diferença de tempo, podendo ser dias, horas, minutos, etc...
 class AlertaRepository:
 
     @staticmethod
@@ -21,24 +19,47 @@ class AlertaRepository:
             id_lote=id_lote
         ).first() is not None
 
+    @staticmethod
+    @with_session
+    def gerar_alertas_baixo_giro(subq, dias_sem_giro: int, session: Session = None) -> list[Alerta]:
+        """
+        Gera alertas para produtos sem movimentação nos últimos X dias (baixo giro).
+        """
+        tipo_alerta_baixo_giro = session.query(TipoAlerta).filter(
+            TipoAlerta.nome_tipo_alerta.ilike("%baixo giro%")
+        ).first()
+        if not tipo_alerta_baixo_giro:
+            tipo_alerta_baixo_giro = TipoAlerta(nome_tipo_alerta="Baixo Giro")
+            session.add(tipo_alerta_baixo_giro)
+            session.commit()
+            session.refresh(tipo_alerta_baixo_giro)
 
-    
+        produtos_baixo_giro = session.query(Product).filter(~Product.id_produto.in_(subq)).all()
+        alertas_gerados = []
+        for produto in produtos_baixo_giro:
+            existe = session.query(Alerta).filter(
+                Alerta.id_produto == produto.id_produto,
+                Alerta.id_tipo_alerta == tipo_alerta_baixo_giro.id_tipo_alerta,
+                Alerta.mensagem.ilike("%baixo giro%")
+            ).first()
+            if not existe:
+                alerta = Alerta(
+                    id_produto=produto.id_produto,
+                    id_tipo_alerta=tipo_alerta_baixo_giro.id_tipo_alerta,
+                    mensagem=f"Produto '{produto.nome_produto}' sem movimentação há {dias_sem_giro} dias (baixo giro)",
+                    id_lote=None
+                )
+                session.add(alerta)
+                alertas_gerados.append(alerta)
+        session.commit()
+        return alertas_gerados
+
     @staticmethod
     @with_session
     def gerar_alertas_lotes_ruins_3dias(session: Session | None = None) -> list[Alerta]:
         """
         Gera alertas para lotes que estão no estado estético 'ruim' (de acordo com a moda das movimentações)
         há mais de 3 dias.
-
-        O alerta é criado apenas se ainda não existir para o lote/produto.
-        O tipo de alerta utilizado é "Lotes ruins há mais de 7 dias" (id_tipo_alerta=99).
-        O estado predominante do lote é calculado dinamicamente a partir das movimentações de estoque.
-
-        Parâmetros:
-            session (Session, opcional): Sessão do banco de dados.
-
-        Retorna:
-            list[Alerta]: Lista de alertas gerados nesta execução.
         """
         tres_dias_atras = datetime.now() - timedelta(days=3)
 
@@ -58,15 +79,11 @@ class AlertaRepository:
             session.refresh(tipo_alerta)
 
         alertas_gerados = []
-        # Busca todos os lotes com data de entrada há mais de 3 dias
         from app.db.models.lote import Lote
         lotes = session.query(Lote).filter(Lote.data_entrada < tres_dias_atras).all()
         for lote in lotes:
-            # Busca as movimentações do lote
             movimentacoes = MovimentacaoEstoqueRepository.listar_por_lote(lote.id_lote, session=session)
-            # Calcula a moda do estado estético das movimentações
             id_moda = calcular_moda_estado_estetico(movimentacoes)
-            # Se a moda for "ruim", gera o alerta (se ainda não existir)
             if id_moda == estado_ruim.id_estado_estetico:
                 mensagem = f"Lote {lote.id_lote} está no estado RUIM há mais de 3 dias."
                 if not AlertaRepository.alerta_existe(lote.id_produto, tipo_alerta.id_tipo_alerta, mensagem, lote.id_lote, session):
@@ -80,23 +97,13 @@ class AlertaRepository:
                     alertas_gerados.append(alerta)
         session.commit()
         return alertas_gerados
-    
 
     @staticmethod
     @with_session
     def gerar_alerta(id_produto: int, id_tipo_alerta: int, mensagem: str, id_lote:int, session: Session | None = None) -> Alerta:
         """
-        Crie um alerta de acordo com o ID do produto e o tipo de alerta
-        *Só é acionado caso o services/alerta.py função verificarAlerta atender os requisitos*
-
-        Args:
-            id_produto (int): ID do produto que será gerado o alerta.
-            tipo_alerta (int): Tipo de alerta a ser gerado (Ex: '1' para ESTOQUE_MINIMO)
-            mensagem (str): Mensagem descritiva do alerta.
-            session (Session, opcional):  Sessão do banco de dados injetado automaticamente.
-
-        Returns:
-            alerta: alerta gerado
+        Cria um alerta de acordo com o ID do produto e o tipo de alerta.
+        Só é acionado caso o alerta ainda não exista.
         """
         if AlertaRepository.alerta_existe(id_produto, id_tipo_alerta, mensagem, id_lote, session):
             return None  # Não cria alerta duplicado
@@ -111,7 +118,6 @@ class AlertaRepository:
         session.commit()
         session.refresh(alerta)
         return alerta
-    
 
     @staticmethod
     def get_or_create_tipo_alerta(id_tipo_alerta: int, nome_tipo_alerta: str, session: Session) -> TipoAlerta:
@@ -126,10 +132,8 @@ class AlertaRepository:
     @staticmethod
     @with_session
     def verificar_e_gerar_alerta(produto: Product, estoque_atual: int, id_lote: int, session: Session | None = None) -> list[Alerta]:
-
         alertas_gerados = []
         
-        # IDs dos tipos de alerta (ajuste conforme seu banco)
         tipo_min = AlertaRepository.get_or_create_tipo_alerta(1, "Estoque abaixo do mínimo", session)
         tipo_max = AlertaRepository.get_or_create_tipo_alerta(2, "Estoque acima do máximo", session)
         tipo_prev_min = AlertaRepository.get_or_create_tipo_alerta(3, "Preventivo mínimo", session)
@@ -139,9 +143,7 @@ class AlertaRepository:
         margem_max = 0.1
         limite_prev_min = produto.estoque_minimo + int(produto.estoque_minimo * margem_min)
         limite_prev_max = produto.estoque_maximo - int(produto.estoque_maximo * margem_max) if produto.estoque_maximo else None
-        
-        
-        
+
         if estoque_atual < produto.estoque_minimo:
             mensagem = f"Estoque abaixo do mínimo: {estoque_atual} < {produto.estoque_minimo}"
             alerta = AlertaRepository.gerar_alerta(produto.id_produto, tipo_min.id_tipo_alerta, mensagem, id_lote, session)
@@ -161,59 +163,37 @@ class AlertaRepository:
                 alerta = AlertaRepository.gerar_alerta(produto.id_produto, tipo_prev_max.id_tipo_alerta, mensagem, id_lote, session)
                 alertas_gerados.append(alerta)
 
+        # Exemplo de uso para baixo giro e lotes ruins:
+        # Defina dias_sem_giro e subq conforme sua lógica de negócio
+        dias_sem_giro = 15
+        data_limite = datetime.now() - timedelta(days=dias_sem_giro)
+        from app.db.models.movimentacao_estoque import MovimentacaoEstoque
+        subq = session.query(MovimentacaoEstoque.id_produto).filter(
+            MovimentacaoEstoque.data_movimentacao >= data_limite
+        ).distinct()
+
         alertas_gerados += AlertaRepository.gerar_alertas_lotes_ruins_3dias(session=session)
-        return alertas_gerados
-    
+        alertas_gerados += AlertaRepository.gerar_alertas_baixo_giro(subq, dias_sem_giro, session=session)
+        return [a for a in alertas_gerados if a is not None]
 
     @staticmethod
     @with_session
     def get_all_alerta(session: Session | None = None) -> list[Alerta]:
         return session.query(Alerta).all()
 
-
     @staticmethod
     @with_session
     def get_alerta_by_id(id_alerta: int, session: Session | None = None) -> Alerta | None:
-        """
-        Busca um alerta por ID
-
-        Args: 
-            id_alerta (int): ID do alerta a ser buscado
-            session (Session, opcional): Sessão do banco de dados injetada automaticamente.
-
-        return
-            Alerta | None: Alerta encontrado ou None caso não encontre nada
-        """
         return session.get(Alerta, id_alerta)
     
     @staticmethod
     @with_session
     def get_alerta_by_product(id_produto: int, session: Session | None = None) -> list[Alerta]:
-        """
-        Busca os alertas pelo ID do produto
-
-        Args:
-            id_produto (int): ID do produto a se usar como filtro
-            session (Session, opcional): Sessão do banco de dados injetada automaticamente.
-        
-        Returns:
-            list[Alerta]: lista de alertas encontra daquele ID
-        """
         return session.query(Alerta).filter(Alerta.id_produto == id_produto).all()
     
     @staticmethod
     @with_session
     def delete_alerta(id_alerta: int, session: Session | None = None) -> bool:
-        """
-        Remove um alerta pelo seu ID.
-
-        Args:
-            id_alerta (int): ID do alerta a ser removido.
-            session (Session, opcional): Sessão do banco de dados injetada automaticamente.
-
-        Returns:
-            None
-        """
         alerta = session.get(Alerta, id_alerta)
         if alerta:
             session.delete(alerta)
