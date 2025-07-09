@@ -1,76 +1,315 @@
-/* ---------- Estilos para Gerenciamento de Usuários ---------- */
-
 :root {
-    --bg-card: #fff;
-    --bg-table-header: #c45a44;
-    --bg-table-row-alt: #f7f7f7;
-    --text-dark: #3d352f;
-    --btn-excluir: #e2725b;
-    --btn-excluir-hover: #c45a44;
-  }
-  
+  --bg-card: #fff;
+  --bg-table-header: #c45a44;
+  --bg-table-row-alt: #f7f7f7;
+  --text-dark: #3d352f;
+
+  --btn-excluir: #e2725b;
+  --btn-excluir-hover: #c45a44;
+
+  --btn-adicionar: #d36c4e;
+  --btn-adicionar-hover: #b65438;
+
+  --modal-bg: rgba(60, 60, 60, 0.6);
+
+  --btn-confirmar: #5ca971;
+  --btn-confirmar-hover: #4b8b5d;
+
+  --btn-cancelar: #aaa;
+  --btn-cancelar-hover: #888;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background-color: #f8f9fa;
+  color: var(--text-dark);
+}
+
+.usuarios-container {
+  max-width: 800px;
+  margin: 40px auto;
+  background: var(--bg-card);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  padding: 32px 24px;
+  overflow-x: hidden;
+}
+
+.usuarios-container h1 {
+  text-align: center;
+  color: var(--bg-table-header);
+  margin-bottom: 24px;
+  font-size: 2rem;
+}
+
+.btn-adicionar {
+  background: var(--btn-adicionar);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+  display: inline-block;
+}
+
+.btn-adicionar:hover {
+  background: var(--btn-adicionar-hover);
+  transform: scale(1.07);
+}
+
+.tabela-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.usuarios-tabela {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Desktop - tabela normal */
+.usuarios-tabela th,
+.usuarios-tabela td {
+  padding: 10px 8px;
+  border-bottom: 1px solid #ececec;
+  text-align: left;
+  color: var(--text-dark);
+}
+
+.usuarios-tabela th {
+  background: var(--bg-table-header);
+  color: #fff;
+  font-weight: 600;
+}
+
+.usuarios-tabela tr:nth-child(even) {
+  background: var(--bg-table-row-alt);
+}
+
+.usuarios-tabela select {
+  height: 30px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid #cfd8dc;
+  font-size: 0.85rem;
+  background: #fff;
+  color: var(--text-dark);
+  max-width: 180px;
+  box-sizing: border-box;
+}
+
+/* Botões excluir */
+.btn-excluir {
+  background: var(--btn-excluir);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+  margin-left: 8px;
+}
+
+.btn-excluir:hover {
+  background: var(--btn-excluir-hover);
+  transform: scale(1.07);
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--modal-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-card {
+  background: #fff;
+  padding: 24px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-card h2 {
+  margin: 0 0 12px 0;
+  color: var(--bg-table-header);
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+.modal-card input,
+.modal-card select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #fff;
+  color: var(--text-dark);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn-confirmar {
+  background: var(--btn-confirmar);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.btn-confirmar:hover:not(:disabled) {
+  background: var(--btn-confirmar-hover);
+  transform: scale(1.07);
+}
+
+.btn-confirmar:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-cancelar {
+  background: var(--btn-cancelar);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.btn-cancelar:hover {
+  background: var(--btn-cancelar-hover);
+  transform: scale(1.07);
+}
+
+/* Responsivo: tabela vertical no mobile */
+@media (max-width: 768px) {
   .usuarios-container {
-    max-width: 700px;
-    margin: 40px auto;
-    background: var(--bg-card);
-    border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-    padding: 32px 24px;
+    padding: 24px 16px;
+    margin: 24px 16px;
   }
-  
+
   .usuarios-container h1 {
-    text-align: center;
-    color: var(--bg-table-header);
-    margin-bottom: 24px;
-    font-size: 2rem;
+    font-size: 1.6rem;
   }
-  
-  .usuarios-tabela {
+
+  .btn-adicionar {
     width: 100%;
-    border-collapse: collapse;
+    text-align: center;
+  }
+
+  .usuarios-tabela,
+  .usuarios-tabela thead,
+  .usuarios-tabela tbody,
+  .usuarios-tabela th,
+  .usuarios-tabela td,
+  .usuarios-tabela tr {
+    display: block;
+  }
+
+  /* Esconde o cabeçalho */
+  .usuarios-tabela thead tr {
+    display: none;
+  }
+
+  .usuarios-tabela tr {
+    margin-bottom: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px 12px;
     background: var(--bg-card);
-    font-size: 1rem;
   }
-  
-  .usuarios-tabela th {
-    background: var(--bg-table-header);
-    color: #fff;
-    padding: 12px 8px;
-    font-weight: 600;
-    text-align: left;
-  }
-  
+
   .usuarios-tabela td {
-    padding: 10px 8px;
-    border-bottom: 1px solid #ececec;
-    color: var(--text-dark);
-  }
-  
-  .usuarios-tabela tr:nth-child(even) {
-    background: var(--bg-table-row-alt);
-  }
-  
-  .usuarios-tabela select {
-    padding: 6px 10px;
-    border-radius: 6px;
-    border: 1px solid #cfd8dc;
-    font-size: 1rem;
-    background: #fff;
-    color: var(--text-dark);
-  }
-  
-  .btn-excluir {
-    background: var(--btn-excluir);
-    color: #fff;
+    padding: 8px 12px;
     border: none;
-    border-radius: 6px;
-    padding: 6px 16px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.2s;
+    position: relative;
+    padding-left: 40%;
+    text-align: left;
+    font-size: 0.95rem;
+    word-break: break-word;
+    white-space: normal;
   }
-  
-  .btn-excluir:hover {
-    background: var(--btn-excluir-hover);
-    transform: scale(1.07);
+
+  .usuarios-tabela td::before {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    width: 35%;
+    white-space: nowrap;
+    font-weight: 600;
+    content: attr(data-label);
+    color: var(--bg-table-header);
+    font-size: 0.9rem;
   }
+
+  .usuarios-tabela select {
+    height: 30px;
+    padding: 2px 8px;
+    font-size: 0.85rem;
+    width: auto;
+    max-width: 100px; /* largura menor no mobile */
+    box-sizing: border-box;
+  }
+
+  /* Desloca o select da coluna Permissão para a direita */
+  .usuarios-tabela td[data-label="Permissão"] select {
+    margin-left: 10px;
+  }
+
+  /* Botão excluir mais próximo do label "Ações" */
+  .usuarios-tabela td[data-label="Ações"] {
+    padding-left: 40%;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .btn-excluir {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    margin-left: 0;
+  }
+
+  /* Modal tweaks */
+  .modal-card {
+    padding: 20px;
+    max-width: 95%;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .btn-confirmar,
+  .btn-cancelar {
+    width: 100%;
+  }
+}
