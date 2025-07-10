@@ -68,9 +68,9 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 220px;
+  width: 240px;
   height: 100vh;
-  background-color: #E2725B; /* Terra cota */
+  background-color: #E2725B; 
   color: white;
   padding: 1rem;
   z-index: 100;
@@ -133,7 +133,7 @@
   background: none;
   border: none;
   color: white;
-  font-size: 0.95rem;
+  font-size: 1rem;
   text-align: left;
   cursor: pointer;
   padding: 0;
