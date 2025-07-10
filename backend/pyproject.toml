@@ -34,3 +34,20 @@ strawberry-graphql = {extras = ["debug-server", "fastapi"], version = "^0.270.5"
 mkdocs-enumerate-headings-plugin = ">=0.6.2"
 mkdocs-material = ">=9.6.14"
 mkdocs-section-index = ">=0.3.10"
+
+[tool.pytest.ini_options]
+env = [
+    "DB_HOST=localhost",
+    "DB_PORT=3306",
+    "DB_USER=user",
+    "DB_PASS=sua_senha_local",    # <- TROQUE PELA SENHA DO SEU MYSQL LOCAL
+    "DB_NAME=floragest",
+    "ENVIRONMENT=DEV",
+    "DEBUG=True",
+    "TESTING=True",
+    "LOG_DIR=logs",
+    "LOG_FILE=test.log",
+    "LOG_MAX_BYTES=10000000",
+    "LOG_BACKUP_COUNT=5",
+    "DISABLE_EXISTING_LOGGERS=False",
+]
