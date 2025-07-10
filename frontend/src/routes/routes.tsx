@@ -1,41 +1,83 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import Home from "../pages/Home";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
-import FlowerCatalog from "../pages/CadastroFlores";
-import Inicial from "../pages/Inicial";
-import DashboardGerente from "../pages/DashBoardGerente";
-import { Notificacoes } from "../pages/Notificacoes";
-import Lotes from "../pages/Lotes";
-import Registro from "../pages/RegistrodeFlores";
-import GerenciamentoUsuarios from "../pages/Usuarios";
-import MinhasInformacoes from "../pages/MinhasInformacoes";
-import GerenciarTiposProduto from "../pages/GerenciadorTipoProduto";
-import HistoricoMovimentacoes from "../pages/historicoMovimentacao";
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import { lazy, Suspense } from 'react';
+import FullPageLoading from "../Components/FullPageLoading";
 
+// Carregamento preguiçoso das páginas
+const Login = lazy(() => import("../pages/Login"));
+const Register = lazy(() => import("../pages/Register"));
+const Home = lazy(() => import("../pages/Home"));
+const Inicial = lazy(() => import("../pages/Inicial"));
+const DashboardGerente = lazy(() => import("../pages/DashBoardGerente"));
+const Notificacoes = lazy(() => import("../pages/Notificacoes"));
+const Lotes = lazy(() => import("../pages/Lotes"));
+const Registro = lazy(() => import("../pages/RegistrodeFlores"));
+const GerenciamentoUsuarios = lazy(() => import("../pages/Usuarios"));
+const MinhasInformacoes = lazy(() => import("../pages/MinhasInformacoes"));
+const GerenciarTiposProduto = lazy(() => import("../pages/GerenciadorTipoProduto"));
+const HistoricoMovimentacoes = lazy(() => import("../pages/historicoMovimentacao"));
+const NotFound = lazy(() => import("../pages/NotFound"));
+import { ProtectedRoute } from "../Components/ProtectedRoute";
 
+// Componente para exibir durante o carregamento
+const SuspenseFallback = () => <FullPageLoading />;
 
+function AuthLayout() {
+  const { isAuthenticated, loading } = useAuth();
+  
+  if (loading) {
+    return <FullPageLoading />;
+  }
+  
+  return isAuthenticated ? <Navigate to="/inicio" replace /> : <Outlet />;
+}
+
+function ProtectedLayout() {
+  const { isAuthenticated, loading } = useAuth();
+  
+  if (loading) {
+    return <FullPageLoading />;
+  }
+
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
+}
 
 function RoutesApp() {
   return (
-    <Routes>
-      <Route path="/" element={<Navigate to="/home" />} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/Cadastro" element={<FlowerCatalog />} />
-      <Route path="/Inicio" element={<Inicial />} />
-      <Route path="/dashboard" element={<DashboardGerente />} />
-      <Route path="/notificacoes" element={<Notificacoes />} />
-      <Route path="/lotes" element={<Lotes />} />
-      <Route path="/registro" element={<Registro />} />
-      <Route path="/usuarios" element={<GerenciamentoUsuarios />} />
-      <Route path="/minhas-informacoes" element={<MinhasInformacoes />} />
-      <Route path="/tipo-produto" element={<GerenciarTiposProduto />} />
-      <Route path="/historico-movimentacoes" element={<HistoricoMovimentacoes />} />
+    <Suspense fallback={<SuspenseFallback />}>
+      <Routes>
+        {/* Rotas públicas */}
+        <Route element={<AuthLayout />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
 
-    
-    </Routes>
+        {/* Rotas protegidas */}
+        <Route element={<ProtectedLayout />}>
+          <Route index element={<Navigate to="/inicio" replace />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/inicio" element={<Inicial />} />
+          <Route path="/dashboard" element={<DashboardGerente />} />
+          <Route path="/notificacoes" element={<Notificacoes />} />
+          <Route path="/lotes" element={<Lotes />} />
+          <Route path="/registro" element={<Registro />} />
+          <Route path="/minhas-informacoes" element={<MinhasInformacoes />} />
+          <Route path="/tipo-produto" element={<GerenciarTiposProduto />} />
+          <Route path="/historico-movimentacoes" element={<HistoricoMovimentacoes />} />
+          
+          {/* Rotas apenas para administradores */}
+          <Route element={<ProtectedRoute allowedRoles={['ADMINISTRADOR']} />}>
+            <Route path="/usuarios" element={<GerenciamentoUsuarios />} />
+          </Route>
+        </Route>
+
+        {/* Rota 404 - Página não encontrada */}
+        <Route path="/404" element={<NotFound />} />
+        
+        {/* Redireciona rotas desconhecidas para 404 */}
+        <Route path="*" element={<Navigate to="/404" replace />} />
+      </Routes>
+    </Suspense>
   );
 }
 

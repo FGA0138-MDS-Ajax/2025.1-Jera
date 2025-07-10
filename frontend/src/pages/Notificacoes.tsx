@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import "../styles/Notificações.css";
+﻿import React, { useState, useEffect } from "react";
+import "../styles/NotificaÃ§Ãµes.css";
 import Navbar from "../Components/Navebar";
 import deletarIcon from "../assets/deletar.png";
 import { useNotificacao } from "../Components/NotificacaoContext";
@@ -16,10 +16,10 @@ interface Notification {
 }
 
 const iconMap: Record<NotificationType, string> = {
-  validade: "🕒",
-  baixo_giro: "ℹ️",
-  estoque: "⚠️",
-  lote_ruim: "❗"
+  validade: "ðŸ•’",
+  baixo_giro: "â„¹ï¸",
+  estoque: "âš ï¸",
+  lote_ruim: "â—"
 };
 
 const NotificationCard: React.FC<{
@@ -36,7 +36,7 @@ const NotificationCard: React.FC<{
       <div className="content">
         <div className="header">
           <span className="title">{title}</span>
-          <button className="action-img" onClick={onAction} title="Excluir notificação">
+          <button className="action-img" onClick={onAction} title="Excluir notificaÃ§Ã£o">
             <img src={deletarIcon} alt="Excluir" style={{ width: 22, height: 22 }} />
           </button>
         </div>
@@ -47,7 +47,7 @@ const NotificationCard: React.FC<{
   );
 };
 
-export const Notificacoes: React.FC = () => {
+const Notificacoes = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(false);
   const { setQuantidade } = useNotificacao();
@@ -136,10 +136,10 @@ export const Notificacoes: React.FC = () => {
 
   return (
     <>
-      <Navbar title="Notificações" />
+      <Navbar title="NotificaÃ§Ãµes" />
       <div className="container" style={{ marginTop: "80px" }}>
         <header className="header">
-          <h2>Central de Notificações</h2>
+          <h2>Central de NotificaÃ§Ãµes</h2>
           <button
             className="markAll small"
             onClick={markAllAsRead}
@@ -166,7 +166,7 @@ export const Notificacoes: React.FC = () => {
           {loading ? (
             <div className="empty">Carregando...</div>
           ) : notifications.length === 0 ? (
-            <div className="empty">Nenhuma notificação.</div>
+            <div className="empty">Nenhuma notificaÃ§Ã£o.</div>
           ) : (
             notifications.map((n) => (
               <NotificationCard
@@ -181,3 +181,4 @@ export const Notificacoes: React.FC = () => {
     </>
   );
 };
+export default Notificacoes;
