@@ -68,18 +68,18 @@ export default function Navbar({ title }: NavbarProps) {
               Tipo Produto
             </Link>
             <Link
-              to="/lotes"
-              className="sidebar-link"
-              onClick={() => setSidebarOpen(false)}
-            >
-              Lotes
-            </Link>
-            <Link
               to="/cadastro"
               className="sidebar-link"
               onClick={() => setSidebarOpen(false)}
             >
               Cadastro
+            </Link> 
+            <Link
+              to="/lotes"
+              className="sidebar-link"
+              onClick={() => setSidebarOpen(false)}
+            >
+              Lotes
             </Link>
             <Link
               to="/registro"

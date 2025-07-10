@@ -30,8 +30,22 @@ export default function HistoricoMovimentacoes() {
     fetch("/api/movimentacao")
       .then(res => res.json())
       .then(data => {
-        setMovs(
-          data.map((m: any) => ({
+        interface MovimentacaoApi {
+          id_movimentacao: number;
+          id_produto: number;
+          nome_produto?: string;
+          id_lote: number;
+          nome_lote?: string;
+          tipo_movimentacao: boolean;
+          quantidade: number;
+          data_movimentacao: string;
+          id_estado_estetico: number;
+          usuario_email?: string;
+          perfil?: string;
+        }
+
+        const ordenados: Movimentacao[] = (data as MovimentacaoApi[])
+          .map((m: MovimentacaoApi): Movimentacao => ({
             id_movimentacao: m.id_movimentacao,
             id_produto: m.id_produto,
             nome_produto: m.nome_produto || `Produto #${m.id_produto}`,
@@ -44,7 +58,13 @@ export default function HistoricoMovimentacoes() {
             usuario_email: m.usuario_email || "-",
             perfil: m.perfil || "-",
           }))
-        );
+          .sort(
+            (a: Movimentacao, b: Movimentacao) =>
+              new Date(b.data_movimentacao).getTime() -
+              new Date(a.data_movimentacao).getTime()
+          )
+          .slice(0, 35);
+          setMovs(ordenados);
       })
       .finally(() => setLoading(false));
   }, []);
