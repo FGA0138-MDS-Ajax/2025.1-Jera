@@ -2,7 +2,6 @@ from typing import TYPE_CHECKING
 from sqlmodel import Field, SQLModel, Relationship
 
 if TYPE_CHECKING:
-    from app.db.models.lote import Lote
     from app.db.models.movimentacao_estoque import MovimentacaoEstoque
 
 class EstadoEstetico(SQLModel, table=True):
