@@ -80,8 +80,8 @@ class ProductTypeRepository:
     @with_session
     def delete_product_type(id_product_type: int, session: Session | None = None) -> bool:
         # Verifica se existe produto usando esse tipo
-        produtos = session.query(Product).filter(Product.id_tipo_produto == id_product_type).all()
-        if produtos and len(produtos) > 0:
+        produtos = session.query(Product).filter(Product.id_tipo_produto == id_product_type).count()
+        if produtos > 0:
             # Não pode deletar, pois há produtos usando esse tipo
             return False
 
@@ -89,6 +89,4 @@ class ProductTypeRepository:
         if existing_product_type:
             session.delete(existing_product_type)
             session.commit()
-            return True
-        else:
-            return False 
+        return True

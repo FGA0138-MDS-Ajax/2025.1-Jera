@@ -16,11 +16,11 @@ export default function Inicial() {
           <Link to="/tipo-produto" className="nav-link-btn tipo-produto-btn">
             Gerenciar Tipos de Produto
           </Link>
-          <Link to="/lotes" className="nav-link-btn lotes-btn">
-            Lotes
-          </Link>
           <Link to="/cadastro" className="nav-link-btn cadastro-btn">
             Cadastro
+          </Link>
+          <Link to="/lotes" className="nav-link-btn lotes-btn">
+            Lotes
           </Link>
           <Link to="/registro" className="nav-link-btn registro-btn">
             Registro

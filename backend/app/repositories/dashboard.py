@@ -102,3 +102,23 @@ class DashboardRepository:
             "produtosEstoque": produtos_estoque,
             "estoquePorTipoProduto": estoque_por_tipo_produto
         }
+    
+    @staticmethod
+    @with_session
+    def get_estados_por_lote(lote_id, session=None):
+        """
+        Retorna a soma das quantidades movimentadas por estado estético para um lote específico.
+        """
+        resultados = session.query(
+            MovimentacaoEstoque.id_estado_estetico,
+            func.sum(MovimentacaoEstoque.quantidade)
+        ).filter(
+            MovimentacaoEstoque.id_lote == lote_id
+        ).group_by(MovimentacaoEstoque.id_estado_estetico).all()
+
+        # Garante que todos os estados apareçam, mesmo que zero
+        contagem = {nome: 0 for nome in ESTADOS_FIXOS.values()}
+        for id_estado, total in resultados:
+            nome = ESTADOS_FIXOS.get(id_estado, str(id_estado))
+            contagem[nome] = int(total or 0)
+        return contagem

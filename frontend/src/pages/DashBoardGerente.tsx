@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Chart, { Chart as ChartType } from "chart.js/auto";
 import Navbar from "../Components/Navebar";
 import "../styles/DashBoardGerente.css";
+import { FaSearch } from "react-icons/fa";
 
 /* ---------- Tipagens ---------- */
 interface KPI {
@@ -13,7 +14,7 @@ interface KPI {
 }
 
 interface EstadoEstetico {
-  [key: string]: number; // Aceita qualquer chave vinda do backend
+  [key: string]: number;
 }
 
 interface TopFlor {
@@ -55,6 +56,12 @@ const DashboardGerente: React.FC = () => {
   const topFloresChart = useRef<ChartType | null>(null);
   const estoqueChart = useRef<ChartType | null>(null);
 
+  // Estados para gráfico de lote específico
+  const [loteSelecionado, setLoteSelecionado] = useState<number | "">("");
+  const [estadosLote, setEstadosLote] = useState<{ [key: string]: number }>({});
+  const loteEstadosChartRef = useRef<ChartType | null>(null);
+  const loteEstadosCanvasRef = useRef<HTMLCanvasElement | null>(null);
+
   /* ---------- Carrega dados do back‑end ---------- */
   useEffect(() => {
     async function fetchDados() {
@@ -75,6 +82,18 @@ const DashboardGerente: React.FC = () => {
 
     fetchDados();
   }, []);
+
+  // Busca estados estéticos do lote selecionado
+  useEffect(() => {
+    if (loteSelecionado !== "" && loteSelecionado !== null) {
+      fetch(`/api/dashboard/lote-estados?lote_id=${loteSelecionado}`)
+        .then(res => res.json())
+        .then(setEstadosLote)
+        .catch(() => setEstadosLote({}));
+    } else {
+      setEstadosLote({});
+    }
+  }, [loteSelecionado]);
 
   /* ---------- Desenha/atualiza os gráficos ---------- */
   useEffect(() => {
@@ -165,12 +184,57 @@ const DashboardGerente: React.FC = () => {
       });
     }
 
+    // Estados Estéticos do Lote Selecionado (barra horizontal)
+    if (loteEstadosCanvasRef.current && Object.keys(estadosLote).length > 0) {
+      loteEstadosChartRef.current?.destroy();
+      loteEstadosChartRef.current = new Chart(loteEstadosCanvasRef.current, {
+        type: "bar",
+        data: {
+          labels: Object.keys(estadosLote),
+          datasets: [
+            {
+              label: "Itens movimentados",
+              data: Object.values(estadosLote),
+              backgroundColor: [
+                "rgba(239,68,68,0.7)",
+                "rgba(234,179,8,0.7)",
+                "rgba(59,130,246,0.7)",
+              ],
+              borderColor: [
+                "rgba(239,68,68,1)",
+                "rgba(234,179,8,1)",
+                "rgba(59,130,246,1)",
+              ],
+              borderWidth: 2,
+            },
+          ],
+        },
+        options: {
+          indexAxis: "y",
+          plugins: {
+            legend: { display: false },
+            title: {
+              display: true,
+              text: "Movimentação por Estado Estético",
+              font: { size: 18 }
+            },
+          },
+          scales: {
+            x: { beginAtZero: true, title: { display: true, text: "Quantidade" } },
+            y: { title: { display: true, text: "Estado Estético" } }
+          },
+          responsive: true,
+        },
+      });
+    }
+
     return () => {
       estadoChart.current?.destroy();
       topFloresChart.current?.destroy();
       estoqueChart.current?.destroy();
+      loteEstadosChartRef.current?.destroy();
     };
-  }, [estadoEstetico, topFlores, produtosEstoque]);
+  }, [estadoEstetico, topFlores, produtosEstoque, estadosLote]);
 
   /* ---------- Render ---------- */
   return (
@@ -219,7 +283,7 @@ const DashboardGerente: React.FC = () => {
         {/* Gráficos */}
         <div className='charts-grid'>
           <div className='chart-card'>
-            <h3>Estado Estético Geral</h3>
+            <h3>Lotes por Estado Predominante</h3>
             <canvas ref={estadoEsteticoRef} />
           </div>
           <div className='chart-card'>
@@ -233,6 +297,66 @@ const DashboardGerente: React.FC = () => {
           <div className='chart-card'>
             <h3>Estoque por Produto</h3>
             <canvas ref={estoquePorProdutoRef} />
+          </div>
+          <div className='chart-card'>
+            <h3>Movimentação por Estado Estético do Lote</h3>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+              <label htmlFor="lote-select" style={{ fontWeight: 500, fontSize: 16 }}>
+                Escolha o lote:
+              </label>
+              <select
+                id="lote-select"
+                value={loteSelecionado}
+                onChange={e => setLoteSelecionado(e.target.value === "" ? "" : Number(e.target.value))}
+                style={{
+                  padding: "8px 12px",
+                  borderRadius: 6,
+                  border: "1px solid #ccc",
+                  fontSize: 15,
+                  minWidth: 160,
+                  background: "#f9f9f9",
+                  boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
+                  outline: "none",
+                  transition: "border 0.2s"
+                }}
+              >
+                <option value="">Selecione o lote</option>
+                {lotes.map(l => (
+                  <option key={l.id} value={l.id}>
+                    {`Lote #${l.id} (${l.flor})`}
+                  </option>
+                ))}
+              </select>
+              <button
+                type="button"
+                style={{
+                  background: "#2563eb",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: 6,
+                  padding: "8px 12px",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  fontWeight: 500,
+                  fontSize: 15,
+                  boxShadow: "0 2px 8px rgba(59,130,246,0.08)"
+                }}
+                disabled
+                title="Selecione um lote para visualizar"
+              >
+                <FaSearch />
+                Visualizar
+              </button>
+            </div>
+            {loteSelecionado && Object.keys(estadosLote).length > 0 ? (
+              <canvas ref={loteEstadosCanvasRef} />
+            ) : (
+              <p style={{ textAlign: "center", marginTop: 40, color: "#888" }}>
+                Selecione um lote para visualizar a movimentação por estado estético.
+              </p>
+            )}
           </div>
         </div>
 
