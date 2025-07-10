@@ -95,9 +95,8 @@ const DashboardGerente: React.FC = () => {
     }
   }, [loteSelecionado]);
 
-  /* ---------- Desenha/atualiza os gráficos ---------- */
+  // Gráfico de Estado Estético Geral
   useEffect(() => {
-    // Estado Estético Geral (pizza)
     if (estadoEsteticoRef.current && estadoEstetico) {
       estadoChart.current?.destroy();
       const labels = Object.keys(estadoEstetico);
@@ -127,8 +126,11 @@ const DashboardGerente: React.FC = () => {
         },
       });
     }
+    return () => estadoChart.current?.destroy();
+  }, [estadoEstetico]);
 
-    // Top 5 Flores (saídas no mês)
+  // Gráfico Top 5 Flores
+  useEffect(() => {
     if (topFloresRef.current) {
       topFloresChart.current?.destroy();
       if (topFlores.length > 0) {
@@ -155,8 +157,11 @@ const DashboardGerente: React.FC = () => {
         });
       }
     }
+    return () => topFloresChart.current?.destroy();
+  }, [topFlores]);
 
-    // Estoque por Produto (barra)
+  // Gráfico Estoque por Produto
+  useEffect(() => {
     if (estoquePorProdutoRef.current && produtosEstoque.length) {
       estoqueChart.current?.destroy();
       estoqueChart.current = new Chart(estoquePorProdutoRef.current, {
@@ -183,8 +188,11 @@ const DashboardGerente: React.FC = () => {
         },
       });
     }
+    return () => estoqueChart.current?.destroy();
+  }, [produtosEstoque]);
 
-    // Estados Estéticos do Lote Selecionado (barra horizontal)
+  // Gráfico Estados Estéticos do Lote Selecionado (atualiza só esse gráfico)
+  useEffect(() => {
     if (loteEstadosCanvasRef.current && Object.keys(estadosLote).length > 0) {
       loteEstadosChartRef.current?.destroy();
       loteEstadosChartRef.current = new Chart(loteEstadosCanvasRef.current, {
@@ -227,14 +235,8 @@ const DashboardGerente: React.FC = () => {
         },
       });
     }
-
-    return () => {
-      estadoChart.current?.destroy();
-      topFloresChart.current?.destroy();
-      estoqueChart.current?.destroy();
-      loteEstadosChartRef.current?.destroy();
-    };
-  }, [estadoEstetico, topFlores, produtosEstoque, estadosLote]);
+    return () => loteEstadosChartRef.current?.destroy();
+  }, [estadosLote]);
 
   /* ---------- Render ---------- */
   return (
@@ -301,7 +303,7 @@ const DashboardGerente: React.FC = () => {
           <div className='chart-card'>
             <h3>Movimentação por Estado Estético do Lote</h3>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-              <label htmlFor="lote-select" style={{ fontWeight: 500, fontSize: 16 }}>
+              <label htmlFor="lote-select" style={{ fontWeight: 500, fontSize: 14 }}>
                 Escolha o lote:
               </label>
               <select
@@ -309,10 +311,11 @@ const DashboardGerente: React.FC = () => {
                 value={loteSelecionado}
                 onChange={e => setLoteSelecionado(e.target.value === "" ? "" : Number(e.target.value))}
                 style={{
-                  padding: "8px 12px",
+                  padding: "3px 10px",
                   borderRadius: 6,
                   border: "1px solid #ccc",
-                  fontSize: 15,
+                  fontSize: 12,
+                  fontFamily: "Arial",
                   minWidth: 160,
                   background: "#f9f9f9",
                   boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
@@ -327,28 +330,6 @@ const DashboardGerente: React.FC = () => {
                   </option>
                 ))}
               </select>
-              <button
-                type="button"
-                style={{
-                  background: "#2563eb",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: 6,
-                  padding: "8px 12px",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 6,
-                  fontWeight: 500,
-                  fontSize: 15,
-                  boxShadow: "0 2px 8px rgba(59,130,246,0.08)"
-                }}
-                disabled
-                title="Selecione um lote para visualizar"
-              >
-                <FaSearch />
-                Visualizar
-              </button>
             </div>
             {loteSelecionado && Object.keys(estadosLote).length > 0 ? (
               <canvas ref={loteEstadosCanvasRef} />
@@ -386,4 +367,4 @@ const DashboardGerente: React.FC = () => {
   );
 };
 
-export default DashboardGerente;
+export default DashboardGerente;    
