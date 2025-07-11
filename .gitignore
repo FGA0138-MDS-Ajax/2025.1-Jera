@@ -15,7 +15,10 @@ android/app/build/
 android/build/
 android/.cxx/
 # Exclusões não cobertas pelo template do .gitignore
+.env.
 .env.*
+!.env.test
+
 *.swp
 *.tmp
 desktop.ini
