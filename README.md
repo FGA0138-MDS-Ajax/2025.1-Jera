@@ -83,11 +83,11 @@ O sistema oferece uma interface simples e funcionalidades essenciais para o dia 
         <a href="https://github.com/FGA0138-MDS-Ajax/2025.1-Jera/commits?author=lucasbbranco" title="Code">💻</a>
       </td>
       <td align="center" valign="top" width="16.66%">
-        <a href="#">
-          <img src="https://avatars.githubusercontent.com/u/9919?s=100" width="100px;" alt="João Pedro Fortaleza Menezes"/><br />
+        <a href="https://github.com/jpfmenezes">
+          <img src="https://avatars.githubusercontent.com/u/49421362?s=100" width="100px;" alt="João Pedro Fortaleza Menezes"/><br />
           <sub><b>João Pedro Fortaleza Menezes</b></sub>
         </a><br />
-        <a href="#" title="Code">💻</a>
+        <a href="https://github.com/FGA0138-MDS-Ajax/2025.1-Jera/commits?author=jpfmenezes" title="Code">💻</a>
       </td>
       <td align="center" valign="top" width="16.66%">
         <a href="https://github.com/Bappoz">
@@ -208,15 +208,19 @@ Edite o arquivo `.env` conforme necessário para configurar variáveis de ambien
 Navegue até as pastas do projeto e instale as dependências:
 
 ```cmd
-cd backend
-# Se usar Python, instale dependências com Poetry ou pip
-# poetry install
-# ou
-# pip install -r requirements.txt
-
-cd ../frontend
+cd frontend
 npm install
 ```
+
+### Instalação do Docker
+
+Se você ainda não possui o Docker Desktop instalado, siga os passos abaixo:
+
+- Acesse o site oficial: [https://www.docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop)
+- Baixe a versão para Windows ou Linux conforme seu sistema operacional.
+- Execute o instalador e siga as instruções na tela.
+- Após a instalação, reinicie o computador se solicitado.
+- Certifique-se de que o Docker Desktop está em execução antes de iniciar o backend.
 
 ---
 
