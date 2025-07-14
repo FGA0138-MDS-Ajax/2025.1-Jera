@@ -196,7 +196,7 @@ export const Notificacoes: React.FC = () => {
               width: "100px"
             }}
           >
-            Marcar todas como lidas
+            ✅ Concluído
           </button>
         </header>
 

@@ -1,156 +1,273 @@
-# template-repository - Branch Developer
+
+# FloraGest
+
+Sistema para ajudar floriculturas de pequeno e médio porte a controlar o estoque de flores e insumos.
+
+![License](https://img.shields.io/badge/license-MIT-green)
+![Contributors](https://img.shields.io/github/contributors/FGA0138-MDS-Ajax/2025.1-Jera)
+![Stars](https://img.shields.io/github/stars/FGA0138-MDS-Ajax/2025.1-Jera)
+![Last Commit](https://img.shields.io/github/last-commit/FGA0138-MDS-Ajax/2025.1-Jera)
+![Forks](https://img.shields.io/github/forks/FGA0138-MDS-Ajax/2025.1-Jera)
+![Views](https://komarev.com/ghpvc/?username=FGA0138-MDS-Ajax&label=Views)
+
+---
+
+## Visão Geral
+
+O FloraGest foi criado para resolver problemas comuns em floriculturas:
+
+- Perdas de produtos por validade vencida;
+- Falta de controle sobre o estoque;
+- Dificuldade em usar planilhas e sistemas genéricos.
+
+O sistema oferece uma interface simples e funcionalidades essenciais para o dia a dia do negócio.
+
+## Funcionalidades principais
+
+- Cadastro de flores e insumos
+- Controle de validade com alertas
+- Controle de estoque mínimo e máximo
+- Relatórios e indicadores
+- Sistema simples e fácil de usar
+
+---
+
+**Tecnologias utilizadas para o desenvolvimento do projeto:**
+
+![JavaScript](https://img.shields.io/badge/javascript-%23F7DF1E.svg?style=flat&logo=javascript&logoColor=black)
+![Node.js](https://img.shields.io/badge/node.js-339933?style=flat&logo=nodedotjs&logoColor=white)
+![React](https://img.shields.io/badge/react-%2361DAFB.svg?style=flat&logo=react&logoColor=black)
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=flat&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=flat&logo=css3&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=flat&logo=tailwind-css&logoColor=white)
+![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=flat&logo=mysql&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=flat&logo=docker&logoColor=white)
+![AdminJS](https://img.shields.io/badge/adminjs-%23D35848.svg?style=flat&logo=adminjs&logoColor=white) <!-- custom -->
+![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=flat&logo=github&logoColor=white)
+![Docusaurus](https://img.shields.io/badge/docusaurus-%230A0A0A.svg?style=flat&logo=docusaurus&logoColor=white)
+
+## 🔗 Documentos importantes
+ 
+- [Visão do Projeto](https://fga0138-mds-ajax.github.io/2025.1-Jera/visao/) – Documento de visão do produto e do projeto
+- [Arquitetura](https://fga0138-mds-ajax.github.io/2025.1-Jera/doc-arq/1_introducao/) – Documento de arquitetura do projeto
+
+---
+
+## Contribuidores ✨
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="16.66%">
+        <a href="https://github.com/JoaoComTil">
+          <img src="https://avatars.githubusercontent.com/u/60023478?s=100" width="100px;" alt="João Gabriel Milhomem de Brito"/><br />
+          <sub><b>João Gabriel Milhomem de Brito</b></sub>
+        </a><br />
+        <a href="https://github.com/FGA0138-MDS-Ajax/2025.1-Jera/commits?author=JoaoComTil" title="Project Management">📆</a>
+      </td>
+      <td align="center" valign="top" width="16.66%">
+        <a href="https://github.com/Pabloo8">
+          <img src="https://avatars.githubusercontent.com/u/102213501?s=100" width="100px;" alt="Pablo Cunha de Jesus"/><br />
+          <sub><b>Pablo Cunha de Jesus</b></sub>
+        </a><br />
+        <a href="https://github.com/FGA0138-MDS-Ajax/2025.1-Jera/commits?author=Pabloo8" title="Code">💻</a>
+      </td>
+      <td align="center" valign="top" width="16.66%">
+        <a href="https://github.com/lucasbbranco">
+          <img src="https://avatars.githubusercontent.com/u/99294828?s=100" width="100px;" alt="Lucas Borges Branco"/><br />
+          <sub><b>Lucas Borges Branco</b></sub>
+        </a><br />
+        <a href="https://github.com/FGA0138-MDS-Ajax/2025.1-Jera/commits?author=lucasbbranco" title="Code">💻</a>
+      </td>
+      <td align="center" valign="top" width="16.66%">
+        <a href="#">
+          <img src="https://avatars.githubusercontent.com/u/9919?s=100" width="100px;" alt="João Pedro Fortaleza Menezes"/><br />
+          <sub><b>João Pedro Fortaleza Menezes</b></sub>
+        </a><br />
+        <a href="#" title="Code">💻</a>
+      </td>
+      <td align="center" valign="top" width="16.66%">
+        <a href="https://github.com/Bappoz">
+          <img src="https://avatars.githubusercontent.com/u/103953589?s=100" width="100px;" alt="Lucas Andrade Zanetti"/><br />
+          <sub><b>Lucas Andrade Zanetti</b></sub>
+        </a><br />
+        <a href="https://github.com/FGA0138-MDS-Ajax/2025.1-Jera/commits?author=Bappoz" title="Code">💻</a>
+      </td>
+      <td align="center" valign="top" width="16.66%">
+        <a href="https://github.com/liander-medeiros">
+          <img src="https://avatars.githubusercontent.com/u/103954009?s=100" width="100px;" alt="Liander Medeiros Alves"/><br />
+          <sub><b>Liander Medeiros Alves</b></sub>
+        </a><br />
+        <a href="https://github.com/FGA0138-MDS-Ajax/2025.1-Jera/commits?author=liander-medeiros" title="Code">💻</a>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="16.66%">
+        <a href="https://github.com/DanNunes777">
+          <img src="https://avatars.githubusercontent.com/u/116906870?s=100" width="100px;" alt="Daniel Nunes Duarte"/><br />
+          <sub><b>Daniel Nunes Duarte</b></sub>
+        </a><br />
+        <a href="https://github.com/FGA0138-MDS-Ajax/2025.1-Jera/commits?author=DanNunes777" title="Code">💻</a>
+      </td>
+      <td align="center" valign="top" width="16.66%">
+        <a href="https://github.com/Bercacos">
+          <img src="https://avatars.githubusercontent.com/u/111818260?s=100" width="100px;" alt="Bernardo Broetto Brun"/><br />
+          <sub><b>Bernardo Broetto Brun</b></sub>
+        </a><br />
+        <a href="https://github.com/FGA0138-MDS-Ajax/2025.1-Jera/commits?author=Bercacos" title="Code">💻</a>
+      </td>
+      <td align="center" valign="top" width="16.66%">
+        <a href="https://github.com/itsavabro">
+          <img src="https://avatars.githubusercontent.com/u/113264426?s=100" width="100px;" alt="João Vitor Vieira de Alcântara Silva"/><br />
+          <sub><b>João Vitor Vieira de Alcântara Silva</b></sub>
+        </a><br />
+        <a href="https://github.com/FGA0138-MDS-Ajax/2025.1-Jera/commits?author=itsavabro" title="Code">💻</a>
+      </td>
+      <td align="center" valign="top" width="16.66%">
+        <a href="https://github.com/robbribeiro">
+          <img src="https://avatars.githubusercontent.com/u/103951598?s=100" width="100px;" alt="Robson Junido Ribeiro Macedo"/><br />
+          <sub><b>Robson Junido Ribeiro Macedo</b></sub>
+        </a><br />
+        <a href="https://github.com/FGA0138-MDS-Ajax/2025.1-Jera/commits?author=robbribeiro" title="Code">💻</a>
+      </td>
+      <td align="center" valign="top" width="16.66%">
+        <a href="https://github.com/brunnoff">
+          <img src="https://avatars.githubusercontent.com/u/64242699?s=100" width="100px;" alt="Brunno Fernandes Franco"/><br />
+          <sub><b>Brunno Fernandes Franco</b></sub>
+        </a><br />
+        <a href="https://github.com/FGA0138-MDS-Ajax/2025.1-Jera/commits?author=brunnoff" title="Data">🔣</a>
+      </td>
+      <td align="center" valign="top" width="16.66%">
+        <a href="https://github.com/radamesGuerra">
+          <img src="https://avatars.githubusercontent.com/u/129759458?s=100" width="100px;" alt="Rafaela Andrea Radames Guerra"/><br />
+          <sub><b>Rafaela Andrea Radames Guerra</b></sub>
+        </a><br />
+        <a href="https://github.com/FGA0138-MDS-Ajax/2025.1-Jera/commits?author=radamesGuerra" title="Data">🔣</a>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="16.66%">
+        <a href="https://github.com/ZarbL">
+          <img src="https://avatars.githubusercontent.com/u/110757788?s=100" width="100px;" alt="Luis Fernando de Sousa Zarbielli"/><br />
+          <sub><b>Luis Fernando de Sousa Zarbielli</b></sub>
+        </a><br />
+        <a href="https://github.com/FGA0138-MDS-Ajax/2025.1-Jera/commits?author=ZarbL" title="Data">🔣</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+
+## 🔃 Como Rodar Localmente?
+
+### Pré-requisitos
+
+Antes de começar, recomenda-se utilizar **Windows 10/11** ou **Linux/WSL**. Certifique-se de ter instalado:
+
+- [Node.js](https://nodejs.org/) (versão 20 ou superior)
+- [npm](https://www.npmjs.com/)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+
+## Passo a Passo:
+
+## 1: Clonar o repositório
+
+Clone este repositório em uma pasta da sua máquina local:
+
+```bash
+git clone https://github.com/FGA0138-MDS-Ajax/2025.1-Jera.git
+```
+
+---
+## 2: Primeira configuração
+
+Copie o arquivo `.env.dev` para `.env` na raiz do projeto ou na pasta `backend` (conforme configuração do Docker):
+
+No Windows:
+```cmd
+copy .env.dev .env
+```
+No Linux:
+```bash
+cp .env.dev .env
+```
+
+Edite o arquivo `.env` conforme necessário para configurar variáveis de ambiente do banco de dados e opções de desenvolvimento.
+
+---
+## 3: Instalar dependências
+
+Navegue até as pastas do projeto e instale as dependências:
+
+```cmd
+cd backend
+# Se usar Python, instale dependências com Poetry ou pip
+# poetry install
+# ou
+# pip install -r requirements.txt
+
+cd ../frontend
+npm install
+```
+
+---
+
+## 4: Iniciar o servidor
+
+### Backend (usando Docker)
+
+Na raiz do projeto, execute:
+
+```cmd
+docker-compose up --build
+```
+
+O backend estará disponível em: [http://localhost:8000](http://localhost:8000)
+
+#### Resetar banco de dados (opcional)
+Para apagar todo o banco e reconstruir os containers (ideal para desenvolvimento):
+
+```cmd
+docker-compose down -v
+docker-compose up --build
+```
+
+### Frontend
+
+Em outro terminal, vá até a pasta `frontend`:
+
+```cmd
+cd frontend
+npm run dev
+```
+
+O frontend estará disponível em: [http://localhost:5173](http://localhost:5173)
+
+---
+
+## Observações
+
+- O backend roda na porta `8000` via Docker.
+- O frontend utiliza Vite.js e roda na porta `5173`.
+- Certifique-se de que as portas não estejam em uso por outros serviços locais.
+- Se o MySQL não conseguir iniciar:
+  - Tente `docker-compose down -v` e depois `docker-compose up --build`
+  - Verifique os logs com `docker-compose logs db`
+
+- Para se conectar ao contêiner do MySQL:
+  ```cmd
+  docker exec -it 2025.1-jera-db-1 mysql -u user -ppass
+  ```
 
 Template de Repositório para a matéria de Métodos de Desenvolvimento de Software lecionado pelo professor Ricardo Ajax.
 
 Essa Branch deve ser usada exclusivamente para a versão de desenvolvimento do software antes de ir para produção.
 
-## Especificações Técnicas do Repositório
-
-Este repositório é planejado e estruturado para que seja realizado documentações de software. Caso haja outra necessidades, deve-se consultar a professora.
-
-Atualmente se usa a ferramenta MkDocs para gerar sua documentação baseado nos seus arquivos markdowns, vocês podem achar mais instruções sobre o MkDocs através do link da documentação da ferramenta: [https://www.mkdocs.org/](https://www.mkdocs.org/).
-
-Também é usado uma "sub-ferramenta" do MkDocs para sua estilização, o Material Theme, que pode ser consultado através do link: [https://squidfunk.github.io/mkdocs-material/](https://squidfunk.github.io/mkdocs-material/).
-
-Este repositório também conta com uma pipeline de automatização de deploy do seu conteúdo MkDocs, para que a cada commit feito na main, a pipeline gere uma versão atualizada da sua documentação em minutos. Vale ressaltar que é importante realizar uma configuração para que tudo funcione da forma correta, as instruções são as seguintes:
-
-* Acesse as configurações do repositório;
-* Procure a aba de "Pages"
-* Em "Source" escolha a opção "Deploy from a branch";
-* Em "Branch" escolha "gh-pages";
-* Clique em salvar e pronto;
-
-Após essas etapas de configuração, o seu GitPages deve funcionar normalmente.
-
-## Configuração e Deploy
-
-### Configuração do Ambiente
-
-1. Copie o arquivo de exemplo das variáveis de ambiente:
-   ```bash
-   cp .env.example .env
-   ```
-
-2. Edite o arquivo `.env` com suas configurações específicas:
-   - `BACKEND_URL`: URL do backend API (ex: `https://api.floragest.liander.dev` para produção)
-   - Configurações do banco de dados PostgreSQL
-   - Outras variáveis conforme necessário
-
-### Configuração do Nginx
-
-O frontend usa nginx como servidor web e proxy reverso. A configuração é flexível e permite:
-
-- **Desenvolvimento local**: Usa `http://api:8000` (container Docker)
-- **Produção**: Configurável via variável `BACKEND_URL`
-
-#### Configuração via Variáveis de Ambiente
-
-Para alterar a URL do backend, defina a variável `BACKEND_URL` no arquivo `.env`:
-
-```env
-# Para desenvolvimento local
-BACKEND_URL=http://api:8000
-
-# Para produção
-BACKEND_URL=https://api.floragest.liander.dev
-```
-
-### Deploy Local com Docker
-
-```bash
-# Build e inicialização dos serviços
-docker-compose up --build
-
-# Apenas inicialização (se já foi feito build)
-docker-compose up
-```
-
-### Estrutura do Projeto
-
-- **Frontend**: React + TypeScript + Vite, servido via nginx
-- **Backend**: FastAPI + Python
-- **Banco de Dados**: PostgreSQL
-- **Infraestrutura**: Terraform (AWS)
-
-### Deploy para AWS
-
-#### Deploy Completo (Backend + Frontend)
-
-```bash
-# Deploy completo - backend e frontend
-cd infra && \
-BACKEND_ECR_URI=$(tofu output -raw ecr_repository_url) && \
-FRONTEND_ECR_URI=$(tofu output -raw frontend_ecr_repository_url) && \
-BACKEND_URL=$(tofu output -raw backend_api_url) && \
-echo "Deploying Backend to: $BACKEND_ECR_URI" && \
-echo "Deploying Frontend to: $FRONTEND_ECR_URI" && \
-echo "Backend URL: $BACKEND_URL" && \
-aws ecr get-login-password --region sa-east-1 | sudo docker login --username AWS --password-stdin $BACKEND_ECR_URI && \
-echo "Building and pushing backend..." && \
-sudo docker build -t floragest-backend ../backend && \
-sudo docker tag floragest-backend:latest $BACKEND_ECR_URI:latest && \
-sudo docker push $BACKEND_ECR_URI:latest && \
-echo "Building and pushing frontend..." && \
-sudo docker build --build-arg BACKEND_URL=$BACKEND_URL -t floragest-frontend ../frontend && \
-sudo docker tag floragest-frontend:latest $FRONTEND_ECR_URI:latest && \
-sudo docker push $FRONTEND_ECR_URI:latest && \
-echo "Updating ECS services..." && \
-aws ecs update-service --cluster floragest-cluster --service floragest-backend-service --force-new-deployment --region sa-east-1 && \
-aws ecs update-service --cluster floragest-cluster --service floragest-frontend-service --force-new-deployment --region sa-east-1 && \
-echo "Deployment completed!"
-```
-
-#### Deploy Apenas Backend
-
-```bash
-cd infra && \
-ECR_URI=$(tofu output -raw ecr_repository_url) && \
-aws ecr get-login-password --region sa-east-1 | sudo docker login --username AWS --password-stdin $ECR_URI && \
-sudo docker build -t floragest-backend ../backend && \
-sudo docker tag floragest-backend:latest $ECR_URI:latest && \
-sudo docker push $ECR_URI:latest && \
-aws ecs update-service --cluster floragest-cluster --service floragest-backend-service --force-new-deployment --region sa-east-1
-```
-
-#### Deploy Apenas Frontend
-
-```bash
-cd infra && \
-FRONTEND_ECR_URI=$(tofu output -raw frontend_ecr_repository_url) && \
-BACKEND_URL=$(tofu output -raw backend_api_url) && \
-aws ecr get-login-password --region sa-east-1 | sudo docker login --username AWS --password-stdin $FRONTEND_ECR_URI && \
-sudo docker build --build-arg BACKEND_URL=$BACKEND_URL -t floragest-frontend ../frontend && \
-sudo docker tag floragest-frontend:latest $FRONTEND_ECR_URI:latest && \
-sudo docker push $FRONTEND_ECR_URI:latest && \
-aws ecs update-service --cluster floragest-cluster --service floragest-frontend-service --force-new-deployment --region sa-east-1
-```
-
-### URLs de Acesso
-
-- **Frontend**: https://floragest.liander.dev
-- **Backend API**: https://api.floragest.liander.dev
-
-### Terraform Outputs
-
-
-alb_dns_name = "floragest-alb-1445168795.sa-east-1.elb.amazonaws.com"
-app_secret_arn = "arn:aws:secretsmanager:sa-east-1:965134913902:secret:floragest/db/app-sa-east-1-JVRUrS"
-backend_api_url = "https://api.floragest.liander.dev"
-ecr_repository_url = "965134913902.dkr.ecr.sa-east-1.amazonaws.com/floragest-backend"
-ecs_cluster_name = "floragest-cluster"
-ecs_service_name = "floragest-backend-service"
-frontend_alb_dns_name = "floragest-frontend-alb-1590008570.sa-east-1.elb.amazonaws.com"
-frontend_ecr_repository_url = "965134913902.dkr.ecr.sa-east-1.amazonaws.com/floragest-frontend"
-frontend_ecs_service_name = "floragest-frontend-service"
-frontend_url = "https://floragest.liander.dev"
-master_secret_arn = "arn:aws:secretsmanager:sa-east-1:965134913902:secret:floragest/db/master-sa-east-1-pt7asd"
-rds_endpoint = "floragest-postgres.cg0xm64hbsqi.sa-east-1.rds.amazonaws.com"
-rds_port = 5432
-vpc_id = "vpc-0ff50e79be3615799"
-
-
-host = db.floragest.liander.dev
-port = 5432
-database = floragest
-username = floragest_app
-password = backend-jera
