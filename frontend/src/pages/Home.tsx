@@ -67,7 +67,6 @@ export default function Home() {
           <section
             key={i}
             className="feature-full"
-            style={{ backgroundColor: bg }}
           >
             <img src={imgSrc} alt="Ícone" className="feature-img" />
             <h2 className={dark ? "dark-text" : ""}>{text}</h2>
