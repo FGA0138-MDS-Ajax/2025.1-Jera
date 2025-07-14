@@ -13,7 +13,6 @@ dependencies = [
     "pydantic>=2.11.5",
     "pydantic-settings>=2.9.1",
     "pymysql[rsa]>=1.1.1",
-    "ruff>=0.11.12",
     "sqlalchemy>=2.0.41",
     "sqlmodel>=0.0.24",
     "strawberry-graphql[fastapi]>=0.270.5",
@@ -23,17 +22,20 @@ dependencies = [
     "pyjwt (>=2.10.1,<3.0.0)",
 ]
 
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.3.5"
-pytest-cov = "^6.1.1"
-pytest-mock = "^3.14.1"
-ruff = "^0.11.12"
-strawberry-graphql = {extras = ["debug-server", "fastapi"], version = "^0.270.5"}
-
-[tool.poetry.group.docs.dependencies]
-mkdocs-enumerate-headings-plugin = ">=0.6.2"
-mkdocs-material = ">=9.6.14"
-mkdocs-section-index = ">=0.3.10"
+[dependency-groups]
+# Grupos de dependências para desenvolvimento e documentação.
+dev = [
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
+    "pytest-mock>=3.14.1",
+    "ruff>=0.11.12",
+    "strawberry-graphql[debug-server,fastapi]>=0.270.5",
+]
+docs = [
+    "mkdocs-enumerate-headings-plugin>=0.6.2",
+    "mkdocs-material>=9.6.14",
+    "mkdocs-section-index>=0.3.10",
+]
 
 [tool.pytest.ini_options]
 env = [

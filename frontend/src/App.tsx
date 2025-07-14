@@ -1,9 +1,11 @@
 import RoutesApp from "./routes/routes";
+import { ToastContainer } from "./Components/Toast";
 
 function App() {
   return (
     <div>
-<RoutesApp/>
+      <RoutesApp/>
+      <ToastContainer />
     </div>
   );
 }

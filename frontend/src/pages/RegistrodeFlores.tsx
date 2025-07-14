@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import "../styles/RegistrodeFlores.css";
 import Navbar from "../Components/Navebar";
 import { useNotificacao } from "../Components/NotificacaoContext";
 import { useNavigate } from "react-router-dom";
+import { useApiErrorHandler } from "../utils/apiErrorHandler";
 
 interface Lote {
   id_lote: number;
@@ -30,6 +31,7 @@ export default function Registro() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [movimentando, setMovimentando] = useState(false);
+  const { makeAuthenticatedCall, makeSilentAuthenticatedCall } = useApiErrorHandler();
 
   const carouselRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -42,39 +44,53 @@ export default function Registro() {
 
 
   useEffect(() => {
-    setLoading(true);
-    fetch("/api/lote")
-      .then((res) => res.json())
-      .then(async (data) => {
-        const lotesComProduto = await Promise.all(
-          data.map(async (lote: any) => {
-            let produto_nome = "";
-            let estoque_minimo = 0;
-            let estoque_maximo = null;
-            try {
-              const res = await fetch(`/api/product/${lote.id_produto}`);
-              const produto = await res.json();
-              produto_nome = produto.nome_produto;
-              estoque_minimo = produto.estoque_minimo;
-              estoque_maximo = produto.estoque_maximo;
-            } catch {}
-            return {
-              ...lote,
-              produto_nome,
-              estoque_minimo,
-              estoque_maximo,
-            };
-          })
-        );
-        setLotes(lotesComProduto);
-        setLoading(false);
-      });
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        // Load lotes with product information - SILENT (no toasts for background loading)
+        const lotesRes = await makeSilentAuthenticatedCall("/api/lote");
+        if (lotesRes.ok) {
+          const lotesData = await lotesRes.json();
+          const lotesComProduto = await Promise.all(
+            lotesData.map(async (lote: any) => {
+              let produto_nome = "";
+              let estoque_minimo = 0;
+              let estoque_maximo = null;
+              try {
+                const produtoRes = await makeSilentAuthenticatedCall(`/api/product/${lote.id_produto}`);
+                if (produtoRes.ok) {
+                  const produto = await produtoRes.json();
+                  produto_nome = produto.nome_produto;
+                  estoque_minimo = produto.estoque_minimo;
+                  estoque_maximo = produto.estoque_maximo;
+                }
+              } catch {}
+              return {
+                ...lote,
+                produto_nome,
+                estoque_minimo,
+                estoque_maximo,
+              };
+            })
+          );
+          setLotes(lotesComProduto);
+        }
+        
+        // Load aesthetic states - SILENT (no toasts for background loading)
+        const estadosRes = await makeSilentAuthenticatedCall("/api/estado_estetico");
+        if (estadosRes.ok) {
+          const estadosData = await estadosRes.json();
+          setEstados(estadosData);
+        }
+      } catch (error) {
+        // Errors are handled silently for data loading
+        setEstados([]);
+      }
+      setLoading(false);
+    };
 
-    fetch("/api/estado_estetico")
-      .then((res) => res.json())
-      .then(setEstados)
-      .catch(() => setEstados([]));
-  }, []);
+    loadData();
+  }, [makeSilentAuthenticatedCall]);
 
   const lotesFiltrados = lotes.filter((l) =>
     l.nome_lote.toLowerCase().includes(searchTerm.trim().toLowerCase())
@@ -126,47 +142,59 @@ export default function Registro() {
     setMovimentando(true);
     
     const endpoint = tipo === "entrada" ? "/api/movimentacao/entrada" : "/api/movimentacao/saida";
-    const res = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    setMovimentando(false);
-    if (res.ok) {
-      alert("Movimentação registrada com sucesso!");
-      fecharModal();
-      setLoading(true);
-      fetch("/api/lote")
-        .then((res) => res.json())
-        .then(async (data) => {
-          const lotesComProduto = await Promise.all(
-            data.map(async (lote: any) => {
-              let produto_nome = "";
-              let estoque_minimo = 0;
-              let estoque_maximo = null;
-              try {
-                const res = await fetch(`/api/product/${lote.id_produto}`);
-                const produto = await res.json();
-                produto_nome = produto.nome_produto;
-                estoque_minimo = produto.estoque_minimo;
-                estoque_maximo = produto.estoque_maximo;
-              } catch {}
-              return {
-                ...lote,
-                produto_nome,
-                estoque_minimo,
-                estoque_maximo,
-              };
-            })
-          );
-          setLotes(lotesComProduto);
-          setLoading(false);
-        });
-        await atualizarQuantidade();
-    } else {
-      const data = await res.json();
-      alert(data.detail || "Erro ao registrar movimentação.");
+    try {
+      const res = await makeAuthenticatedCall(
+        endpoint,
+        {
+          method: "POST",
+          body: JSON.stringify(payload),
+        },
+        "Movimentação registrada com sucesso!"
+      );
+      
+      if (res.ok) {
+        fecharModal();
+        setLoading(true);
+        
+        try {
+          // Refresh lotes data - SILENT (no toasts for background refresh)
+          const lotesRes = await makeSilentAuthenticatedCall("/api/lote");
+          if (lotesRes.ok) {
+            const lotesData = await lotesRes.json();
+            const lotesComProduto = await Promise.all(
+              lotesData.map(async (lote: any) => {
+                let produto_nome = "";
+                let estoque_minimo = 0;
+                let estoque_maximo = null;
+                try {
+                  const produtoRes = await makeSilentAuthenticatedCall(`/api/product/${lote.id_produto}`);
+                  if (produtoRes.ok) {
+                    const produto = await produtoRes.json();
+                    produto_nome = produto.nome_produto;
+                    estoque_minimo = produto.estoque_minimo;
+                    estoque_maximo = produto.estoque_maximo;
+                  }
+                } catch {}
+                return {
+                  ...lote,
+                  produto_nome,
+                  estoque_minimo,
+                  estoque_maximo,
+                };
+              })
+            );
+            setLotes(lotesComProduto);
+          }
+          await atualizarQuantidade();
+        } catch (error) {
+          // Errors are handled silently for background refresh
+        }
+        setLoading(false);
+      }
+    } catch (error) {
+      // Error is already handled by the API error handler
     }
+    setMovimentando(false);
   };
 
   return (

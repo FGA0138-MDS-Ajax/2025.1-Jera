@@ -2,16 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Login.css";
 import logo from "../assets/Minimalist_and_moder.png";
+import { useApiErrorHandler } from "../utils/apiErrorHandler";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loginError, setLoginError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isFormValid, setIsFormValid] = useState(true);
 
   const navigate = useNavigate();
+  const { handleApiError, handleSuccess } = useApiErrorHandler();
 
   /* Validação do email */
   const isValidEmail = (email: string) =>
@@ -40,12 +41,10 @@ const Login = () => {
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value.trimStart());
     setEmailError(false);
-    setLoginError(false);
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value.trimStart());
-    setLoginError(false);
   };
 
   /* Submit */
@@ -56,13 +55,15 @@ const Login = () => {
 
     if (!validateForm()) return;
 
-    const res = await fetch("/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, senha: password }),
-    });
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, senha: password }),
+      });
 
-    if (res.ok) {
+      await handleApiError(res);
+      
       const data = await res.json();
       localStorage.setItem("token", data.access_token);
 
@@ -71,9 +72,10 @@ const Login = () => {
       localStorage.setItem("perfil", payload.perfil);
       localStorage.setItem("idUsuario", payload.idUsuario);
 
+      handleSuccess("Login realizado com sucesso!");
       navigate("/inicio");
-    } else {
-      setLoginError(true);
+    } catch (error) {
+      console.error("Login error:", error);
     }
   };
 
@@ -122,10 +124,6 @@ const Login = () => {
             required
           />
         </label>
-
-        {hasSubmitted && loginError && !emailError && (
-          <div className="login-error">Email ou senha incorretos.</div>
-        )}
 
         <button type="submit" disabled={hasSubmitted && !isFormValid}>
           Entrar

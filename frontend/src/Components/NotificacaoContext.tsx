@@ -18,7 +18,12 @@ export const NotificacaoProvider: React.FC<{ children: React.ReactNode }> = ({ c
   // Função para buscar a quantidade de alertas do backend
   const atualizarQuantidade = async () => {
     try {
-      const res = await fetch("/api/alert");
+      const token = localStorage.getItem("token");
+      const res = await fetch("/api/alert", {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      });
       const data = await res.json();
       setQuantidade(data.length);
     } catch {

@@ -4,6 +4,7 @@ import "../styles/CadastroFlores.css";
 import Navbar from "../Components/Navebar";
 import deletarIcon from "../assets/deletar.png";
 import florPadrao from "../assets/LogoFloraGest.png";
+import { useApiErrorHandler } from "../utils/apiErrorHandler";
 
 interface Produto {
   id_produto: number;
@@ -31,6 +32,7 @@ export default function CadastroFlores() {
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [tiposProduto, setTiposProduto] = useState<TipoProduto[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { makeAuthenticatedCall } = useApiErrorHandler();
   const [form, setForm] = useState<ProdutoForm>({
     nome_produto: "",
     estoque_minimo: 0,
@@ -48,8 +50,8 @@ export default function CadastroFlores() {
   });
 
   // Visual: Stock "Com" ou "Sem" (não enviado ao backend)
-  const [stockVisual, setStockVisual] = useState<"Com" | "Sem">("Com");
-
+  const [, setStockVisual] = useState<"Com" | "Sem">("Com");
+  
   // token de verificação
   const token = localStorage.getItem("token");
   const perfil = localStorage.getItem("perfil");
@@ -60,29 +62,38 @@ export default function CadastroFlores() {
 
   const handleDeleteProduto = async (id_produto: number) => {
     if (!window.confirm("Tem certeza que deseja deletar este produto?")) return;
-    const res = await fetch(`/api/product/${id_produto}`, {
-      method: "DELETE",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-      },
-    });
-    if (res.ok) {
-      setProdutos((prev) => prev.filter((p) => p.id_produto !== id_produto));
-    } else {
-      alert("Erro ao deletar produto.");
+    try {
+      const res = await makeAuthenticatedCall(
+        `/api/product/${id_produto}`, 
+        { method: "DELETE" },
+        "Produto deletado com sucesso!"
+      );
+      if (res.ok) {
+        setProdutos((prev) => prev.filter((p) => p.id_produto !== id_produto));
+      }
+    } catch (error) {
+      // Error is already handled by the API error handler
     }
   };
 
   // Buscar produtos do backend
   useEffect(() => {
-    fetch("/api/product")
+    fetch("/api/product", {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+    })
       .then((res) => res.json())
       .then(async(data) => {
         // Para cada produto, busca o estoque atual
       const produtosComEstoque = await Promise.all(
         data.map(async (p: Produto) => {
           try {
-            const resEstoque = await fetch(`/api/movimentacao/estoque_atual/${p.id_produto}`);
+            const resEstoque = await fetch(`/api/movimentacao/estoque_atual/${p.id_produto}`, {
+              headers: {
+                "Authorization": `Bearer ${token}`,
+              },
+            });
             const estoqueData = await resEstoque.json();
             return {
               ...p,
@@ -99,7 +110,11 @@ export default function CadastroFlores() {
 
   // Buscar tipos de produto do backend
   useEffect(() => {
-    fetch("/api/product_type")
+    fetch("/api/product_type", {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         setTiposProduto(data);
@@ -125,39 +140,41 @@ export default function CadastroFlores() {
     e.preventDefault();
     if (!form.nome_produto || !form.estoque_minimo || !form.id_tipo_produto) return;
 
-    const res = await fetch("/api/product", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        nome_produto: form.nome_produto,
-        estoque_minimo: form.estoque_minimo,
-        estoque_maximo: form.estoque_maximo === "" ? null : form.estoque_maximo,
-        id_tipo_produto: form.id_tipo_produto,
-      }),
-    });
-
-    if (res.ok) {
-      const novoProduto = await res.json();
-      setProdutos((prev) => [
-        ...prev,
+    try {
+      const res = await makeAuthenticatedCall(
+        "/api/product",
         {
-          ...novoProduto,
-          stock: "Sem",
+          method: "POST",
+          body: JSON.stringify({
+            nome_produto: form.nome_produto,
+            estoque_minimo: form.estoque_minimo,
+            estoque_maximo: form.estoque_maximo === "" ? null : form.estoque_maximo,
+            id_tipo_produto: form.id_tipo_produto,
+          }),
         },
-      ]);
-      setForm({
-        nome_produto: "",
-        estoque_minimo: 0,
-        estoque_maximo: "",
-        id_tipo_produto: tiposProduto[0]?.id_tipo_produto || 1,
-      });
-      setStockVisual("Com");
-      toggleModal();
-    } else {
-      alert("Erro ao cadastrar produto.");
+        "Produto cadastrado com sucesso!"
+      );
+
+      if (res.ok) {
+        const novoProduto = await res.json();
+        setProdutos((prev) => [
+          ...prev,
+          {
+            ...novoProduto,
+            stock: "Sem",
+          },
+        ]);
+        setForm({
+          nome_produto: "",
+          estoque_minimo: 0,
+          estoque_maximo: "",
+          id_tipo_produto: tiposProduto[0]?.id_tipo_produto || 1,
+        });
+        setStockVisual("Com");
+        toggleModal();
+      }
+    } catch (error) {
+      // Error is already handled by the API error handler
     }
   };
 
@@ -188,33 +205,34 @@ export default function CadastroFlores() {
     e.preventDefault();
     if (!editForm.id_produto) return;
 
-    // Envia apenas JSON, sem imagem
-    const res = await fetch(`/api/product/${editForm.id_produto}`, {
-      method: "PUT",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        nome_produto: editForm.nome_produto,
-        estoque_minimo: editForm.estoque_minimo,
-        estoque_maximo: editForm.estoque_maximo === "" ? null : editForm.estoque_maximo,
-        id_tipo_produto: editForm.id_tipo_produto,
-      }),
-    });
-
-    if (res.ok) {
-      const produtoAtualizado = await res.json();
-      setProdutos((prev) =>
-        prev.map((p) =>
-          p.id_produto === produtoAtualizado.id_produto
-            ? { ...produtoAtualizado, stock: p.stock }
-            : p
-        )
+    try {
+      const res = await makeAuthenticatedCall(
+        `/api/product/${editForm.id_produto}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            nome_produto: editForm.nome_produto,
+            estoque_minimo: editForm.estoque_minimo,
+            estoque_maximo: editForm.estoque_maximo === "" ? null : editForm.estoque_maximo,
+            id_tipo_produto: editForm.id_tipo_produto,
+          }),
+        },
+        "Produto atualizado com sucesso!"
       );
-      setIsEditModalOpen(false);
-    } else {
-      alert("Erro ao atualizar produto.");
+
+      if (res.ok) {
+        const produtoAtualizado = await res.json();
+        setProdutos((prev) =>
+          prev.map((p) =>
+            p.id_produto === produtoAtualizado.id_produto
+              ? { ...produtoAtualizado, stock: p.stock }
+              : p
+          )
+        );
+        setIsEditModalOpen(false);
+      }
+    } catch (error) {
+      // Error is already handled by the API error handler
     }
   };
 

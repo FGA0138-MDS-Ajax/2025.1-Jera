@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.orm.session import _SessionCloseState
 from sqlmodel import SQLModel
 
-from app.config.settings import Settings
+from app.config.settings import Settings, DBVendor
 from app.utils.logger import Logger
 from app.utils.singleton import singleton
 
@@ -36,6 +36,7 @@ class DBManager:
         echo=ECHO_LOGS,
         poolclass=sqlalchemy.pool.QueuePool,
         pool_recycle=3600,
+        connect_args={"options": f"-csearch_path={config.DB_SCHEMA}"} if config.DB_VENDOR == DBVendor.POSTGRES else {},
     )
     _session_factory: sessionmaker = sessionmaker(
         bind=_engine,
@@ -46,6 +47,10 @@ class DBManager:
         autoflush=True,
     )
     BaseModel = SQLModel
+
+    if config.DB_VENDOR == DBVendor.POSTGRES:
+        # Set the schema for all tables in the metadata
+        BaseModel.metadata.schema = config.DB_SCHEMA
 
     try:
         logger.debug(f"Tentando primeira conexão na url: {_url}")
@@ -98,5 +103,12 @@ class DBManager:
     @classmethod
     def metadata_create_all(cls: Self) -> None:
         cls.test_connection()
+
+        # For PostgreSQL, ensure schema exists before creating tables
+        if config.DB_VENDOR == DBVendor.POSTGRES:
+            with cls._engine.connect() as conn:
+                conn.execute(sqlalchemy.text(f"CREATE SCHEMA IF NOT EXISTS {config.DB_SCHEMA}"))
+                conn.commit()
+
         cls.BaseModel.metadata.create_all(bind=cls._engine)
         logger.info("Todas as tabelas foram criadas com sucesso.")

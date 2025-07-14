@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import "../styles/GerenciarTipoProduto.css";
 import deletarIcon from "../assets/deletar.png";
 import "../styles/Inicial.css";
 import Navbar from "../Components/Navebar";
+import { useApiErrorHandler } from "../utils/apiErrorHandler";
+import { useToast } from "../Components/Toast";
 
 interface TipoProduto {
   id_tipo_produto: number;
@@ -13,14 +14,18 @@ interface TipoProduto {
 export default function GerenciarTiposProduto() {
   const [tipos, setTipos] = useState<TipoProduto[]>([]);
   const [novoNome, setNovoNome] = useState("");
-  const [mensagem, setMensagem] = useState("");
-  const [mensagemTipo, setMensagemTipo] = useState<"sucesso" | "erro" | "">("");
+  const { makeAuthenticatedCall } = useApiErrorHandler();
+  const { showError } = useToast();
 
   // Buscar tipos do backend
-  const fetchTipos = () => {
-    fetch("/api/product_type")
-      .then((res) => res.json())
-      .then((data) => setTipos(data));
+  const fetchTipos = async () => {
+    try {
+      const response = await makeAuthenticatedCall("/api/product_type");
+      const data = await response.json();
+      setTipos(data);
+    } catch (error) {
+      console.error("Error fetching product types:", error);
+    }
   };
 
   useEffect(() => {
@@ -28,59 +33,43 @@ export default function GerenciarTiposProduto() {
   }, []);
 
   const handleCriar = async () => {
-    setMensagem("");
-    setMensagemTipo("");
     const nomeTrim = novoNome.trim().toLowerCase();
     if (!nomeTrim) {
-      setMensagem("Digite o nome do novo tipo de produto.");
-      setMensagemTipo("erro");
+      showError("Digite o nome do novo tipo de produto.");
       return;
     }
     if (
       tipos.some((t) => t.nome_tipo_produto.trim().toLowerCase() === nomeTrim)
     ) {
-      setMensagem("Este tipo de produto já foi cadastrado.");
-      setMensagemTipo("erro");
+      showError("Este tipo de produto já foi cadastrado.");
       return;
     }
-    const res = await fetch("/api/product_type", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nome_tipo_produto: novoNome.trim() }),
-    });
-    if (res.ok) {
-      setMensagem("Novo tipo cadastrado com sucesso!");
-      setMensagemTipo("sucesso");
+
+    try {
+      await makeAuthenticatedCall("/api/product_type", {
+        method: "POST",
+        body: JSON.stringify({ nome_tipo_produto: novoNome.trim() }),
+      }, "Novo tipo cadastrado com sucesso!");
+      
       setNovoNome("");
       fetchTipos();
-    } else {
-      setMensagem("Erro ao cadastrar novo tipo.");
-      setMensagemTipo("erro");
+    } catch (error) {
+      console.error("Error creating product type:", error);
     }
   };
 
   const handleRemover = async (id: number) => {
     if (!window.confirm("Tem certeza que deseja remover este tipo de produto?"))
       return;
-    const res = await fetch(`/api/product_type/${id}`, {
-      method: "DELETE",
-    });
-    if (res.ok) {
-      setMensagem("Tipo removido com sucesso!");
-      setMensagemTipo("sucesso");
-      // Atualiza a lista sem reload
+    
+    try {
+      await makeAuthenticatedCall(`/api/product_type/${id}`, {
+        method: "DELETE",
+      }, "Tipo removido com sucesso!");
+      
       setTipos((prev) => prev.filter((t) => t.id_tipo_produto !== id));
-    } else {
-      // Tenta pegar a mensagem do backend
-      let msg = "Erro ao remover tipo.";
-      try {
-        const data = await res.json();
-        if (data.detail) {
-          msg = data.detail;
-        }
-      } catch {}
-      setMensagem(msg);
-      setMensagemTipo("erro");
+    } catch (error) {
+      console.error("Error deleting product type:", error);
     }
   };
 
@@ -104,8 +93,6 @@ export default function GerenciarTiposProduto() {
               value={novoNome}
               onChange={(e) => {
                 setNovoNome(e.target.value);
-                setMensagem("");
-                setMensagemTipo("");
               }}
               placeholder='Ex: Flor, Vaso, Adubo...'
               autoFocus
@@ -181,19 +168,6 @@ export default function GerenciarTiposProduto() {
             </li>
           ))}
         </ul>
-        {mensagem && (
-          <div
-            className={`mensagem ${mensagemTipo}`}
-            style={{
-              marginTop: 16,
-              color: mensagemTipo === "sucesso" ? "green" : "#b64c38",
-              fontWeight: 600,
-              textAlign: "center",
-            }}
-          >
-            {mensagem}
-          </div>
-        )}
       </div>
     </>
   );

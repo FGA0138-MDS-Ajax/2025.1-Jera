@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Chart, { Chart as ChartType } from "chart.js/auto";
 import Navbar from "../Components/Navebar";
 import "../styles/DashBoardGerente.css";
-import { FaSearch } from "react-icons/fa";
+import { useApiErrorHandler } from "../utils/apiErrorHandler";
 
 /* ---------- Tipagens ---------- */
 interface KPI {
@@ -41,6 +41,7 @@ interface LoteProximo {
 
 /* ---------- Componente ---------- */
 const DashboardGerente: React.FC = () => {
+  const { makeAuthenticatedCall } = useApiErrorHandler();
   const [kpi, setKPI] = useState<KPI | null>(null);
   const [estadoEstetico, setEstadoEstetico] = useState<EstadoEstetico | null>(null);
   const [topFlores, setTopFlores] = useState<TopFlor[]>([]);
@@ -66,34 +67,45 @@ const DashboardGerente: React.FC = () => {
   useEffect(() => {
     async function fetchDados() {
       try {
-        const res = await fetch("/api/dashboard-gerente");
-        const data = await res.json();
-
-        setKPI(data.kpi);
-        setEstadoEstetico(data.estadoEstetico);
-        setTopFlores(data.topFlores);
-        setLotes(data.lotesProximos);
-        setProdutosEstoque(data.produtosEstoque);
-        setEstoquePorTipo(data.estoquePorTipoProduto || []);
+        const res = await makeAuthenticatedCall("/api/dashboard-gerente");
+        if (res.ok) {
+          const data = await res.json();
+          setKPI(data.kpi);
+          setEstadoEstetico(data.estadoEstetico);
+          setTopFlores(data.topFlores);
+          setLotes(data.lotesProximos);
+          setProdutosEstoque(data.produtosEstoque);
+          setEstoquePorTipo(data.estoquePorTipoProduto || []);
+        }
       } catch (err) {
-        console.error("Erro ao buscar dashboard:", err);
+        // Error is handled by the API error handler
       }
     }
 
     fetchDados();
-  }, []);
+  }, [makeAuthenticatedCall]);
 
   // Busca estados estéticos do lote selecionado
   useEffect(() => {
-    if (loteSelecionado !== "" && loteSelecionado !== null) {
-      fetch(`/api/dashboard/lote-estados?lote_id=${loteSelecionado}`)
-        .then(res => res.json())
-        .then(setEstadosLote)
-        .catch(() => setEstadosLote({}));
-    } else {
-      setEstadosLote({});
+    async function fetchEstadosLote() {
+      if (loteSelecionado !== "" && loteSelecionado !== null) {
+        try {
+          const res = await makeAuthenticatedCall(`/api/dashboard/lote-estados?lote_id=${loteSelecionado}`);
+          if (res.ok) {
+            const data = await res.json();
+            setEstadosLote(data);
+          }
+        } catch (error) {
+          // Error is handled by the API error handler
+          setEstadosLote({});
+        }
+      } else {
+        setEstadosLote({});
+      }
     }
-  }, [loteSelecionado]);
+
+    fetchEstadosLote();
+  }, [loteSelecionado, makeAuthenticatedCall]);
 
   // Gráfico de Estado Estético Geral
   useEffect(() => {

@@ -1,3 +1,10 @@
+.gitignore
+*.md
+terraform.lock.hcl
+terraform.tfvars
+terraform.tfvars.example
+.terraform/
+
 ###############################################################
 ############ GITIGNORE PARA O BACKEND, NÃO APAGAR #############
 ###############################################################

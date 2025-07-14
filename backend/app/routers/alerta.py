@@ -1,10 +1,9 @@
 from fastapi import APIRouter, HTTPException
 
 from app.routers.schemas.alerta import (
-    AlertaResponseSchema, 
+    AlertaResponseSchema,
 )
 from app.services.alerta import AlertaService
-from app.db.models.alerta import Alerta
 from app.utils.logger import Logger
 
 logger = Logger()

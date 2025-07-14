@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../Components/Navebar";
 import "../styles/HistoricoMovimentacao.css";
+import { useApiErrorHandler } from "../utils/apiErrorHandler";
 
 interface Movimentacao {
   id_movimentacao: number;
@@ -17,6 +18,7 @@ interface Movimentacao {
 }
 
 export default function HistoricoMovimentacoes() {
+  const { makeAuthenticatedCall } = useApiErrorHandler();
   const [movs, setMovs] = useState<Movimentacao[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -27,47 +29,56 @@ export default function HistoricoMovimentacoes() {
     };
 
   useEffect(() => {
-    fetch("/api/movimentacao")
-      .then(res => res.json())
-      .then(data => {
-        interface MovimentacaoApi {
-          id_movimentacao: number;
-          id_produto: number;
-          nome_produto?: string;
-          id_lote: number;
-          nome_lote?: string;
-          tipo_movimentacao: boolean;
-          quantidade: number;
-          data_movimentacao: string;
-          id_estado_estetico: number;
-          usuario_email?: string;
-          perfil?: string;
-        }
+    const loadMovimentacoes = async () => {
+      try {
+        const res = await makeAuthenticatedCall("/api/movimentacao");
+        if (res.ok) {
+          const data = await res.json();
+          
+          interface MovimentacaoApi {
+            id_movimentacao: number;
+            id_produto: number;
+            nome_produto?: string;
+            id_lote: number;
+            nome_lote?: string;
+            tipo_movimentacao: boolean;
+            quantidade: number;
+            data_movimentacao: string;
+            id_estado_estetico: number;
+            usuario_email?: string;
+            perfil?: string;
+          }
 
-        const ordenados: Movimentacao[] = (data as MovimentacaoApi[])
-          .map((m: MovimentacaoApi): Movimentacao => ({
-            id_movimentacao: m.id_movimentacao,
-            id_produto: m.id_produto,
-            nome_produto: m.nome_produto || `Produto #${m.id_produto}`,
-            id_lote: m.id_lote,
-            nome_lote: m.nome_lote || `Lote #${m.id_lote}`,
-            tipo_movimentacao: m.tipo_movimentacao,
-            quantidade: m.quantidade,
-            data_movimentacao: m.data_movimentacao,
-            estado_estetico: estadosEsteticos[m.id_estado_estetico] || "-",
-            usuario_email: m.usuario_email || "-",
-            perfil: m.perfil || "-",
-          }))
-          .sort(
-            (a: Movimentacao, b: Movimentacao) =>
-              new Date(b.data_movimentacao).getTime() -
-              new Date(a.data_movimentacao).getTime()
-          )
-          .slice(0, 35);
-          setMovs(ordenados);
-      })
-      .finally(() => setLoading(false));
-  }, []);
+          const ordenados: Movimentacao[] = (data as MovimentacaoApi[])
+            .map((m: MovimentacaoApi): Movimentacao => ({
+              id_movimentacao: m.id_movimentacao,
+              id_produto: m.id_produto,
+              nome_produto: m.nome_produto || `Produto #${m.id_produto}`,
+              id_lote: m.id_lote,
+              nome_lote: m.nome_lote || `Lote #${m.id_lote}`,
+              tipo_movimentacao: m.tipo_movimentacao,
+              quantidade: m.quantidade,
+              data_movimentacao: m.data_movimentacao,
+              estado_estetico: estadosEsteticos[m.id_estado_estetico] || "-",
+              usuario_email: m.usuario_email || "-",
+              perfil: m.perfil || "-",
+            }))
+            .sort(
+              (a: Movimentacao, b: Movimentacao) =>
+                new Date(b.data_movimentacao).getTime() -
+                new Date(a.data_movimentacao).getTime()
+            )
+            .slice(0, 35);
+            setMovs(ordenados);
+        }
+      } catch (error) {
+        // Error is handled by the API error handler
+      }
+      setLoading(false);
+    };
+
+    loadMovimentacoes();
+  }, [makeAuthenticatedCall]);
 
   // Permissão: só ADMINISTRADOR pode ver
   const perfil = localStorage.getItem("perfil");

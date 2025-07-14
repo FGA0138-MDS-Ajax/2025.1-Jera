@@ -13,8 +13,8 @@ const cargos = ["Funcionário", "Gerente", "Administrador"] as const;
 
 const GerenciamentoUsuarios: React.FC = () => {
   const [usuarios, setUsuarios] = useState<User[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [loading,] = useState<boolean>(false);
+  const [error,] = useState<string | null>(null);
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [novoNome, setNovoNome] = useState("");

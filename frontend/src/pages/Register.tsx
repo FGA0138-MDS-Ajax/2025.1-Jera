@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Register.css";
 import logo from "../assets/Minimalist_and_moder.png";
+import { useApiErrorHandler } from "../utils/apiErrorHandler";
 
 /* ------------ Função auxiliar de validação ------------ */
 const validateFields = (
@@ -42,6 +43,7 @@ const Register = () => {
   const [isFormValid, setIsFormValid] = useState(true); // começa habilitado
 
   const navigate = useNavigate();
+  const { handleApiError, handleSuccess } = useApiErrorHandler();
 
   /* ------------ Validação em tempo real só DEPOIS do submit ------------ */
   useEffect(() => {
@@ -62,30 +64,29 @@ const Register = () => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // Envie para o backend
-      const res = await fetch("/api/usuario", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nomeUsuario: name,
-          email,
-          senha: password,
-          confirme_sua_senha: confirmPassword,
-          perfil: "ADMINISTRADOR" // ou permita o usuário escolher o perfil
-        }),
-      });
+      try {
+        // Envie para o backend
+        const res = await fetch("/api/usuario", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            nomeUsuario: name,
+            email,
+            senha: password,
+            confirme_sua_senha: confirmPassword,
+          }),
+        });
 
-      if (res.ok) {
+        await handleApiError(res);
 
         localStorage.setItem("nomeUsuario", name);
         localStorage.setItem("email", email);
-        localStorage.setItem("perfil", "ADMINISTRADOR"); // ou o perfil escolhido
         
+        handleSuccess("Usuário registrado com sucesso!");
         // Redirecione para login ou faça login automático
         navigate("/login");
-      } else {
-        const data = await res.json();
-        setErrors({ api: data.detail || "Erro ao registrar usuário." });
+      } catch (error) {
+        console.error("Registration error:", error);
       }
     }
   };

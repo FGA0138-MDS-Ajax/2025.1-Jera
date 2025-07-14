@@ -1,43 +1,74 @@
+import datetime as dt
+from typing import Annotated
+
 import jwt
-from datetime import datetime, timedelta
 from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
-SECRET_KEY = "floragest_jera_admin"
-ALGORITHM = "HS256"
-EXPIRE_MINUTES = 60
+from app.config.settings import Settings
+from app.db.models.usuario import Usuario
+from app.routers.schemas.usuario import UsuarioJWTSchema
+from app.utils.logger import Logger
 
-auth_scheme = HTTPBearer()
+config = Settings()
+logger = Logger()
 
-def criar_token_jwt(usuario):
-    payload = {
-        "sub": usuario.email,
-        "perfil": usuario.perfil,
-        "idUsuario": usuario.idUsuario,
-        "exp": datetime.utcnow() + timedelta(minutes=EXPIRE_MINUTES)
-    }
-    return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
+auth_scheme = HTTPBearer(auto_error=False)
 
-def decodificar_token_jwt(token):
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        return payload
-    except jwt.ExpiredSignatureError:
-        return None
-    except jwt.InvalidTokenError:
-        return None
 
-def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(auth_scheme)):
-    token = credentials.credentials
-    payload = decodificar_token_jwt(token)
-    if not payload:
+def criar_token_jwt(usuario: Usuario) -> str:
+    payload = UsuarioJWTSchema(
+        id=usuario.idUsuario,
+        idUsuario=usuario.idUsuario,  # Add both fields for compatibility
+        email=usuario.email,
+        perfil=usuario.perfil,
+        expiration_time=dt.datetime.now(tz=dt.UTC) + dt.timedelta(minutes=config.EXPIRE_MINUTES),
+    )
+    return jwt.encode(payload.model_dump(mode="json"), config.SECRET_KEY, algorithm=config.ALGORITHM)
+
+
+def get_current_user(
+    credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(auth_scheme)],
+) -> UsuarioJWTSchema:
+    if not credentials:
+        logger.debug("No credentials provided")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token inválido ou expirado."
+            detail="Token de acesso obrigatório.",
+            headers={"WWW-Authenticate": "Bearer"},
         )
-
-    class User:
-        def __init__(self, email, perfil):
-            self.email = email
-            self.perfil = perfil
-    return User(email=payload.get("sub"), perfil=payload.get("perfil"))
+    
+    token = credentials.credentials
+    if not token:
+        logger.debug("Empty token provided")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token de acesso inválido.",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+        
+    try:
+        logger.debug(f"Decodificando token JWT: {token[:20]}...")  # Only log first 20 chars for security
+        decoded = jwt.decode(token, config.SECRET_KEY, algorithms=[config.ALGORITHM])
+        return UsuarioJWTSchema(**decoded)
+    except jwt.ExpiredSignatureError as e:
+        logger.debug(f"Token expirado: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token expirado.",
+            headers={"WWW-Authenticate": "Bearer"},
+        ) from e
+    except jwt.InvalidTokenError as e:
+        logger.debug(f"Token inválido: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token inválido.",
+            headers={"WWW-Authenticate": "Bearer"},
+        ) from e
+    except Exception as e:
+        logger.error(f"Erro inesperado ao decodificar token: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Erro de autenticação.",
+            headers={"WWW-Authenticate": "Bearer"},
+        ) from e

@@ -1,4 +1,3 @@
-import React from 'react';
 import './DetalhesFlor.css';
 
 export default function DetalhesFlor() {

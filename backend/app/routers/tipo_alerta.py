@@ -1,26 +1,27 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 
-from app.routers.schemas.tipo_alerta import (
-    TipoAlertaCreateSchema, 
-    TipoAlertaResponseSchema,
-    TipoAlertaUpdateSchema 
-)
-from app.services.tipo_alerta import TipoAlertaService
 from app.db.models.tipo_alerta import TipoAlerta
+from app.db.models.usuario import PerfilEnum
+from app.routers.schemas.tipo_alerta import TipoAlertaCreateSchema, TipoAlertaResponseSchema, TipoAlertaUpdateSchema
+from app.services.tipo_alerta import TipoAlertaService
+from app.utils.dependencies import require_profile
 from app.utils.logger import Logger
 
 logger = Logger()
 
 router = APIRouter()
 
+
 @router.get("/alert_type", status_code=200)
 def get_alert_type() -> list[TipoAlertaResponseSchema]:
     return TipoAlertaService.get_all_tipo_alertas()
 
-@router.post("/alert_type", status_code=201)
+
+@router.post("/alert_type", status_code=201, dependencies=[Depends(require_profile(PerfilEnum.ADMINISTRADOR))])
 def create_alert_type(request_body: TipoAlertaCreateSchema) -> TipoAlertaResponseSchema:
     alert_type = TipoAlerta(nome_tipo_alerta=request_body.nome_tipo_alerta)
     return TipoAlertaService.create_tipo_alerta(alert_type).model_dump()
+
 
 @router.get("/alert_type/{alert_id}", status_code=200)
 def get_alert_type_by_id(alert_id: int) -> TipoAlertaResponseSchema:
@@ -30,7 +31,10 @@ def get_alert_type_by_id(alert_id: int) -> TipoAlertaResponseSchema:
         raise HTTPException(status_code=404, detail=f"Alert type with id {alert_id} not found.")
     return alert_type.model_dump()
 
-@router.put("/alert_type/{alert_id}", status_code=200)
+
+@router.put(
+    "/alert_type/{alert_id}", status_code=200, dependencies=[Depends(require_profile(PerfilEnum.ADMINISTRADOR))]
+)
 def update_alert_type(alert_id: int, request_body: TipoAlertaUpdateSchema) -> TipoAlertaResponseSchema:
     tipo_alerta_data = TipoAlerta(id_tipo_alerta=alert_id, **request_body.model_dump(exclude_unset=True))
     up_alert_type = TipoAlertaService.update_tipo_alerta(tipo_alerta_data)
@@ -40,7 +44,10 @@ def update_alert_type(alert_id: int, request_body: TipoAlertaUpdateSchema) -> Ti
         raise HTTPException(status_code=404, detail=f"Failed to update alert type with id {alert_id}.")
     return up_alert_type
 
-@router.delete("/alert_type/{alert_id}", status_code=204)
+
+@router.delete(
+    "/alert_type/{alert_id}", status_code=204, dependencies=[Depends(require_profile(PerfilEnum.ADMINISTRADOR))]
+)
 def deletar_alert_type(alert_id: int) -> None:
     TipoAlertaService.delete_alert_type(alert_id)
     logger.info(f"Alert type with id {alert_id} deleted successfully.")

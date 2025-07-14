@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../Components/Navebar";
 import "../styles/MinhasInformacoes.css";
+import { useApiErrorHandler } from "../utils/apiErrorHandler";
 
 interface InformacoesUsuario {
   nome: string;
@@ -10,49 +11,49 @@ interface InformacoesUsuario {
 }
 
 const MinhasInformacoes: React.FC = () => {
+  const { makeSilentAuthenticatedCall } = useApiErrorHandler();
   const [usuario, setUsuario] = useState<InformacoesUsuario>({
     nome: "",
     email: "",
     permissao: "",
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error,] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     // Tenta buscar do backend, se não, pega do localStorage
     const fetchUsuario = async () => {
-      setLoading(true);
-      try {
-        // Tenta buscar do backend
-        const resp = await fetch("/api/usuario/me", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
-          },
-        });
-        if (resp.ok) {
-          const data = await resp.json();
-          setUsuario({
-            nome: data.nomeUsuario || "",
-            email: data.email || "",
-            permissao: data.perfil || "",
-          });
-          
-        } else {
-          // Se não conseguir, pega do localStorage
-          const nome = localStorage.getItem("nomeUsuario") || "";
-          const email = localStorage.getItem("email") || "";
-          const permissao = localStorage.getItem("perfil") || "";
-          setUsuario({ nome, email, permissao });
+      // First, load from localStorage immediately to avoid empty state
+      const nome = localStorage.getItem("nomeUsuario") || "";
+      const email = localStorage.getItem("email") || "";
+      const permissao = localStorage.getItem("perfil") || "";
+      setUsuario({ nome, email, permissao });
+      
+      // Only show loading if we have a token (suggesting we might get fresh data)
+      const token = localStorage.getItem("token");
+      if (token) {
+        setLoading(true);
+        try {
+          // Tenta buscar do backend - SILENT (no toasts for profile loading)
+          const resp = await makeSilentAuthenticatedCall("/api/usuario/me");
+          if (resp.ok) {
+            const data = await resp.json();
+            setUsuario({
+              nome: data.nomeUsuario || nome,
+              email: data.email || email,
+              permissao: data.perfil || permissao,
+            });
+          }
+        } catch (err) {
+          // Error is handled silently, keep localStorage data
+        } finally {
+          setLoading(false);
         }
-      } catch (err) {
-        setError("Erro ao buscar dados do usuário");
-      } finally {
-        setLoading(false);
       }
     };
     fetchUsuario();
-  }, []);
+  }, []); // Remove dependency to prevent infinite re-renders
 
   const handleLogout = () => {
     localStorage.removeItem("token");

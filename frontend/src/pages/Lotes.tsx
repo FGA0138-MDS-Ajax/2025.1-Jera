@@ -3,6 +3,8 @@ import "../styles/Lotes.css";
 import Navbar from "../Components/Navebar";
 import Loading from "../Components/Load_icon";
 import deletarIcon from "../assets/deletar.png";
+import { useToast } from "../Components/Toast/ToastContext";
+import { useApiErrorHandler } from "../utils/apiErrorHandler";
 
 interface Lote {
   id_lote: number;
@@ -27,6 +29,8 @@ function Lotes() {
   const [editNomeId, setEditNomeId] = useState<number | null>(null);
   const [novoNome, setNovoNome] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const { showWarning } = useToast();
+  const { makeAuthenticatedCall } = useApiErrorHandler();
   const [form, setForm] = useState({
     nome_lote: "",
     id_produto: "",
@@ -35,13 +39,22 @@ function Lotes() {
   
 
   useEffect(() => {
-    fetch("/api/lote")
+    const token = localStorage.getItem("token");
+    fetch("/api/lote", {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+    })
       .then((res) => res.json())
       .then(async (data) => {
         const lotesComNome = await Promise.all(
           data.map(async (lote: Lote) => {
             if (lote.produto_nome) return lote;
-            const res = await fetch(`/api/product/${lote.id_produto}`);
+            const res = await fetch(`/api/product/${lote.id_produto}`, {
+              headers: {
+                "Authorization": `Bearer ${token}`,
+              },
+            });
             const produto = await res.json();
             return { ...lote, produto_nome: produto.nome_produto };
           })
@@ -49,18 +62,28 @@ function Lotes() {
         setLotes(lotesComNome);
         setLoading(false);
       });
-    fetch("/api/product")
+    fetch("/api/product", {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+    })
       .then((res) => res.json())
       .then(setProdutos);
   }, []);
 
   const handleDelete = async (id_lote: number) => {
     if (!window.confirm("Deseja realmente deletar este lote?")) return;
-    const res = await fetch(`/api/lote/${id_lote}`, { method: "DELETE" });
-    if (res.ok) {
-      setLotes((prev) => prev.filter((l) => l.id_lote !== id_lote));
-    } else {
-      alert("Erro ao deletar lote.");
+    try {
+      const res = await makeAuthenticatedCall(
+        `/api/lote/${id_lote}`, 
+        { method: "DELETE" },
+        "Lote deletado com sucesso!"
+      );
+      if (res.ok) {
+        setLotes((prev) => prev.filter((l) => l.id_lote !== id_lote));
+      }
+    } catch (error) {
+      // Error is already handled by the API error handler
     }
   };
 
@@ -71,20 +94,25 @@ function Lotes() {
 
   const salvarNome = async (lote: Lote) => {
     if (!novoNome.trim()) return;
-    const res = await fetch(`/api/lote/${lote.id_lote}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nome_lote: novoNome }),
-    });
-    if (res.ok) {
-      setLotes((prev) =>
-        prev.map((l) =>
-          l.id_lote === lote.id_lote ? { ...l, nome_lote: novoNome } : l
-        )
+    try {
+      const res = await makeAuthenticatedCall(
+        `/api/lote/${lote.id_lote}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({ nome_lote: novoNome }),
+        },
+        "Nome do lote atualizado com sucesso!"
       );
-      setEditNomeId(null);
-    } else {
-      alert("Erro ao editar nome do lote.");
+      if (res.ok) {
+        setLotes((prev) =>
+          prev.map((l) =>
+            l.id_lote === lote.id_lote ? { ...l, nome_lote: novoNome } : l
+          )
+        );
+        setEditNomeId(null);
+      }
+    } catch (error) {
+      // Error is already handled by the API error handler
     }
   };
 
@@ -97,33 +125,38 @@ function Lotes() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.nome_lote || !form.id_produto) {
-      alert("Preencha todos os campos obrigatórios.");
+      showWarning("Preencha todos os campos obrigatórios.");
       return;
     }
     setSaving(true);
-    const res = await fetch("/api/lote", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        nome_lote: form.nome_lote,
-        id_produto: Number(form.id_produto),
-      }),
-    });
-    if (res.ok) {
-      const novoLote = await res.json();
-      const produto = produtos.find(
-        (p) => p.id_produto === Number(form.id_produto)
-      );
-      setLotes((prev) => [
+    try {
+      const res = await makeAuthenticatedCall(
+        "/api/lote",
         {
-          ...novoLote,
-          produto_nome: produto?.nome_produto || `Produto #${form.id_produto}`,
+          method: "POST",
+          body: JSON.stringify({
+            nome_lote: form.nome_lote,
+            id_produto: Number(form.id_produto),
+          }),
         },
-        ...prev,
-      ]);
-      closeModal();
-    } else {
-      alert("Erro ao cadastrar lote.");
+        "Lote cadastrado com sucesso!"
+      );
+      if (res.ok) {
+        const novoLote = await res.json();
+        const produto = produtos.find(
+          (p) => p.id_produto === Number(form.id_produto)
+        );
+        setLotes((prev) => [
+          {
+            ...novoLote,
+            produto_nome: produto?.nome_produto || `Produto #${form.id_produto}`,
+          },
+          ...prev,
+        ]);
+        closeModal();
+      }
+    } catch (error) {
+      // Error is already handled by the API error handler
     }
     setSaving(false);
   };

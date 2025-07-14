@@ -28,6 +28,7 @@ class Settings(BaseSettings):
     DB_USER: str
     DB_PASS: SecretStr
     DB_NAME: str
+    DB_SCHEMA: str
     DB_VENDOR: DBVendor = DBVendor.MYSQL
 
     @property
@@ -52,3 +53,8 @@ class Settings(BaseSettings):
     ENVIRONMENT: DeployEnv
     DEBUG: bool
     TESTING: bool
+
+    # Configs de autenticação JWT
+    SECRET_KEY: str
+    ALGORITHM: str = "HS256"
+    EXPIRE_MINUTES: int = 60

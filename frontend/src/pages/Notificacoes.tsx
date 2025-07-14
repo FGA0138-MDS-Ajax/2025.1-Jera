@@ -3,6 +3,7 @@ import "../styles/Notificações.css";
 import Navbar from "../Components/Navebar";
 import deletarIcon from "../assets/deletar.png";
 import { useNotificacao } from "../Components/NotificacaoContext";
+import { useApiErrorHandler } from "../utils/apiErrorHandler";
 
 type NotificationType = "validade" | "baixo_giro" | "estoque" | "lote_ruim";
 
@@ -51,87 +52,124 @@ export const Notificacoes: React.FC = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(false);
   const { setQuantidade } = useNotificacao();
+  const { makeAuthenticatedCall, makeSilentAuthenticatedCall } = useApiErrorHandler();
 
   const [produtos, setProdutos] = useState<Record<number, string>>({});
   const [lotes, setLotes] = useState<Record<number, string>>({});
 
 
   useEffect(() => {
-  // Busca produtos
-  fetch("/api/product")
-    .then(res => res.json())
-    .then((data) => {
-      const map: Record<number, string> = {};
-      data.forEach((p: any) => { map[p.id_produto] = p.nome_produto; });
-      setProdutos(map);
-    });
+    const loadData = async () => {
+      try {
+        // Busca produtos - SILENT (no toasts for background loading)
+        const produtosRes = await makeSilentAuthenticatedCall("/api/product");
+        if (produtosRes.ok) {
+          const produtosData = await produtosRes.json();
+          const produtosMap: Record<number, string> = {};
+          produtosData.forEach((p: any) => { produtosMap[p.id_produto] = p.nome_produto; });
+          setProdutos(produtosMap);
+        }
 
-  // Busca lotes
-  fetch("/api/lote")
-    .then(res => res.json())
-    .then((data) => {
-      const map: Record<number, string> = {};
-      data.forEach((l: any) => { map[l.id_lote] = l.nome_lote; });
-      setLotes(map);
-    });
-}, []);
+        // Busca lotes - SILENT (no toasts for background loading)
+        const lotesRes = await makeSilentAuthenticatedCall("/api/lote");
+        if (lotesRes.ok) {
+          const lotesData = await lotesRes.json();
+          const lotesMap: Record<number, string> = {};
+          lotesData.forEach((l: any) => { lotesMap[l.id_lote] = l.nome_lote; });
+          setLotes(lotesMap);
+        }
+      } catch (error) {
+        // Errors are handled silently for background data loading
+      }
+    };
+
+    loadData();
+  }, [makeSilentAuthenticatedCall]);
 
   // Busca todos os alertas do backend e atualiza o badge
   useEffect(() => {
-    setLoading(true);
-    fetch("/api/alert")
-      .then(res => res.json())
-      .then(data => {
-        const mapped: Notification[] = data.map((alert: any) => {
-          let type: NotificationType = "estoque";
-          if (alert.tipo_alerta?.toLowerCase().includes("baixo giro")) type = "baixo_giro";
-          else if (alert.tipo_alerta?.toLowerCase().includes("validade")) type = "validade";
-          else if (alert.tipo_alerta?.toLowerCase().includes("ruim")) type = "lote_ruim";
+    const loadAlertas = async () => {
+      setLoading(true);
+      try {
+        const res = await makeSilentAuthenticatedCall("/api/alert");
+        if (res.ok) {
+          const data = await res.json();
+          const mapped: Notification[] = data.map((alert: any) => {
+            let type: NotificationType = "estoque";
+            if (alert.tipo_alerta?.toLowerCase().includes("baixo giro")) type = "baixo_giro";
+            else if (alert.tipo_alerta?.toLowerCase().includes("validade")) type = "validade";
+            else if (alert.tipo_alerta?.toLowerCase().includes("ruim")) type = "lote_ruim";
 
-          return {
-            id: alert.id_alerta,
-            type,
-            title: alert.mensagem || "Alerta",
-            description:
-              `Produto: ${produtos[alert.id_produto] || `#${alert.id_produto}`}` +
-              (alert.id_lote != null
-                ? ` | Lote: ${lotes[alert.id_lote] || `#${alert.id_lote}`}`
-                : " | Sem lote"),
-            time: alert.data_hora_alerta
-              ? new Date(alert.data_hora_alerta).toLocaleString()
-              : "",
-            actionText: "Excluir",
-          };
-        });
-        setNotifications(mapped);
-        setQuantidade(mapped.length); // Atualiza o badge na Navbar
-      })
-      .catch(() => {
+            return {
+              id: alert.id_alerta,
+              type,
+              title: alert.mensagem || "Alerta",
+              description:
+                `Produto: ${produtos[alert.id_produto] || `#${alert.id_produto}`}` +
+                (alert.id_lote != null
+                  ? ` | Lote: ${lotes[alert.id_lote] || `#${alert.id_lote}`}`
+                  : " | Sem lote"),
+              time: alert.data_hora_alerta
+                ? new Date(alert.data_hora_alerta).toLocaleString()
+                : "",
+              actionText: "Excluir",
+            };
+          });
+          setNotifications(mapped);
+          setQuantidade(mapped.length); // Atualiza o badge na Navbar
+        }
+      } catch (error) {
+        // Errors are handled silently for background data loading
         setNotifications([]);
         setQuantidade(0);
-      })
-      .finally(() => setLoading(false));
-  }, [setQuantidade, produtos, lotes]);
+      }
+      setLoading(false);
+    };
+
+    loadAlertas();
+  }, [setQuantidade, produtos, lotes, makeSilentAuthenticatedCall]);
 
   // Deleta um alerta do backend e remove da lista + atualiza badge
   const handleDelete = async (id: number) => {
-    const res = await fetch(`/api/alert/${id}`, { method: "DELETE" });
-    if (res.ok) {
-      setNotifications((prev) => {
-        const updated = prev.filter((n) => n.id !== id);
-        setQuantidade(updated.length); // Atualiza badge
-        return updated;
-      });
-    } else {
-      alert("Erro ao excluir alerta.");
+    try {
+      const res = await makeAuthenticatedCall(
+        `/api/alert/${id}`,
+        {
+          method: "DELETE",
+        },
+        "Notificação removida!"
+      );
+      
+      if (res.ok) {
+        setNotifications((prev) => {
+          const updated = prev.filter((n) => n.id !== id);
+          setQuantidade(updated.length); // Atualiza badge
+          return updated;
+        });
+      }
+    } catch (error) {
+      // Error is already handled by the API error handler
     }
   };
 
   // Deleta todos os alertas do backend e limpa a lista + atualiza badge
   const markAllAsRead = async () => {
-    await fetch("/api/alert/delete_all", { method: "DELETE" });
-    setNotifications([]);
-    setQuantidade(0); // Atualiza badge
+    try {
+      const res = await makeAuthenticatedCall(
+        "/api/alert/delete_all",
+        {
+          method: "DELETE",
+        },
+        "Todas as notificações foram removidas!"
+      );
+      
+      if (res.ok) {
+        setNotifications([]);
+        setQuantidade(0); // Atualiza badge
+      }
+    } catch (error) {
+      // Error is already handled by the API error handler
+    }
   };
 
   return (

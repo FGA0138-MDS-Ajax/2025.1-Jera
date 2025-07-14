@@ -12,6 +12,7 @@ import GerenciamentoUsuarios from "../pages/Usuarios";
 import MinhasInformacoes from "../pages/MinhasInformacoes";
 import GerenciarTiposProduto from "../pages/GerenciadorTipoProduto";
 import HistoricoMovimentacoes from "../pages/historicoMovimentacao";
+import ProtectedRoute from "../Components/ProtectedRoute";
 
 
 
@@ -23,18 +24,62 @@ function RoutesApp() {
       <Route path="/home" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/Cadastro" element={<FlowerCatalog />} />
-      <Route path="/Inicio" element={<Inicial />} />
-      <Route path="/dashboard" element={<DashboardGerente />} />
-      <Route path="/notificacoes" element={<Notificacoes />} />
-      <Route path="/lotes" element={<Lotes />} />
-      <Route path="/registro" element={<Registro />} />
-      <Route path="/usuarios" element={<GerenciamentoUsuarios />} />
-      <Route path="/minhas-informacoes" element={<MinhasInformacoes />} />
-      <Route path="/tipo-produto" element={<GerenciarTiposProduto />} />
-      <Route path="/historico-movimentacoes" element={<HistoricoMovimentacoes />} />
+      
+      {/* Protected routes - require login */}
+      <Route path="/Cadastro" element={
+        <ProtectedRoute>
+          <FlowerCatalog />
+        </ProtectedRoute>
+      } />
+      <Route path="/Inicio" element={
+        <ProtectedRoute>
+          <Inicial />
+        </ProtectedRoute>
+      } />
+      <Route path="/notificacoes" element={
+        <ProtectedRoute>
+          <Notificacoes />
+        </ProtectedRoute>
+      } />
+      <Route path="/lotes" element={
+        <ProtectedRoute>
+          <Lotes />
+        </ProtectedRoute>
+      } />
+      <Route path="/registro" element={
+        <ProtectedRoute>
+          <Registro />
+        </ProtectedRoute>
+      } />
+      <Route path="/minhas-informacoes" element={
+        <ProtectedRoute>
+          <MinhasInformacoes />
+        </ProtectedRoute>
+      } />
 
-    
+      {/* GERENTE level routes */}
+      <Route path="/dashboard" element={
+        <ProtectedRoute requiredRole="GERENTE">
+          <DashboardGerente />
+        </ProtectedRoute>
+      } />
+
+      {/* ADMINISTRADOR level routes */}
+      <Route path="/usuarios" element={
+        <ProtectedRoute requiredRole="ADMINISTRADOR">
+          <GerenciamentoUsuarios />
+        </ProtectedRoute>
+      } />
+      <Route path="/tipo-produto" element={
+        <ProtectedRoute requiredRole="ADMINISTRADOR">
+          <GerenciarTiposProduto />
+        </ProtectedRoute>
+      } />
+      <Route path="/historico-movimentacoes" element={
+        <ProtectedRoute requiredRole="ADMINISTRADOR">
+          <HistoricoMovimentacoes />
+        </ProtectedRoute>
+      } />
     </Routes>
   );
 }

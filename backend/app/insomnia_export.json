@@ -155,7 +155,7 @@
       "_type": "request",
       "name": "Criar Usuário",
       "method": "POST",
-      "url": "{{ base_url }}/usuario",
+      "url": "{{ base_url }}/signup",
       "body": {
         "mimeType": "application/json",
         "text": "{\n  \"nomeUsuario\": \"Admin\",\n  \"email\": \"admin@admin.com\",\n  \"senha\": \"sua_senha\",\n  \"perfil\": \"ADMINISTRADOR\"\n}"
@@ -167,7 +167,7 @@
       "_type": "request",
       "name": "Listar Usuários",
       "method": "GET",
-      "url": "{{ base_url }}/usuario"
+      "url": "{{ base_url }}/signup"
     },
     {
       "_id": "fld_produtos",

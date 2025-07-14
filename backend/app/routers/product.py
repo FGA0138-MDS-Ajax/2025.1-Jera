@@ -1,22 +1,27 @@
 from fastapi import APIRouter, Depends
 
+from app.db.models.product import Product
+from app.db.models.usuario import PerfilEnum
 from app.routers.schemas.product import (
-    ProductResponseSchema,
     ProductCreateSchema,
+    ProductResponseSchema,
     ProductUpdateSchema,
 )
 from app.services.product import ProductService
-from app.db.models.product import Product
+from app.utils.dependencies import require_profile
 from app.utils.logger import Logger
-from app.utils.aut_jwt import get_current_user
-from app.utils.dependencies import require_admin
 
 logger = Logger()
 
 router = APIRouter()
 
 
-@router.get("/product", status_code=200, response_model=list[ProductResponseSchema])
+@router.get(
+    "/product", 
+    status_code=200, 
+    response_model=list[ProductResponseSchema], 
+    dependencies=[Depends(require_profile(PerfilEnum.OPERADOR))]
+)
 def get_products():
     """
     Retorna todos os produtos cadastrados.
@@ -27,14 +32,14 @@ def get_products():
     return ProductService.get_all_products()
 
 
-@router.post("/product", status_code=201, dependencies=[Depends(require_admin)])
+@router.post("/product", status_code=201, dependencies=[Depends(require_profile(PerfilEnum.GERENTE))])
 def create_product(request_body: ProductCreateSchema) -> ProductResponseSchema:
     """
     Cria um produto novo.
 
     Args:
         request_body (ProductCreateSchema): Dados para a criação do produto validado pelo ProductCreateSchema
-    
+
     Returns:
         ProductResponseSchema: Produto criado e validado.
     """
@@ -47,7 +52,7 @@ def create_product(request_body: ProductCreateSchema) -> ProductResponseSchema:
     return ProductService.create_product(product).model_dump()
 
 
-@router.get("/product/{product_id}", status_code=200)
+@router.get("/product/{product_id}", status_code=200, dependencies=[Depends(require_profile(PerfilEnum.OPERADOR))])
 def get_product_by_id(product_id: int) -> ProductResponseSchema:
     """
     Retorna um produto por meio de seu ID.
@@ -65,7 +70,7 @@ def get_product_by_id(product_id: int) -> ProductResponseSchema:
     return product.model_dump()
 
 
-@router.put("/product/{product_id}", status_code=200)
+@router.put("/product/{product_id}", status_code=200, dependencies=[Depends(require_profile(PerfilEnum.GERENTE))])
 def update_product(
     product_id: int, request_body: ProductUpdateSchema
 ) -> ProductResponseSchema:
@@ -75,12 +80,13 @@ def update_product(
     Args:
         product_id (int): ID do produto a ser atualizado.
         request_body (ProductUpdateSchema): Dados para a atualização (body).
-    
+
     Returns:
         ProductResponseSchema: produto atualizado.
 
     Raises:
         ValueError: Se o produto não for encontrado.
+
     """
     updated_product = ProductService.update_product(
         product_id, request_body.model_dump(exclude_unset=True)
@@ -92,7 +98,9 @@ def update_product(
     return updated_product.model_dump()
 
 
-@router.delete("/product/{product_id}", status_code=204, dependencies=[Depends(require_admin)])
+@router.delete(
+    "/product/{product_id}", status_code=204, dependencies=[Depends(require_profile(PerfilEnum.ADMINISTRADOR))]
+)
 def delete_product(product_id: int) -> None:
     """
     Deleta um produto pelo seu ID.
@@ -100,8 +108,9 @@ def delete_product(product_id: int) -> None:
     Args:
         product_id (int): ID do produto a ser deletado/removido.
 
-    return:
+    Return:
         dict: Mensagem de sucesso. Removido com sucesso.
+
     """
     ProductService.delete_product(product_id)
     logger.info(f"Product with id {product_id} deleted successfully.")

@@ -1,12 +1,13 @@
-from sqlalchemy import Column
-from sqlmodel import SQLModel, Field
 from enum import Enum
-from sqlalchemy import Enum as SqlEnum
-from sqlmodel import Relationship
 from typing import TYPE_CHECKING
+
+from sqlalchemy import Column
+from sqlalchemy import Enum as SqlEnum
+from sqlmodel import Field, Relationship, SQLModel
 
 if TYPE_CHECKING:
     from app.db.models.movimentacao_estoque import MovimentacaoEstoque
+
 class PerfilEnum(str, Enum):
     OPERADOR = "OPERADOR"
     GERENTE = "GERENTE"

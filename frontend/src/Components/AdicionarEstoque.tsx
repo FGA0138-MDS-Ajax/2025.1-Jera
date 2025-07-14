@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './AdicionarEstoque.css';
 
 export default function AdicionarEstoque() {

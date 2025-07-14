@@ -20,14 +20,12 @@ WORKDIR /api
 ADD ./app /api/app
 ADD pyproject.toml /api/pyproject.toml
 ADD uv.lock /api/uv.lock
-ADD wait-for-it.sh /api/wait-for-it.sh
-RUN find . -type f -name "*.sh" -exec dos2unix {} \;
-RUN chmod +x /api/wait-for-it.sh
 
 RUN --mount=type=cache,target=/root/.cache/uv \
     addgroup --system python-group && \
     adduser --no-create-home --disabled-password --system --ingroup python-group python-user && \
     uv sync --frozen --no-dev && \
+    mkdir -p /tmp/logs && \
     chown -R python-user:python-group /usr /var /tmp /api
 
 ENV PATH="/api/.venv/bin:$PATH"
@@ -35,3 +33,5 @@ ENV PATH="/api/.venv/bin:$PATH"
 USER python-user
 
 EXPOSE 8000
+
+ENTRYPOINT ["uvicorn", "app.main:api", "--host", "0.0.0.0", "--port", "8000"]
