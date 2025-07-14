@@ -1,7 +1,8 @@
 # Testes de Software
 
 ## Estratégia de testes
-Foram definidos algumas estratégias para obter um melhor desempenho: 
+
+Foram definidos algumas estratégias para obter um melhor desempenho:
 <br>Níveis de testes
 <br>Tipos de testes
 <br>Ambientes de testes
@@ -10,16 +11,14 @@ Foram definidos algumas estratégias para obter um melhor desempenho:
 <br>
 
 ### Níveis de testes abordados
+
 Para garantir a confiabilidade do sistema AgroStock, serão realizados testes em três níveis distintos:
 
 <b>Testes Unitários:</b> serão aplicados diretamente nas funções e componentes isolados, principalmente no backend, como validação de lógica de cálculo de validade de flores, verificação de campos obrigatórios e manipulação de dados. Esses testes asseguram que cada bloco individual de código se comporta conforme esperado.
 
-
 <b>Testes de Sistema:</b> serão utilizados para validar o funcionamento conjunto entre diferentes módulos, como a comunicação entre o frontend e o backend durante o cadastro, atualização e visualização de produtos no estoque. O objetivo é garantir que os fluxos de dados entre os componentes estejam corretos. Existem possibilidades de automatização para testes de sistema, que podem ser implementadas conforme a evolução do projeto.
 
-
 <b>Testes Manuais:</b> envolvem a simulação de ações completas feitas por um usuário final, como o cadastro de um novo produto, visualização de alertas de validade, geração de relatórios e navegação pelas telas. Esses testes permitem avaliar o comportamento do sistema como um todo, de ponta a ponta e serão feitos por integrantes do grupo.
-
 
 Essa abordagem por camadas garante que tanto o núcleo da aplicação quanto suas interfaces e integrações estejam bem validadas ao longo do desenvolvimento.
 
@@ -73,16 +72,15 @@ Para minimizar os riscos no ambiente de teste e preservar a integridade do proje
 
 <br>
 
-| ID    | Teste a ser Realizado             | Descrição                                                                          | Esperado                               | Definição de Aceito                                                     | Registros ao Fazer o Teste | Reparos Feitos | Status    |
-| ----- | --------------------------------- | ---------------------------------------------------------------------------------- | -------------------------------------- | ----------------------------------------------------------------------- | -------------------------- | -------------- | --------- |
-| TU1.1 | Cadastro de flores                | Verifica se o serviço cadastra as flores corretamente.                             | Cadastrar uma nova flor.               | A flor deve entrar no sistema.                                          |                            |                | A começar |
-| TU1.2 | Exclusão de flores                | Verifica se o serviço exclui as flores corretamente.                               | Excluir uma flor existente.            | A flor deve ser excluída do sistema.                                    |                            |                | A começar |
-| TU2   | Consulta Rápida de Produtos       | Pesquisar produtos pelo nome, tipo, validade ou quantidade.                        | Pesquisar e encontrar o produto.       | Receber a busca pela flor corretamente.                                 |                            |                | A começar |
-| TI1.1 | Registrar Entradas no Estoque     | Registrar entrada no estoque com data, quantidade, motivo e responsável.           | Adicionar a flor no estoque.           | A flor deve entrar no estoque.                                          |                            |                | A começar |
-| TI1.2 | Registrar Saídas no Estoque       | Registrar saída no estoque com data, quantidade, motivo e responsável.             | Tirar uma flor do estoque.             | A flor deve sair do estoque.                                            |                            |                | A começar |
-| TI2.1 | Controle de Validade e Lote       | Associar data de validade ao produto e enviar alerta quando próximo do vencimento. | Enviar a notificação.                  | Deve haver um sinal de que a notificação foi enviada.                   |                            |                | A começar |
-| TI2.2 | Notificação de Validade           | Receber o alerta da data de vencimento quando ativada.                             | Receber a notificação.                 | A notificação deve ser recebida.                                        |                            |                | A começar |
-| TI3   | Estoque Mínimo e Máximo           | Definir faixas de estoque por item.                                                | Limitar a quantidade de um item.       | Não deixar ultrapassar a quantidade máxima definida para flores.        |                            |                | A começar |
-| TI4   | Alerta de Produtos com Baixo Giro | Listar produtos parados no estoque por muito tempo.                                | Identificar os produtos parados.       | Gerar uma lista de produtos com baixo giro.                             |                            |                | A começar |
-| TM1   | Leitura de QR Code                | Permitir a leitura de QR Code para identificar produtos e lotes.                   | O QR Code deve funcionar corretamente. | O testador deve ser direcionado corretamente após a leitura do QR Code. |                            |                | A começar |
-| TM2   | Registros Incompletos             | Tentar registrar de maneira incompleta uma flor ou um usuário.                     | O sistema negar o registro.            | Dar erro e voltar uma mensagem de erro de maneira adequada.             |                            |                | A começar |
+| ID    | Teste a ser Realizado             | Descrição                                                                          | Esperado                         | Definição de Aceito                                              | Registros ao Fazer o Teste | Status |
+| ----- | --------------------------------- | ---------------------------------------------------------------------------------- | -------------------------------- | ---------------------------------------------------------------- | -------------------------- | ------ |
+| TU1.1 | Cadastro de flores                | Verifica se o serviço cadastra as flores corretamente.                             | Cadastrar uma nova flor.         | A flor deve entrar no sistema.                                   | Passou                     | 100%   |
+| TU1.2 | Exclusão de flores                | Verifica se o serviço exclui as flores corretamente.                               | Excluir uma flor existente.      | A flor deve ser excluída do sistema.                             | Passou                     | 100%   |
+| TU2   | Consulta Rápida de Produtos       | Pesquisar produtos pelo nome, tipo, validade ou quantidade.                        | Pesquisar e encontrar o produto. | Receber a busca pela flor corretamente.                          | Passou                     | 100%   |
+| TI1.1 | Registrar Entradas no Estoque     | Registrar entrada no estoque com data, quantidade, motivo e responsável.           | Adicionar a flor no estoque.     | A flor deve entrar no estoque.                                   | Passou                     | 100%   |
+| TI1.2 | Registrar Saídas no Estoque       | Registrar saída no estoque com data, quantidade, motivo e responsável.             | Tirar uma flor do estoque.       | A flor deve sair do estoque.                                     | Passou                     | 100%   |
+| TI2.1 | Controle de Validade e Lote       | Associar data de validade ao produto e enviar alerta quando próximo do vencimento. | Enviar a notificação.            | Deve haver um sinal de que a notificação foi enviada.            | Passou                     | 100%   |
+| TI2.2 | Notificação de Validade           | Receber o alerta da data de vencimento quando ativada.                             | Receber a notificação.           | A notificação deve ser recebida.                                 | Passou                     | 100%   |
+| TI3   | Estoque Mínimo e Máximo           | Definir faixas de estoque por item.                                                | Limitar a quantidade de um item. | Não deixar ultrapassar a quantidade máxima definida para flores. | Passou                     | 100%   |
+| TI4   | Alerta de Produtos com Baixo Giro | Listar produtos parados no estoque por muito tempo.                                | Identificar os produtos parados. | Gerar uma lista de produtos com baixo giro.                      | Passou                     | 100%   |
+| TM1   | Registros Incompletos             | Tentar registrar de maneira incompleta uma flor ou um usuário.                     | O sistema negar o registro.      | Dar erro e voltar uma mensagem de erro de maneira adequada.      | —                          | —      |
