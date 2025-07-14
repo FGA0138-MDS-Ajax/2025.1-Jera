@@ -1,4 +1,3 @@
-import React from "react";
 import "./DarkmodeSwitch.css";
 
 export default function DarkmodeSwitch({ theme, setTheme }: { theme: string; setTheme: (t: string) => void }) {
