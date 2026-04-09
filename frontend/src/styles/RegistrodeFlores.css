@@ -1,0 +1,581 @@
+/* ---------- Variáveis para darkmode ---------- */
+:root {
+  --bg-page: #f8f9fa;
+  --bg-card: #f4f4f4;
+  --bg-modal: #ffffff;
+  --text-primary: #222;
+  --text-secondary: #444;
+  --text-muted: #555;
+  --border-color: #ccc;
+  --shadow-light: 0 2px 8px rgba(0,0,0,0.04);
+  --shadow-hover: 0 4px 16px rgba(0,0,0,0.10);
+  --shadow-modal: 0 8px 20px rgba(0, 0, 0, 0.3);
+  --button-primary: #5e701f;
+  --button-primary-hover: #3d4d13;
+  --button-danger: #b23a3a;
+  --button-danger-hover: #7a1f1f;
+  --button-neutral: #e2e8a6;
+  --button-neutral-hover: #c6d36b;
+  --accent-color: #b64c38;
+  --accent-dark: #a63c1a;
+  --produto-bg: #eaf5ff;
+  --produto-color: #0969da;
+  --produto-border: #b6e3ff;
+}
+
+[data-theme="dark"] {
+  --bg-page: #1a1a1a !important;
+  --bg-card: #2d2d2d !important;
+  --bg-modal: #2d2d2d !important;
+  --text-primary: #e0e0e0 !important;
+  --text-secondary: #b0b0b0 !important;
+  --text-muted: #999 !important;
+  --border-color: #555 !important;
+  --shadow-light: 0 2px 12px rgba(0,0,0,0.3) !important;
+  --shadow-hover: 0 4px 20px rgba(0,0,0,0.4) !important;
+  --shadow-modal: 0 8px 32px rgba(0, 0, 0, 0.6) !important;
+  --button-primary: #7a942e !important;
+  --button-primary-hover: #5e701f !important;
+  --button-danger: #d32f2f !important;
+  --button-danger-hover: #b71c1c !important;
+  --button-neutral: #4a4a4a !important;
+  --button-neutral-hover: #606060 !important;
+  --accent-color: #e2725b !important;
+  --accent-dark: #c45a44 !important;
+  --produto-bg: #1e3a5f !important;
+  --produto-color: #4dabf7 !important;
+  --produto-border: #3b82c4 !important;
+}
+
+body {
+  background: var(--bg-page);
+  color: var(--text-primary);
+}
+
+/* ---------- Estrutura ---------- */
+.registro-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem;
+  background: var(--bg-page);
+  min-height: 100vh;
+}
+
+/* ---------- Filtros / Busca ---------- */
+.filtros {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  background: var(--bg-modal);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow-light);
+  border: 1px solid var(--border-color);
+}
+
+.filtros label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  color: var(--text-secondary);
+}
+
+.filtros input {
+  margin-top: 0.3rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  background: var(--bg-modal);
+  color: var(--text-primary);
+  transition: border-color 0.2s ease;
+}
+
+.filtros input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(226, 114, 91, 0.2);
+}
+
+/* ---------- Scroll horizontal ---------- */
+.lotes-scroll-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  padding: 1rem 0;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+
+.lotes-carousel {
+  display: flex;
+  gap: 0.7rem;
+  padding: 0.5rem 0.5rem 1rem 0.5rem;
+  scroll-behavior: smooth;
+  min-width: 100%;
+}
+
+/* ---------- Card de Lote ---------- */
+.lote-card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  box-shadow: var(--shadow-light);
+  padding: 1.1rem 1rem 1.2rem 1rem;
+  min-width: 260px;
+  max-width: 270px;
+  flex: 0 0 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: var(--text-primary);
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  scroll-snap-align: center;
+  transition: box-shadow 0.2s, transform 0.2s;
+  border: 1px solid var(--border-color);
+}
+
+.lote-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+.lote-card.sem-estoque-max .btn-movimentacao {
+  margin-top: 1.7rem;
+}
+
+/* Header: nome do lote à esquerda, produto à direita */
+.lote-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.2rem;
+}
+
+.lote-nome {
+  color: var(--accent-color);
+  font-weight: 700;
+  font-size: 0.98rem;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+/* Produto estilo "feature" do GitHub */
+.produto-label {
+  background: var(--produto-bg);
+  color: var(--produto-color);
+  font-weight: 700;
+  border-radius: 2em;
+  font-size: 0.78rem;
+  padding: 0.13em 0.9em;
+  letter-spacing: 0.2px;
+  display: inline-block;
+  max-width: 110px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border: 1px solid var(--produto-border);
+  text-align: right;
+  box-sizing: border-box;
+  transition: font-size 0.2s;
+}
+
+.produto-label.long {
+  font-size: 0.68rem;
+  max-width: 80px;
+}
+
+/* Informações do lote: fonte menor e menos espaço */
+.info-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+  margin: 0.15rem 0 0.15rem 0;
+  font-size: 0.85rem;
+  width: 100%;
+}
+
+.info-row span {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  color: var(--text-primary);
+}
+
+.info-row b {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* Botão de movimentação */
+.btn-movimentacao {
+  width: 100%;
+  background: var(--button-primary);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 7px;
+  padding: 0.45rem 0;
+  margin-top: 0.4rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn-movimentacao:hover {
+  background: var(--button-primary-hover);
+  transform: scale(1.02);
+}
+
+.btn-movimentacao:disabled {
+  background: #e0e0e0;
+  color: #aaa;
+  cursor: not-allowed;
+  transform: none;
+}
+
+[data-theme="dark"] .btn-movimentacao:disabled {
+  background: #4a4a4a;
+  color: #777;
+}
+
+/* ---------- Scrollbar custom ---------- */
+.lotes-scroll-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.lotes-scroll-wrapper::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 4px;
+}
+
+.lotes-scroll-wrapper::-webkit-scrollbar-track {
+  background: var(--bg-page);
+}
+
+/* ---------- Modal Overlay ---------- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(30, 30, 30, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+[data-theme="dark"] .modal-overlay {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* ---------- Modal Conteúdo ---------- */
+.modal-conteudo {
+  position: relative;
+  background: var(--bg-modal);
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: var(--shadow-modal);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  animation: fadeIn 0.3s ease-out;
+  border: 1px solid var(--border-color);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-conteudo h3 {
+  font-size: 1.6rem;
+  color: var(--accent-dark);
+  margin-bottom: 1.2rem;
+}
+
+/* ---------- Botão "X" ---------- */
+.btn-fechar-x {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.2s;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.btn-fechar-x:hover {
+  color: var(--accent-dark);
+  background: rgba(226, 114, 91, 0.1);
+}
+
+/* ---------- Campos ---------- */
+.campo {
+  margin-bottom: 1.2rem;
+  width: 100%;
+}
+
+.campo label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.3rem;
+  color: var(--text-secondary);
+}
+
+/* Quantidade */
+.quantidade-box {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.quantidade-box input {
+  background: var(--bg-modal);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  padding: 0.5rem;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  text-align: center;
+  width: 80px;
+}
+
+.quantidade-box button {
+  background: var(--button-neutral);
+  border: none;
+  border-radius: 8px;
+  font-size: 1.5rem;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  font-weight: bold;
+  color: var(--text-primary);
+  transition: background 0.2s;
+}
+
+.quantidade-box button:hover {
+  background: var(--button-neutral-hover);
+}
+
+/* Estado */
+.estado-box {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.estado-box button {
+  background: none;
+  border: 2px solid var(--button-primary);
+  border-radius: 20px;
+  padding: 0.4rem 1.2rem;
+  font-size: 1rem;
+  color: var(--button-primary);
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.estado-box button.ativo,
+.estado-box button:hover {
+  background: var(--button-primary);
+  color: #fff;
+}
+
+/* Ações */
+.acoes {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.btn-entrada,
+.btn-saida {
+  width: 100%;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 0;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  color: #fff;
+}
+
+.btn-entrada {
+  background: var(--button-primary);
+}
+
+.btn-entrada:hover {
+  background: var(--button-primary-hover);
+  transform: scale(1.02);
+}
+
+.btn-saida {
+  background: var(--button-danger);
+}
+
+.btn-saida:hover {
+  background: var(--button-danger-hover);
+  transform: scale(1.02);
+}
+
+/* Estados das flores */
+.estado.Ruim {
+  color: var(--button-danger);
+  font-weight: bold;
+}
+
+.estado.Regular {
+  color: #f57c00;
+  font-weight: bold;
+}
+
+[data-theme="dark"] .estado.Regular {
+  color: #ffb74d;
+}
+
+.estado.Ótimo {
+  color: var(--button-primary);
+  font-weight: bold;
+}
+
+/* ---------- Responsivo: Tablet ---------- */
+@media (max-width: 768px) {
+  .registro-container {
+    padding: 0.75rem;
+  }
+  
+  .filtros {
+    padding: 1rem;
+  }
+  
+  .lote-card {
+    min-width: 240px;
+    max-width: 250px;
+    flex: 0 0 240px;
+  }
+  
+  .modal-conteudo {
+    max-width: 380px;
+    padding: 1.5rem 1.25rem;
+  }
+}
+
+/* ---------- Responsivo: Mobile ---------- */
+@media (max-width: 600px) {
+  .registro-container {
+    gap: 1.5rem;
+    padding: 0.5rem;
+  }
+  
+  .filtros {
+    padding: 1rem;
+    border-radius: 8px;
+  }
+  
+  .lote-card {
+    padding: 1rem;
+    border-radius: 8px;
+    min-width: 220px;
+    max-width: 230px;
+    flex: 0 0 220px;
+    font-size: 0.97rem;
+  }
+  
+  .modal-conteudo {
+    padding: 1rem;
+    border-radius: 8px;
+    min-width: 90vw;
+    max-width: 98vw;
+    font-size: 0.97rem;
+  }
+  
+  .info-row {
+    font-size: 0.82rem;
+    gap: 0.2rem;
+  }
+  
+  .quantidade-box {
+    gap: 0.8rem;
+  }
+  
+  .quantidade-box button {
+    width: 32px;
+    height: 32px;
+    font-size: 1.3rem;
+  }
+  
+  .estado-box {
+    gap: 0.5rem;
+  }
+  
+  .estado-box button {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  .btn-entrada,
+  .btn-saida {
+    font-size: 1rem;
+    padding: 0.7rem 0;
+  }
+}
+
+/* ---------- Responsivo: Mobile muito pequeno ---------- */
+@media (max-width: 480px) {
+  .lote-card {
+    min-width: 200px;
+    max-width: 210px;
+    flex: 0 0 200px;
+    padding: 0.8rem;
+  }
+  
+  .modal-conteudo {
+    margin: 0.5rem;
+    max-width: calc(100vw - 1rem);
+  }
+  
+  .quantidade-box input {
+    width: 60px;
+    font-size: 1rem;
+  }
+  
+  .btn-fechar-x {
+    width: 28px;
+    height: 28px;
+    font-size: 1.2rem;
+  }
+}

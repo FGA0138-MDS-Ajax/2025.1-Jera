@@ -1,0 +1,25 @@
+from enum import Enum
+from typing import TYPE_CHECKING
+
+from sqlalchemy import Column
+from sqlalchemy import Enum as SqlEnum
+from sqlmodel import Field, Relationship, SQLModel
+
+if TYPE_CHECKING:
+    from app.db.models.movimentacao_estoque import MovimentacaoEstoque
+
+class PerfilEnum(str, Enum):
+    OPERADOR = "OPERADOR"
+    GERENTE = "GERENTE"
+    ADMINISTRADOR = "ADMINISTRADOR"
+
+class Usuario(SQLModel, table=True):
+    __tablename__ = "usuario"
+
+    idUsuario: int = Field(default=None, primary_key=True, nullable=False)
+    nomeUsuario: str
+    email: str
+    senha: str
+    perfil: PerfilEnum = Field(sa_column=Column(SqlEnum(PerfilEnum), nullable=False, default=PerfilEnum.OPERADOR))
+
+    movimentacoes: list["MovimentacaoEstoque"] = Relationship(back_populates="usuario")

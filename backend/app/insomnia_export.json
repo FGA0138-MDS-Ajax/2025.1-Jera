@@ -1,0 +1,261 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2025-07-07T00:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v2024.1.0",
+  "resources": [
+    {
+      "_id": "wrk_1",
+      "name": "FloraGest API",
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_1",
+      "parentId": "wrk_1",
+      "_type": "environment",
+      "name": "FLORAGEST",
+      "data": {
+        "base_url": "http://localhost:8000/api",
+        "token": ""
+      }
+    },
+    {
+      "_id": "fld_alertas",
+      "parentId": "wrk_1",
+      "_type": "request_group",
+      "name": "Alertas"
+    },
+    {
+      "_id": "req_criar_alerta",
+      "parentId": "fld_alertas",
+      "_type": "request",
+      "name": "Criar Alerta",
+      "method": "POST",
+      "url": "{{ base_url }}/alerta",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"data_hora_alerta\": \"2025-07-07T12:00:00\",\n  \"id_tipo_alerta\": 1,\n  \"id_produto\": 1,\n  \"mensagem\": \"Estoque baixo\",\n  \"id_lote\": 1\n}"
+      }
+    },
+    {
+      "_id": "req_listar_alertas",
+      "parentId": "fld_alertas",
+      "_type": "request",
+      "name": "Listar Alertas",
+      "method": "GET",
+      "url": "{{ base_url }}/alerta"
+    },
+    {
+      "_id": "fld_tipo_produto",
+      "parentId": "wrk_1",
+      "_type": "request_group",
+      "name": "Tipo Produto"
+    },
+    {
+      "_id": "req_criar_tipo_produto",
+      "parentId": "fld_tipo_produto",
+      "_type": "request",
+      "name": "Criar Tipo Produto",
+      "method": "POST",
+      "url": "{{ base_url }}/product_type",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome_tipo_produto\": \"Flores\"\n}"
+      }
+    },
+    {
+      "_id": "req_listar_tipo_produto",
+      "parentId": "fld_tipo_produto",
+      "_type": "request",
+      "name": "Listar Tipos de Produto",
+      "method": "GET",
+      "url": "{{ base_url }}/product_type"
+    },
+    {
+      "_id": "fld_tipo_alerta",
+      "parentId": "wrk_1",
+      "_type": "request_group",
+      "name": "Tipo Alerta"
+    },
+    {
+      "_id": "req_criar_tipo_alerta",
+      "parentId": "fld_tipo_alerta",
+      "_type": "request",
+      "name": "Criar Tipo Alerta",
+      "method": "POST",
+      "url": "{{ base_url }}/tipo_alerta",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome_tipo_alerta\": \"Estoque Baixo\"\n}"
+      }
+    },
+    {
+      "_id": "req_listar_tipo_alerta",
+      "parentId": "fld_tipo_alerta",
+      "_type": "request",
+      "name": "Listar Tipos de Alerta",
+      "method": "GET",
+      "url": "{{ base_url }}/tipo_alerta"
+    },
+    {
+      "_id": "fld_estados_esteticos",
+      "parentId": "wrk_1",
+      "_type": "request_group",
+      "name": "Estados Estéticos"
+    },
+    {
+      "_id": "req_criar_estado_estetico",
+      "parentId": "fld_estados_esteticos",
+      "_type": "request",
+      "name": "Criar Estado Estético",
+      "method": "POST",
+      "url": "{{ base_url }}/estado_estetico",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome_estado_estetico\": \"Bom\"\n}"
+      }
+    },
+    {
+      "_id": "req_listar_estados_esteticos",
+      "parentId": "fld_estados_esteticos",
+      "_type": "request",
+      "name": "Listar Estados Estéticos",
+      "method": "GET",
+      "url": "{{ base_url }}/estado_estetico"
+    },
+    {
+      "_id": "req_estoque_atual",
+      "parentId": "fld_movimentacao",
+      "_type": "request",
+      "name": "Consultar Estoque Atual",
+      "method": "GET",
+      "url": "{{ base_url }}/movimentacao/estoque_atual/1"
+    },
+    {
+      "_id": "fld_usuarios",
+      "parentId": "wrk_1",
+      "_type": "request_group",
+      "name": "Usuários"
+    },
+    {
+      "_id": "req_login",
+      "parentId": "fld_usuarios",
+      "_type": "request",
+      "name": "Login",
+      "method": "POST",
+      "url": "{{ base_url }}/login",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"admin@admin.com\",\n  \"senha\": \"sua_senha\"\n}"
+      }
+    },
+    {
+      "_id": "req_criar_usuario",
+      "parentId": "fld_usuarios",
+      "_type": "request",
+      "name": "Criar Usuário",
+      "method": "POST",
+      "url": "{{ base_url }}/signup",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nomeUsuario\": \"Admin\",\n  \"email\": \"admin@admin.com\",\n  \"senha\": \"sua_senha\",\n  \"perfil\": \"ADMINISTRADOR\"\n}"
+      }
+    },
+    {
+      "_id": "req_listar_usuarios",
+      "parentId": "fld_usuarios",
+      "_type": "request",
+      "name": "Listar Usuários",
+      "method": "GET",
+      "url": "{{ base_url }}/signup"
+    },
+    {
+      "_id": "fld_produtos",
+      "parentId": "wrk_1",
+      "_type": "request_group",
+      "name": "Produtos"
+    },
+    {
+      "_id": "req_criar_produto",
+      "parentId": "fld_produtos",
+      "_type": "request",
+      "name": "Criar Produto",
+      "method": "POST",
+      "url": "{{ base_url }}/product",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ token }}"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome_produto\": \"Rosa Vermelha\",\n  \"estoque_minimo\": 10,\n  \"estoque_maximo\": 100,\n  \"id_tipo_produto\": 1\n}"
+      }
+    },
+    {
+      "_id": "req_listar_produtos",
+      "parentId": "fld_produtos",
+      "_type": "request",
+      "name": "Listar Produtos",
+      "method": "GET",
+      "url": "{{ base_url }}/product"
+    },
+    {
+      "_id": "fld_lotes",
+      "parentId": "wrk_1",
+      "_type": "request_group",
+      "name": "Lotes"
+    },
+    {
+      "_id": "req_criar_lote",
+      "parentId": "fld_lotes",
+      "_type": "request",
+      "name": "Criar Lote",
+      "method": "POST",
+      "url": "{{ base_url }}/lote",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome_lote\": \"Lote Primavera\",\n  \"id_produto\": 1\n}"
+      }
+    },
+    {
+      "_id": "req_listar_lotes",
+      "parentId": "fld_lotes",
+      "_type": "request",
+      "name": "Listar Lotes",
+      "method": "GET",
+      "url": "{{ base_url }}/lote"
+    },
+    {
+      "_id": "fld_movimentacao",
+      "parentId": "wrk_1",
+      "_type": "request_group",
+      "name": "Movimentação"
+    },
+    {
+      "_id": "req_entrada_estoque",
+      "parentId": "fld_movimentacao",
+      "_type": "request",
+      "name": "Entrada de Estoque",
+      "method": "POST",
+      "url": "{{ base_url }}/movimentacao/entrada",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_produto\": 1,\n  \"tipo_movimentacao\": true,\n  \"quantidade\": 50,\n  \"motivo\": \"Entrada inicial\"\n}"
+      }
+    },
+    {
+      "_id": "req_saida_estoque",
+      "parentId": "fld_movimentacao",
+      "_type": "request",
+      "name": "Saída de Estoque",
+      "method": "POST",
+      "url": "{{ base_url }}/movimentacao/saida",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_produto\": 1,\n  \"tipo_movimentacao\": false,\n  \"quantidade\": 10,\n  \"motivo\": \"Venda\"\n}"
+      }
+    }
+  ]
+}

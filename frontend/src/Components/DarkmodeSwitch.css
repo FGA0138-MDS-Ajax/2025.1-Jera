@@ -1,0 +1,255 @@
+.darkmode-switch-container {
+  position: fixed;
+  bottom: 18px;
+  left: 18px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 8px 16px 8px 12px;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  max-width: calc(100vw - 36px);
+  overflow: hidden;
+}
+
+[data-theme="dark"] .darkmode-switch-container {
+  background: rgba(45, 45, 45, 0.95);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.darkmode-switch-container:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.darkmode-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.darkmode-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.darkmode-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #87CEEB, #4682B4);
+  border-radius: 30px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.darkmode-switch input:checked + .darkmode-slider {
+  background: linear-gradient(135deg, #2C3E50, #1A252F);
+}
+
+.darkmode-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  transition: all 0.4s ease;
+  pointer-events: none;
+  user-select: none;
+}
+
+.darkmode-icon.sun {
+  left: 6px;
+  opacity: 1;
+}
+
+.darkmode-icon.moon {
+  right: 6px;
+  opacity: 0;
+}
+
+.darkmode-switch input:checked + .darkmode-slider .sun {
+  opacity: 0;
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.darkmode-switch input:checked + .darkmode-slider .moon {
+  opacity: 1;
+  transform: translateY(-50%) rotate(0deg);
+}
+
+.darkmode-thumb {
+  position: absolute;
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  top: 2px;
+  background: white;
+  border-radius: 50%;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.darkmode-switch input:checked + .darkmode-slider .darkmode-thumb {
+  transform: translateX(30px);
+  background: #F8F9FA;
+}
+
+.darkmode-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary, #333);
+  transition: color 0.3s ease;
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+[data-theme="dark"] .darkmode-label {
+  color: #e0e0e0;
+}
+
+/* Animação de entrada */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.darkmode-switch-container {
+  animation: slideIn 0.5s ease-out;
+}
+
+/* Responsivo para tablets */
+@media (max-width: 768px) {
+  .darkmode-switch-container {
+    bottom: 12px;
+    left: 12px;
+    padding: 6px 12px 6px 8px;
+    gap: 8px;
+    max-width: calc(100vw - 24px);
+  }
+  
+  .darkmode-switch {
+    width: 50px;
+    height: 26px;
+  }
+  
+  .darkmode-thumb {
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    top: 2px;
+  }
+  
+  .darkmode-switch input:checked + .darkmode-slider .darkmode-thumb {
+    transform: translateX(24px);
+  }
+  
+  .darkmode-icon {
+    font-size: 12px;
+  }
+  
+  .darkmode-label {
+    font-size: 12px;
+  }
+}
+
+/* Responsivo para celulares */
+@media (max-width: 480px) {
+  .darkmode-switch-container {
+    bottom: 8px;
+    left: 8px;
+    padding: 3px 6px 2px 4px;
+    gap: 6px;
+    max-width: calc(100vw - 16px);
+  }
+  
+  .darkmode-switch {
+    width: 40px;
+    height: 22px;
+  }
+  
+  .darkmode-thumb {
+    height: 14px;
+    width: 14px;
+    left: 4px;
+    top: 2px;
+  }
+  
+  .darkmode-switch input:checked + .darkmode-slider .darkmode-thumb {
+    transform: translateX(18px);
+  }
+  
+  .darkmode-icon {
+    font-size: 10px;
+  }
+  
+  .darkmode-icon.sun {
+    left: 4px;
+  }
+  
+  .darkmode-icon.moon {
+    right: 4px;
+  }
+  
+  .darkmode-label {
+    font-size: 10px;
+    max-width: 60px;
+  }
+}
+
+/* Para telas muito pequenas */
+@media (max-width: 320px) {
+  .darkmode-switch-container {
+    top: 6px;
+    left: 6px;
+    padding: 3px 6px;
+    gap: 4px;
+    max-width: calc(100vw - 12px);
+  }
+  
+  .darkmode-switch {
+    width: 36px;
+    height: 20px;
+  }
+  
+  .darkmode-thumb {
+    height: 12px;
+    width: 12px;
+    left: 4px;
+    top: 2px;
+  }
+  
+  .darkmode-switch input:checked + .darkmode-slider .darkmode-thumb {
+    transform: translateX(16px);
+  }
+  
+  .darkmode-label {
+    font-size: 9px;
+    max-width: 50px;
+  }
+  
+  .darkmode-icon {
+    font-size: 8px;
+  }
+}

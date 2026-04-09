@@ -1,0 +1,762 @@
+:root {
+  --bg-page: #f8f9fa;
+  --bg-card: #fff;
+  --bg-table-header: #c45a44;
+  --bg-table-row-alt: #f7f7f7;
+  --text-dark: #3d352f;
+  --text-primary: #000;
+  --text-secondary: #333;
+  --text-muted: #666;
+  --border-light: #ececec;
+  --border-primary: #cfd8dc;
+  
+  --btn-excluir: #e2725b;
+  --btn-excluir-hover: #c45a44;
+  
+  --btn-adicionar: #d36c4e;
+  --btn-adicionar-hover: #b65438;
+  
+  --modal-bg: rgba(60, 60, 60, 0.6);
+  
+  --btn-confirmar: #5ca971;
+  --btn-confirmar-hover: #4b8b5d;
+  
+  --btn-cancelar: #aaa;
+  --btn-cancelar-hover: #888;
+  
+  --shadow-light: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 6px 24px rgba(0, 0, 0, 0.12);
+  --shadow-modal: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] {
+  --bg-page: #1a1a1a !important;
+  --bg-card: #2d2d2d !important;
+  --bg-table-header: #e2725b !important;
+  --bg-table-row-alt: #404040 !important;
+  --text-dark: #e0e0e0 !important;
+  --text-primary: #e0e0e0 !important;
+  --text-secondary: #b0b0b0 !important;
+  --text-muted: #999 !important;
+  --border-light: #555 !important;
+  --border-primary: #666 !important;
+  
+  --btn-excluir: #ff6b6b !important;
+  --btn-excluir-hover: #ff5252 !important;
+  
+  --btn-adicionar: #4ade80 !important;
+  --btn-adicionar-hover: #22c55e !important;
+  
+  --modal-bg: rgba(0, 0, 0, 0.7) !important;
+  
+  --btn-confirmar: #4ade80 !important;
+  --btn-confirmar-hover: #22c55e !important;
+  
+  --btn-cancelar: #666 !important;
+  --btn-cancelar-hover: #777 !important;
+  
+  --shadow-light: 0 4px 24px rgba(0, 0, 0, 0.3) !important;
+  --shadow-hover: 0 6px 32px rgba(0, 0, 0, 0.4) !important;
+  --shadow-modal: 0 8px 40px rgba(0, 0, 0, 0.6) !important;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-dark);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.usuarios-container {
+  max-width: 800px;
+  margin: 40px auto;
+  background: var(--bg-card);
+  border-radius: 16px;
+  box-shadow: var(--shadow-light);
+  padding: 32px 24px;
+  overflow-x: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-light);
+  position: relative;
+}
+
+.usuarios-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--btn-adicionar), var(--btn-confirmar), var(--btn-adicionar));
+  border-radius: 16px 16px 0 0;
+}
+
+.usuarios-container:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+.usuarios-container h1 {
+  text-align: center;
+  margin-bottom: 32px;
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--btn-adicionar), var(--btn-confirmar));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.usuarios-stats {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.usuarios-stats span {
+  background: var(--bg-table-row-alt);
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-weight: 600;
+  border: 1px solid var(--border-light);
+}
+
+.btn-adicionar {
+  background: linear-gradient(135deg, var(--btn-adicionar), var(--btn-adicionar-hover));
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 8px rgba(211, 108, 78, 0.3);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.btn-adicionar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn-adicionar:hover::before {
+  left: 100%;
+}
+
+.btn-adicionar::after {
+  content: '+';
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.btn-adicionar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(211, 108, 78, 0.4);
+}
+
+.btn-adicionar:active {
+  transform: translateY(0);
+}
+
+.tabela-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border-light);
+  background: var(--bg-card);
+}
+
+.usuarios-tabela {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-card);
+}
+
+/* Desktop - tabela normal */
+.usuarios-tabela th,
+.usuarios-tabela td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-light);
+  text-align: left;
+  color: var(--text-dark);
+  transition: all 0.2s ease;
+}
+
+.usuarios-tabela th {
+  background: var(--bg-table-header);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.usuarios-tabela tbody tr {
+  transition: all 0.2s ease;
+}
+
+.usuarios-tabela tbody tr:hover {
+  background: var(--bg-table-row-alt);
+  transform: scale(1.01);
+}
+
+.usuarios-tabela tr:nth-child(even) {
+  background: rgba(247, 247, 247, 0.5);
+}
+
+[data-theme="dark"] .usuarios-tabela tr:nth-child(even) {
+  background: rgba(64, 64, 64, 0.5);
+}
+
+.usuarios-tabela select {
+  height: 36px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 2px solid var(--border-primary);
+  font-size: 0.9rem;
+  background: var(--bg-card);
+  color: var(--text-dark);
+  max-width: 180px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.usuarios-tabela select:focus {
+  outline: none;
+  border-color: var(--btn-adicionar);
+  box-shadow: 0 0 0 3px rgba(211, 108, 78, 0.1);
+}
+
+.usuarios-tabela select:hover {
+  border-color: var(--btn-adicionar);
+}
+
+/* Botões excluir melhorados */
+.btn-excluir {
+  background: linear-gradient(135deg, var(--btn-excluir), var(--btn-excluir-hover));
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(226, 114, 91, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-excluir::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.3s ease;
+}
+
+.btn-excluir:hover::before {
+  left: 100%;
+}
+
+.btn-excluir:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(226, 114, 91, 0.3);
+}
+
+.btn-excluir:active {
+  transform: translateY(0);
+}
+
+/* Modal melhorado */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--modal-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-card {
+  background: var(--bg-card);
+  padding: 32px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 450px;
+  box-shadow: var(--shadow-modal);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border: 1px solid var(--border-light);
+  animation: slideIn 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--btn-adicionar), var(--btn-confirmar));
+}
+
+@keyframes slideIn {
+  from { 
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal-card h2 {
+  margin: 0 0 16px 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: center;
+  background: linear-gradient(135deg, var(--btn-adicionar), var(--btn-confirmar));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.modal-card input,
+.modal-card select {
+  padding: 12px 16px;
+  border: 2px solid var(--border-primary);
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: var(--bg-card);
+  color: var(--text-dark);
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.modal-card input:focus,
+.modal-card select:focus {
+  outline: none;
+  border-color: var(--btn-adicionar);
+  box-shadow: 0 0 0 3px rgba(211, 108, 78, 0.1);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.btn-confirmar {
+  background: linear-gradient(135deg, var(--btn-confirmar), var(--btn-confirmar-hover));
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(92, 169, 113, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-confirmar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.3s ease;
+}
+
+.btn-confirmar:hover:not(:disabled)::before {
+  left: 100%;
+}
+
+.btn-confirmar:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(92, 169, 113, 0.3);
+}
+
+.btn-confirmar:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-cancelar {
+  background: linear-gradient(135deg, var(--btn-cancelar), var(--btn-cancelar-hover));
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(170, 170, 170, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-cancelar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.3s ease;
+}
+
+.btn-cancelar:hover::before {
+  left: 100%;
+}
+
+.btn-cancelar:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(170, 170, 170, 0.3);
+}
+
+/* Loading state */
+.usuarios-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+  color: var(--text-muted);
+}
+
+.usuarios-loading::after {
+  content: '';
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--btn-adicionar);
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-left: 8px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Estado vazio */
+.usuarios-vazio {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-muted);
+}
+
+.usuarios-vazio .icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.usuarios-vazio h3 {
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.usuarios-vazio p {
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+/* Scrollbar customizada */
+.tabela-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.tabela-wrapper::-webkit-scrollbar-thumb {
+  background-color: var(--border-primary);
+  border-radius: 4px;
+}
+
+.tabela-wrapper::-webkit-scrollbar-track {
+  background: var(--bg-card);
+}
+
+[data-theme="dark"] .tabela-wrapper::-webkit-scrollbar-thumb {
+  background-color: #666;
+}
+
+/* Responsivo: tabela vertical no mobile */
+@media (max-width: 768px) {
+  .usuarios-container {
+    padding: 24px 16px;
+    margin: 24px 16px;
+    border-radius: 12px;
+    max-width: calc(100vw - 32px);
+  }
+
+  .usuarios-container h1 {
+    font-size: 1.8rem;
+  }
+
+  .header-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .usuarios-stats {
+    justify-content: center;
+  }
+
+  .btn-adicionar {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 20px;
+  }
+
+  .usuarios-tabela,
+  .usuarios-tabela thead,
+  .usuarios-tabela tbody,
+  .usuarios-tabela th,
+  .usuarios-tabela td,
+  .usuarios-tabela tr {
+    display: block;
+  }
+
+  /* Esconde o cabeçalho */
+  .usuarios-tabela thead tr {
+    display: none;
+  }
+
+  .usuarios-tabela tr {
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 16px;
+    background: var(--bg-card);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .usuarios-tabela tr:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .usuarios-tabela td {
+    padding: 8px 12px;
+    border: none;
+    position: relative;
+    padding-left: 40%;
+    text-align: left;
+    font-size: 0.95rem;
+    word-break: break-word;
+    white-space: normal;
+  }
+
+  .usuarios-tabela td::before {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    width: 35%;
+    white-space: nowrap;
+    font-weight: 700;
+    content: attr(data-label);
+    color: var(--bg-table-header);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .usuarios-tabela select {
+    height: 32px;
+    padding: 4px 8px;
+    font-size: 0.85rem;
+    width: auto;
+    max-width: 120px;
+    box-sizing: border-box;
+  }
+
+  .usuarios-tabela td[data-label="Permissão"] select {
+    margin-left: 10px;
+  }
+
+  .usuarios-tabela td[data-label="Ações"] {
+    padding-left: 40%;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .btn-excluir {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    margin-left: 0;
+  }
+
+  /* Modal tweaks */
+  .modal-card {
+    padding: 24px;
+    max-width: 95%;
+    margin: 1rem;
+  }
+
+  .modal-card h2 {
+    font-size: 1.2rem;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn-confirmar,
+  .btn-cancelar {
+    width: 100%;
+    padding: 12px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .usuarios-container {
+    margin: 16px 8px;
+    padding: 16px 12px;
+    max-width: calc(100vw - 16px);
+  }
+
+  .usuarios-container h1 {
+    font-size: 1.6rem;
+  }
+
+  .usuarios-stats span {
+    font-size: 0.8rem;
+    padding: 0.2rem 0.6rem;
+  }
+
+  .btn-adicionar {
+    font-size: 0.9rem;
+    padding: 12px 16px;
+  }
+
+  .usuarios-tabela tr {
+    padding: 12px;
+    margin-bottom: 1rem;
+  }
+
+  .usuarios-tabela td {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+  }
+
+  .usuarios-tabela td::before {
+    font-size: 0.8rem;
+  }
+
+  .modal-card {
+    padding: 20px;
+  }
+
+  .modal-card h2 {
+    font-size: 1.1rem;
+  }
+
+  .modal-card input,
+  .modal-card select {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .usuarios-container {
+    margin: 12px 4px;
+    padding: 12px 8px;
+    max-width: calc(100vw - 8px);
+  }
+
+  .usuarios-container h1 {
+    font-size: 1.4rem;
+  }
+
+  .btn-adicionar {
+    font-size: 0.85rem;
+    padding: 10px 14px;
+  }
+
+  .usuarios-tabela tr {
+    padding: 10px;
+  }
+
+  .usuarios-tabela td {
+    font-size: 0.85rem;
+    padding: 5px 10px;
+  }
+
+  .modal-card {
+    padding: 16px;
+  }
+
+  .modal-card h2 {
+    font-size: 1rem;
+  }
+
+  .btn-confirmar,
+  .btn-cancelar {
+    font-size: 0.9rem;
+    padding: 10px 16px;
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "@types/react-router-dom": "^5.3.3"
+  },
+  "dependencies": {
+    "pytest": "^1.0.0",
+    "react-router-dom": "^6.30.1"
+  }
+}

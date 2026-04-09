@@ -1,0 +1,273 @@
+/* ——— Barra Superior ——— */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] .top-bar {
+  background: #2d2d2d;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.top-bar h2 {
+  font-size: 1rem;
+  margin: 0;
+  color: #000;
+}
+
+[data-theme="dark"] .top-bar h2 {
+  color: #e0e0e0;
+}
+
+/* ——— Botão "menu" (3 traços) ——— */
+.menu-btn {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: none;
+  background: url("../assets/TresTracos.png") center / contain no-repeat;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.3s ease;
+}
+
+[data-theme="dark"] .menu-btn {
+  filter: brightness(1.2) contrast(1.1);
+}
+
+.menu-btn:hover {
+  background-image: url("../assets/TresTracosHouver.png");
+  transform: scale(1.15);
+}
+
+/* ——— Botão "notificações" (sino) ——— */
+.nav-btn {
+  width: 1.5rem;
+  height: 1.5rem;
+  background: url("../assets/Sino.png") center / contain no-repeat;
+  display: inline-block;
+  transition: transform 0.2s ease, filter 0.3s ease;
+}
+
+[data-theme="dark"] .nav-btn {
+  filter: brightness(1.2) contrast(1.1);
+}
+
+.nav-btn:hover {
+  background-image: url("../assets/SinoHouver.png");
+  transform: scale(1.15);
+}
+
+/* ——— Botão "perfil" ——— */
+.profile-btn {
+  width: 1.5rem;
+  height: 1.5rem;
+  background: url("../assets/Perfil.png") center / contain no-repeat;
+  display: inline-block;
+  transition: transform 0.2s ease, filter 0.3s ease;
+}
+
+[data-theme="dark"] .profile-btn {
+  filter: brightness(1.2) contrast(1.1);
+}
+
+.profile-btn:hover {
+  background-image: url("../assets/PerfilHouver.png");
+  transform: scale(1.15);
+}
+
+/* ——— Container dos botões à direita ——— */
+.top-bar-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* ——— Sidebar lateral ——— */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 240px;
+  height: 100vh;
+  background-color: #E2725B; 
+  color: white;
+  padding: 1rem;
+  z-index: 100;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .sidebar {
+  background-color: #c45a44;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* ——— Botão de fechar (seta) ——— */
+.sidebar-close {
+  align-self: flex-start;
+  background-color: transparent;
+  border: none;
+  border-radius: 0.375rem;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+
+  background-image: url("../assets/Seta.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 16px 16px;
+
+  transition: background-color 0.2s ease, transform 0.2s ease, filter 0.3s ease;
+  text-indent: -9999px;
+}
+
+[data-theme="dark"] .sidebar-close {
+  filter: brightness(1.2);
+}
+
+.sidebar-close:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+}
+
+[data-theme="dark"] .sidebar-close:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ——— Título da Sidebar ("FloraGest") ——— */
+.sidebar-title {
+  font-weight: bold;
+  font-style: italic;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+  transition: color 0.2s ease;
+}
+
+.sidebar-title:hover {
+  text-decoration: underline;
+  color: #ffe0d0;
+}
+
+[data-theme="dark"] .sidebar-title:hover {
+  color: #ffd0c0;
+}
+
+/* ——— Links da Sidebar ——— */
+.sidebar-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.sidebar-link {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  text-align: left;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border-radius: 0.25rem;
+}
+
+.sidebar-link:hover {
+  text-decoration: underline;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding-left: 0.5rem;
+}
+
+[data-theme="dark"] .sidebar-link:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ——— Notificações ——— */
+.notificacao-btn {
+  position: relative;
+}
+
+.notificacao-badge {
+  position: absolute;
+  top: -1px;
+  right: 1px;
+  background: #e53935;
+  color: #fff;
+  border-radius: 50%;
+  padding: 0 4px;
+  font-size: 0.54rem;
+  font-weight: bold;
+  min-width: 12px;
+  min-height: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .notificacao-badge {
+  background: #ff5252;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* ——— Responsivo ——— */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+  }
+  
+  .top-bar {
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .menu-btn,
+  .nav-btn,
+  .profile-btn {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  
+  .top-bar-actions {
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    width: 180px;
+  }
+  
+  .top-bar {
+    padding: 0.375rem 0.5rem;
+  }
+  
+  .top-bar h2 {
+    font-size: 0.875rem;
+  }
+  
+  .menu-btn,
+  .nav-btn,
+  .profile-btn {
+    width: 1rem;
+    height: 1rem;
+  }
+  
+  .sidebar-title {
+    font-size: 1rem;
+  }
+  
+  .sidebar-link {
+    font-size: 0.9rem;
+  }
+}

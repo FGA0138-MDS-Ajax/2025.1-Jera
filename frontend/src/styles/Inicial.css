@@ -1,0 +1,192 @@
+:root {
+    --color-terra: #E2725B;
+    --color-terra-hover: #C85B46;
+    --color-green: #008000;
+    --color-cream: #FFFDD0;
+  
+    --radius: 0.75rem;
+    --transition: 0.25s ease;
+    --shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* Darkmode overrides */
+[data-theme="dark"] {
+    --color-terra: #e2725b;
+    --color-terra-hover: #c45a44;
+    --color-green: #4caf50;
+    --color-cream: #1a1a1a;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* ---- Layout geral ---- */
+.home-page {
+    background: var(--color-cream);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+[data-theme="dark"] .home-page {
+    background: #1a1a1a;
+}
+
+/* ---- Área dos botões ---- */
+.buttons-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+    gap: 1rem;
+}
+
+/* ---- Caixa verde do título ---- */
+.funcionalidades-box {
+    background-color: var(--color-green);
+    color: #ffffff;
+    padding: 1rem 2rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 1.5rem;
+}
+
+[data-theme="dark"] .funcionalidades-box {
+    background-color: #4caf50;
+    color: #ffffff;
+}
+
+.funcionalidades-box h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #ffffff;
+}
+
+[data-theme="dark"] .funcionalidades-box h2 {
+    color: #ffffff;
+}
+
+/* ---- Lista de botões ---- */
+.buttons-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 450px;
+}
+
+/* ---- Estilo dos botões com ícones ---- */
+.nav-link-btn {
+    background-color: var(--color-terra);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius);
+    padding: 1.75rem 1rem 1.75rem 5.25rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-align: left;
+    text-decoration: none;
+    box-shadow: var(--shadow);
+    transition: transform var(--transition), background-color var(--transition);
+    background-repeat: no-repeat;
+    background-position: 1.25rem center;
+    background-size: 52px 52px;
+    display: block;
+}
+
+[data-theme="dark"] .nav-link-btn {
+    background-color: #e2725b;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.nav-link-btn:hover,
+.nav-link-btn:focus-visible {
+    background-color: var(--color-terra-hover);
+    transform: scale(1.05);
+}
+
+[data-theme="dark"] .nav-link-btn:hover,
+[data-theme="dark"] .nav-link-btn:focus-visible {
+    background-color: #c45a44;
+    transform: scale(1.05);
+}
+
+/* ---- Ícones dos botões ---- */
+.lotes-btn {
+    background-image: url("../assets/Caixa.png");
+}
+
+.cadastro-btn {
+    background-image: url("../assets/Flor.png");
+}
+
+.registro-btn {
+    background-image: url("../assets/Planilha.png");
+}
+
+.dashboard-btn {
+    background-image: url("../assets/Dashboard.png");
+}
+
+.usuarios-btn {
+    background-image: url("../assets/Usuários.png");
+}
+
+.tipo-produto-btn {
+    background-image: url("../assets/tipoProduto.png");
+}
+
+/* ---- Efeito hover nos ícones (opcional) ---- */
+[data-theme="dark"] .nav-link-btn {
+    /* Melhora a visibilidade dos ícones no dark */
+    filter: brightness(1.1);
+}
+
+[data-theme="dark"] .nav-link-btn:hover {
+    filter: brightness(1.2);
+}
+
+/* ---- Responsivo ---- */
+@media (max-width: 768px) {
+    .buttons-area {
+        padding: 1rem 0.5rem;
+    }
+    
+    .nav-link-btn {
+        padding: 1.5rem 0.75rem 1.5rem 4.5rem;
+        font-size: 1.1rem;
+        background-size: 44px 44px;
+        background-position: 1rem center;
+    }
+    
+    .funcionalidades-box {
+        margin-bottom: 1rem;
+        padding: 0.75rem 1.5rem;
+    }
+    
+    .funcionalidades-box h2 {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .buttons-area {
+        padding: 0.75rem 0.25rem;
+    }
+    
+    .nav-link-btn {
+        padding: 1.25rem 0.5rem 1.25rem 4rem;
+        font-size: 1rem;
+        background-size: 36px 36px;
+        background-position: 0.75rem center;
+    }
+    
+    .buttons-list {
+        max-width: 100%;
+        gap: 1rem;
+    }
+    
+    .funcionalidades-box h2 {
+        font-size: 1.1rem;
+    }
+}

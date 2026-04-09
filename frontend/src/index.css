@@ -1,0 +1,144 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  /* Tema claro (default) */
+  --bg-page: #f8f9fa;
+  --bg-card: #ffffff;
+  --bg-button: #b64c38;
+  --bg-button-hover: #a03e2d;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-light: #ffffff;
+  --border-radius: 12px;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.15);
+  
+  /* Header */
+  --header-bg: #ffffff;
+  --header-text: #333333;
+  
+  /* Cores específicas */
+  --color-terra: #E2725B;
+  --color-terra-hover: #C85B46;
+  --color-green: #008000;
+  --color-cream: #f8f9fa;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[data-theme="dark"] {
+  /* Tons de cinza escuro para o darkmode */
+  --bg-page: #1a1a1a;
+  --bg-card: #2d2d2d;
+  --bg-button: #e2725b;
+  --bg-button-hover: #c45a44;
+  --text-primary: #e0e0e0;
+  --text-secondary: #b0b0b0;
+  --text-light: #ffffff;
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 6px 24px rgba(0, 0, 0, 0.6);
+  
+  /* Header escuro */
+  --header-bg: #2d2d2d;
+  --header-text: #e0e0e0;
+  
+  /* Cores específicas para darkmode */
+  --color-terra: #e2725b;
+  --color-terra-hover: #c45a44;
+  --color-green: #4caf50;
+  --color-cream: #2d2d2d;
+}
+
+html, body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: inherit;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: #535bf2;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--bg-button);
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+button:hover {
+  background-color: var(--bg-button-hover);
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* Cards, containers, etc. */
+.card, .container, .catalog-root, .usuarios-container, .perfil-container {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+}
+
+/* Inputs */
+input, select, textarea {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  padding: 0.5em 1em;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  border-color: #555;
+  background: #3a3a3a;
+}
+
+[data-theme="dark"] input:focus,
+[data-theme="dark"] select:focus,
+[data-theme="dark"] textarea:focus {
+  border-color: var(--bg-button);
+}
+
+@media (max-width: 600px) {
+  html, body {
+    font-size: 15px;
+  }
+}
+
